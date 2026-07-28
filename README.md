@@ -1,7 +1,7 @@
 # 🚀 AI Hustle Co-Pilot
 
 <p align="center">
-  <img src="assets/images/app_logo.png" alt="AI Hustle Co-Pilot" width="120" height="120" />
+  <img src="docs/screenshots/hero_banner.png" alt="AI Hustle Co-Pilot — Your AI-Powered Freelance Command Center" width="100%" />
 </p>
 
 <p align="center">
@@ -13,12 +13,13 @@
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#documentation">Documentation</a> •
-  <a href="#contributing">Contributing</a>
+  <a href="#-screenshots">Screenshots</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-documentation">Documentation</a> •
+  <a href="#-contributing">Contributing</a>
 </p>
 
 ---
@@ -26,6 +27,53 @@
 ## 📋 Overview
 
 **AI Hustle Co-Pilot** is a premium, enterprise-grade mobile application that empowers freelancers with AI-driven tools to discover high-value opportunities, generate compelling proposals, manage application pipelines, and optimize their freelancing workflow. Built with Flutter for Android and iOS, it delivers a world-class user experience comparable to **Linear**, **Notion AI**, **Stripe Dashboard**, and **Raycast**.
+
+---
+
+## 📱 Screenshots
+
+### App Showcase
+
+<p align="center">
+  <img src="docs/screenshots/app_showcase.png" alt="AI Hustle Co-Pilot — App Showcase" width="100%" />
+</p>
+
+### Screen Details
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="docs/screenshots/onboarding_screen.png" alt="Onboarding Screen" width="100%" />
+      <br />
+      <strong>🎯 Onboarding</strong>
+      <br />
+      <em>Animated welcome with particle effects & social OAuth</em>
+    </td>
+    <td align="center" width="25%">
+      <img src="docs/screenshots/login_screen.png" alt="Login Screen" width="100%" />
+      <br />
+      <strong>🔐 Login</strong>
+      <br />
+      <em>Premium sign-in with Google & GitHub OAuth</em>
+    </td>
+    <td align="center" width="25%">
+      <img src="docs/screenshots/signup_screen.png" alt="Sign Up Screen" width="100%" />
+      <br />
+      <strong>📝 Sign Up</strong>
+      <br />
+      <em>Registration with real-time password strength</em>
+    </td>
+    <td align="center" width="25%">
+      <img src="docs/screenshots/dashboard_screen.png" alt="Dashboard Screen" width="100%" />
+      <br />
+      <strong>📊 Dashboard</strong>
+      <br />
+      <em>AI-powered metrics, insights & activity feed</em>
+    </td>
+  </tr>
+</table>
+
+---
 
 ## ✨ Features
 
@@ -99,7 +147,7 @@ This project follows **Clean Architecture** with a **Feature-First** organizatio
 lib/
 ├── core/                            # Application-wide core infrastructure
 │   ├── config/                     # Environment & app configuration (Envied)
-│   ├── constants/                  # App constants, asset paths, magic values
+│   ├── constants/                  # App constants, asset paths
 │   ├── design_system/              # Enterprise Design System Foundation
 │   │   ├── animations/            # Motion system & transition utilities
 │   │   ├── components/            # Reusable UI primitives (buttons, cards)
@@ -107,41 +155,25 @@ lib/
 │   │   ├── inputs/                # Form fields & interactive inputs
 │   │   ├── layout/                # Responsive containers & grids
 │   │   ├── loading/               # Skeleton loaders & shimmer effects
-│   │   ├── tokens/                # Design tokens (colors, spacing, typography)
-│   │   └── utils/                 # Context extensions & UI utilities
+│   │   └── tokens/                # Design tokens (colors, spacing, typography)
 │   ├── errors/                     # Custom exceptions & domain failures
 │   ├── init/                       # App initialization orchestrator
 │   ├── logging/                    # Structured logging abstraction
-│   ├── network/                    # Dio HTTP client, interceptors, network info
-│   ├── providers/                  # Core Supabase & service providers
-│   ├── router/                     # GoRouter configuration & route guards
-│   ├── security/                   # Secure storage for credentials
-│   ├── storage/                    # Hive cache & persistence layer
-│   └── theme/                      # Material 3 design tokens & theme data
+│   ├── network/                    # Dio HTTP client & interceptor pipeline
+│   ├── router/                     # GoRouter configuration & auth guards
+│   ├── security/                   # Encrypted credential storage
+│   └── theme/                      # Material 3 theme data & extensions
 ├── features/                        # Feature-first domain modules
-│   ├── auth/                       # Authentication (login, register, OAuth, MFA)
-│   │   ├── application/           # Controllers, providers, state models
-│   │   ├── data/                  # Data sources, DTOs, mappers, repo impl
-│   │   ├── domain/                # Entities, use cases, value objects
-│   │   └── presentation/         # Screens, widgets, auth-specific UI
+│   ├── auth/                       # Authentication (full Clean Architecture)
 │   ├── dashboard/                  # Enterprise AI Dashboard
-│   │   ├── application/           # Dashboard controller & providers
-│   │   ├── data/                  # Remote data source & repo implementation
-│   │   ├── domain/                # Metric models, state, repository interface
-│   │   └── presentation/         # Dashboard screen, widgets, skeleton loader
-│   ├── shell/                      # Adaptive App Shell (navigation scaffold)
-│   │   ├── application/           # Shell controller, analytics, AI launcher
-│   │   ├── domain/                # Navigation config, workspace models
-│   │   └── presentation/         # Bottom nav, rail, sidebar, top bar, drawer
-│   ├── ai_studio/                  # AI-powered workspace (future)
-│   ├── applications/               # Application pipeline tracking (future)
-│   ├── discover/                   # Opportunity browsing & search (future)
-│   ├── profile/                    # User profile & settings (future)
+│   ├── shell/                      # Adaptive App Shell (responsive navigation)
+│   ├── ai_studio/                  # AI-powered workspace
+│   ├── applications/               # Application pipeline tracking
+│   ├── discover/                   # Opportunity browsing & search
+│   ├── profile/                    # User profile & settings
 │   └── splash/                     # App launch & initialization
 ├── shared/                          # Cross-feature reusable infrastructure
-│   ├── providers/                  # Core dependency injection providers
-│   └── widgets/                    # Shared UI primitives
-└── l10n/                            # Localization (future)
+└── l10n/                            # Localization
 ```
 
 > For detailed architectural documentation, see **[ARCHITECTURE.md](doc/ARCHITECTURE.md)**.
@@ -154,7 +186,7 @@ lib/
 |----------|------------|---------|
 | **Framework** | Flutter 3.12+ | Cross-platform mobile (Android & iOS) |
 | **Language** | Dart 3.12+ | Type-safe, null-safe development |
-| **State Management** | Riverpod 2.6+ | Compile-safe dependency injection & reactive state |
+| **State Management** | Riverpod 2.6+ | Compile-safe DI & reactive state |
 | **Navigation** | GoRouter 14.6+ | Declarative routing with guards & deep links |
 | **Backend** | Supabase 2.9+ | Auth, database, storage, realtime |
 | **Networking** | Dio 5.7+ | HTTP client with interceptors |
@@ -163,7 +195,6 @@ lib/
 | **Functional** | fpdart 1.1+ | `Either`, `Option` for type-safe error handling |
 | **Typography** | Google Fonts (Outfit + Inter) | Premium typeface system |
 | **Environment** | Envied | Compile-time environment injection |
-| **Logging** | Logger 2.5+ | Structured, filtered logging |
 | **Code Gen** | build_runner | Automated code generation pipeline |
 
 ---
@@ -209,22 +240,10 @@ SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
 
 > ⚠️ **Security**: The `.env` file is included in `.gitignore` and must **never** be committed to version control.
 
-### Code Generation
-
-This project uses `build_runner` for code generation (Freezed, Envied, Riverpod, json_serializable):
-
-```bash
-# One-time build
-dart run build_runner build --delete-conflicting-outputs
-
-# Watch mode (auto-rebuild on file changes)
-dart run build_runner watch --delete-conflicting-outputs
-```
-
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all tests (115+ test cases)
 flutter test
 
 # Run with coverage
@@ -243,6 +262,7 @@ flutter analyze
 | [ARCHITECTURE.md](doc/ARCHITECTURE.md) | Clean Architecture deep-dive, layer responsibilities, data flow |
 | [DESIGN_LANGUAGE.md](DESIGN_LANGUAGE.md) | Enterprise design language specification |
 | [DESIGN_SYSTEM.md](doc/DESIGN_SYSTEM.md) | Component library, tokens, and usage guide |
+| [TESTING.md](doc/TESTING.md) | Test architecture, conventions, and quality gates |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines and development workflow |
 | [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
 | [SECURITY.md](SECURITY.md) | Security policy and vulnerability reporting |
@@ -290,9 +310,7 @@ We welcome contributions! Please see our **[Contributing Guide](CONTRIBUTING.md)
 
 ## 📄 License
 
-This project is proprietary software. All rights reserved.
-
-See **[LICENSE](LICENSE)** for more information.
+This project is licensed under the MIT License. See **[LICENSE](LICENSE)** for more information.
 
 ---
 
