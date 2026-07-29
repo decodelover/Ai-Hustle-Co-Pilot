@@ -32,45 +32,71 @@
 
 ## 📱 Screenshots
 
-### App Showcase
-
 <p align="center">
-  <img src="docs/screenshots/app_showcase.png" alt="AI Hustle Co-Pilot — App Showcase" width="100%" />
+  <img src="docs/screenshots/app_showcase.png"
+       alt="AI Hustle Co-Pilot Complete Showcase"
+       width="100%">
 </p>
 
-### Screen Details
+---
+
+### ✨ Experience the Product
+
+<p align="center">
+
+<img src="docs/screenshots/onboarding_screen.png" width="22%" alt="Onboarding">
+&nbsp;&nbsp;
+<img src="docs/screenshots/login_screen.png" width="22%" alt="Login">
+&nbsp;&nbsp;
+<img src="docs/screenshots/signup_screen.png" width="22%" alt="Sign Up">
+&nbsp;&nbsp;
+<img src="docs/screenshots/dashboard_screen.png" width="22%" alt="Dashboard">
+
+</p>
+
+<div align="center">
+
+| Screen | Highlights |
+|:-------|:-----------|
+| 🚀 **Onboarding** | Beautiful animated onboarding with particle effects and AI-first introduction |
+| 🔐 **Authentication** | Secure Google & GitHub OAuth with enterprise-grade login experience |
+| ✨ **Registration** | Smart password strength, validation and seamless account creation |
+| 📊 **Dashboard** | AI insights, metrics, analytics, opportunity tracking and recent activity |
+
+</div>
+
+---
+
+### 🌟 Product Highlights
 
 <table>
-  <tr>
-    <td align="center" width="25%">
-      <img src="docs/screenshots/onboarding_screen.png" alt="Onboarding Screen" width="100%" />
-      <br />
-      <strong>🎯 Onboarding</strong>
-      <br />
-      <em>Animated welcome with particle effects & social OAuth</em>
-    </td>
-    <td align="center" width="25%">
-      <img src="docs/screenshots/login_screen.png" alt="Login Screen" width="100%" />
-      <br />
-      <strong>🔐 Login</strong>
-      <br />
-      <em>Premium sign-in with Google & GitHub OAuth</em>
-    </td>
-    <td align="center" width="25%">
-      <img src="docs/screenshots/signup_screen.png" alt="Sign Up Screen" width="100%" />
-      <br />
-      <strong>📝 Sign Up</strong>
-      <br />
-      <em>Registration with real-time password strength</em>
-    </td>
-    <td align="center" width="25%">
-      <img src="docs/screenshots/dashboard_screen.png" alt="Dashboard Screen" width="100%" />
-      <br />
-      <strong>📊 Dashboard</strong>
-      <br />
-      <em>AI-powered metrics, insights & activity feed</em>
-    </td>
-  </tr>
+<tr>
+
+<td align="center" width="33%">
+
+### 🎯 AI Discovery
+
+Find high-value freelance opportunities using intelligent filters and AI recommendations.
+
+</td>
+
+<td align="center" width="33%">
+
+### 🤖 Proposal Generator
+
+Generate personalized winning proposals powered by advanced AI.
+
+</td>
+
+<td align="center" width="33%">
+
+### 📈 Smart Dashboard
+
+Track your freelance business with analytics, KPIs and actionable insights.
+
+</td>
+
+</tr>
 </table>
 
 ---
