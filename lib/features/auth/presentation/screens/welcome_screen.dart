@@ -1,8 +1,8 @@
 /// Pixel-perfect Onboarding (Screen 1) matching master reference design.
 ///
-/// Features dark slate gradient (#3D4655), 3-line bold title, hero AI product
-/// illustration container with rounded top corners, and dark glassmorphism
-/// capsule navigation bar at the bottom.
+/// Features animated dark slate gradient background (#3D4655), 3-line bold title,
+/// hero AI product illustration container with rounded top corners, and dark
+/// glassmorphism capsule navigation bar at the bottom.
 library;
 
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
@@ -19,8 +19,9 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _animController;
+  late final AnimationController _bgAnimController;
   late final Animation<double> _fadeAnim;
   late final Animation<Offset> _slideAnim;
 
@@ -31,6 +32,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
+
+    _bgAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 5000),
+    )..repeat(reverse: true);
 
     _fadeAnim = CurvedAnimation(
       parent: _animController,
@@ -51,6 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   void dispose() {
     _animController.dispose();
+    _bgAnimController.dispose();
     super.dispose();
   }
 
@@ -65,21 +72,45 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final bottomPadding = mediaQuery.padding.bottom;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF4A5568),
-              Color(0xFF3D4655),
-              Color(0xFF2B323E),
-            ],
-            stops: [0.0, 0.5, 1.0],
-          ),
-        ),
+      body: AnimatedBuilder(
+        animation: _bgAnimController,
+        builder: (context, child) {
+          final t = _bgAnimController.value;
+          final beginAlign = Alignment(-0.2 + (t * 0.4), -1.0);
+          final endAlign = Alignment(0.2 - (t * 0.4), 1.0);
+
+          final c1 = Color.lerp(
+            const Color(0xFF4A5568),
+            const Color(0xFF3B485A),
+            t,
+          )!;
+
+          final c2 = Color.lerp(
+            const Color(0xFF3D4655),
+            const Color(0xFF2E3848),
+            t,
+          )!;
+
+          final c3 = Color.lerp(
+            const Color(0xFF2B323E),
+            const Color(0xFF1E2530),
+            t,
+          )!;
+
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: beginAlign,
+                end: endAlign,
+                colors: [c1, c2, c3],
+                stops: const [0.0, 0.5, 1.0],
+              ),
+            ),
+            child: child,
+          );
+        },
         child: SafeArea(
           bottom: false,
           child: SlideTransition(
