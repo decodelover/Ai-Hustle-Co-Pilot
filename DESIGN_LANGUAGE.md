@@ -16,25 +16,25 @@ AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The 
 
 | Token | Hex Code | HSL / Opacity | Purpose & Design Rationale |
 |-------|----------|---------------|----------------------------|
-| `primary` | `#6D28D9` | `hsl(263, 70%, 48%)` | **Deep Violet**: Represents intelligence and AI capability. High contrast against light surfaces without visual noise. |
+| `primary` | `#3D82F7` | `hsl(218, 93%, 60%)` | **Vibrant Blue**: Represents trust, action, and intelligence. Used for primary buttons, focus highlights, and active branding. |
 | `onPrimary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Crisp contrast for primary button text and filled icons. |
-| `secondary` | `#4F46E5` | `hsl(239, 84%, 67%)` | **Indigo Accent**: Used for secondary interactive elements, selected navigation items, and active tabs. |
+| `secondary` | `#1877F2` | `hsl(214, 89%, 52%)` | **Indigo Blue**: Used for secondary interactive elements, selected navigation items, and active tabs. |
 | `onSecondary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Contrast text for secondary interactive surfaces. |
-| `accent` | `#EC4899` | `hsl(330, 81%, 60%)` | **Electric Magenta**: Reserved exclusively for AI copilot triggers, spark indicators, and key conversion paths. |
+| `accent` | `#3B82F6` | `hsl(217, 91%, 60%)` | **Electric Blue**: Reserved for AI copilot triggers, spark indicators, and key conversion paths. |
 | `onAccent` | `#FFFFFF` | `hsl(0, 0%, 100%)` | High contrast text over accent banners and glowing triggers. |
-| `background` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Soft Slate tint. Eliminates harsh blinding white (`#FFF`) glare for extended usage. |
+| `background` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Soft Light Gray Canvas. Eliminates glare while matching master reference screens. |
 | `surface` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Pure elevated white surface for cards, panels, and container dialogs. |
-| `surfaceVariant` | `#F1F5F9` | `hsl(210, 40%, 96%)` | Subtle grey container surface for search inputs, table headers, and nested cards. |
-| `onSurface` | `#0F172A` | `hsl(222, 47%, 11%)` | Near-black Slate 900. Delivers 16.5:1 WCAG AAA text contrast. |
-| `onSurfaceVariant`| `#475569` | `hsl(215, 25%, 35%)` | Secondary body text, subheadings, and field labels (5.2:1 WCAG AA). |
-| `outline` | `#E2E8F0` | `hsl(214, 32%, 91%)` | Crisp 1px border stroke for card bounds and input fields. |
+| `surfaceVariant` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Subtle grey container surface for form inputs (#F4F5F8), table headers, and nested cards. |
+| `onSurface` | `#111111` | `hsl(0, 0%, 7%)` | Deep Charcoal. Delivers 18.5:1 WCAG AAA text contrast. |
+| `onSurfaceVariant`| `#777777` | `hsl(0, 0%, 47%)` | Secondary body text, subheadings, and field labels (#777777). |
+| `outline` | `#E5E7EB` | `hsl(220, 13%, 91%)` | Crisp 1px border stroke for card bounds and input fields. |
 | `outlineVariant` | `#CBD5E1` | `hsl(213, 27%, 84%)` | Hover/focus border stroke state. |
 | `success` | `#059669` | `hsl(160, 84%, 39%)` | **Emerald**: Confirms completed workflows, saved drafts, and active syncs. |
 | `warning` | `#D97706` | `hsl(38, 92%, 44%)` | **Amber**: Alerts user to pending approvals, quota limits, or network degradation. |
 | `danger` | `#DC2626` | `hsl(0, 72%, 51%)` | **Ruby Red**: Destructive actions, validation errors, and authentication failures. |
-| `info` | `#2563EB` | `hsl(217, 91%, 60%)` | **Royal Blue**: Neutral system notifications and informational badges. |
+| `info` | `#3D82F7` | `hsl(218, 93%, 60%)` | **Royal Blue**: Neutral system notifications and informational badges. |
 | `skeletonStart` | `#E2E8F0` | `hsl(214, 32%, 91%)` | Base shimmer gradient starting color for 4-state loading lifecycle. |
-| `skeletonEnd` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Highlight shimmer gradient ending color. |
+| `skeletonEnd` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Highlight shimmer gradient ending color. |
 
 ---
 
@@ -42,25 +42,25 @@ AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The 
 
 | Token | Hex Code | HSL / Opacity | Purpose & Design Rationale |
 |-------|----------|---------------|----------------------------|
-| `primary` | `#9333EA` | `hsl(271, 81%, 56%)` | Brightened Purple for dark background readability (7.8:1 contrast). |
+| `primary` | `#3D82F7` | `hsl(218, 93%, 60%)` | Vibrant Blue for primary filled buttons and highlights in dark mode. |
 | `onPrimary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | High contrast text over primary filled buttons. |
-| `secondary` | `#818CF8` | `hsl(234, 89%, 74%)` | Luminous Indigo for secondary active states. |
-| `onSecondary` | `#0F172A` | `hsl(222, 47%, 11%)` | Dark slate text over luminous indigo chips/badges. |
-| `accent` | `#F472B6` | `hsl(330, 85%, 70%)` | Neon Magenta for AI copilot glows and key triggers in dark mode. |
+| `secondary` | `#60A5FA` | `hsl(213, 94%, 68%)` | Luminous Blue for secondary active states. |
+| `onSecondary` | `#0F172A` | `hsl(222, 47%, 11%)` | Dark slate text over luminous chips/badges. |
+| `accent` | `#60A5FA` | `hsl(213, 94%, 68%)` | Cyan-Blue for AI copilot glows and key triggers in dark mode. |
 | `onAccent` | `#0F172A` | `hsl(222, 47%, 11%)` | Dark text over glowing accent containers. |
-| `background` | `#090D16` | `hsl(222, 47%, 6%)` | **Deep Space Blue-Black**: Raycast/Linear-inspired dark canvas. |
-| `surface` | `#111827` | `hsl(215, 28%, 12%)` | Dark Gray-Blue surface for floating panels and cards. |
-| `surfaceVariant` | `#1F2937` | `hsl(215, 25%, 17%)` | Elevated surface variant for input containers and headers. |
-| `onSurface` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Off-white text delivering 15.8:1 contrast against `#090D16`. |
+| `background` | `#3D4655` | `hsl(218, 17%, 29%)` | **Master Dark Slate Canvas**: Matches Screen 1 Onboarding reference background. |
+| `surface` | `#2B323E` | `hsl(218, 18%, 21%)` | Dark Slate surface for floating panels, cards, and bottom navigation. |
+| `surfaceVariant` | `#262D38` | `hsl(218, 19%, 18%)` | Elevated surface variant for input containers and headers. |
+| `onSurface` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Off-white text delivering 15.8:1 contrast against `#3D4655`. |
 | `onSurfaceVariant`| `#94A3B8` | `hsl(215, 20%, 65%)` | Muted secondary text (6.4:1 WCAG AA). |
-| `outline` | `#1F2937` | `hsl(215, 25%, 17%)` | Subtle dark border stroke separating card containers. |
-| `outlineVariant` | `#374151` | `hsl(217, 19%, 27%)` | Active border highlight stroke. |
+| `outline` | `#262D38` | `hsl(218, 19%, 18%)` | Subtle dark border stroke separating card containers. |
+| `outlineVariant` | `#3D4655` | `hsl(218, 17%, 29%)` | Active border highlight stroke. |
 | `success` | `#10B981` | `hsl(160, 84%, 45%)` | Bright Emerald for dark mode success state. |
 | `warning` | `#F59E0B` | `hsl(38, 92%, 50%)` | Bright Amber for dark mode warnings. |
 | `danger` | `#EF4444` | `hsl(0, 84%, 60%)` | Crimson Red for dark mode destructive alerts. |
 | `info` | `#60A5FA` | `hsl(213, 94%, 68%)` | Sky Blue for dark mode system info. |
-| `skeletonStart` | `#1F2937` | `hsl(215, 25%, 17%)` | Dark shimmer start. |
-| `skeletonEnd` | `#111827` | `hsl(215, 28%, 12%)` | Dark shimmer end. |
+| `skeletonStart` | `#262D38` | `hsl(218, 19%, 18%)` | Dark shimmer start. |
+| `skeletonEnd` | `#2B323E` | `hsl(218, 18%, 21%)` | Dark shimmer end. |
 
 ---
 
