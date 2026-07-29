@@ -1,39 +1,33 @@
-/// Enterprise OrDividerWidget displaying horizontal lines with centered "OR" badge label.
+/// Enterprise OrDividerWidget displaying centered light gray divider text.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-/// Reusable section separator widget with centered "OR" label text.
+/// Reusable section separator widget with centered label text.
 class OrDividerWidget extends StatelessWidget {
   /// Creates an [OrDividerWidget].
-  const OrDividerWidget({super.key});
+  const OrDividerWidget({
+    super.key,
+    this.label = 'Or Sign in with',
+  });
+
+  /// Custom divider text label.
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.space24),
-      child: Row(
-        children: [
-          const Expanded(child: AppDivider()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.space12),
-            child: Text(
-              'OR',
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: isDark
-                    ? AppColors.darkOnSurfaceVariant
-                    : AppColors.onSurfaceVariant,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-              ),
-            ),
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Color(0xFF777777),
+            fontSize: 13.0,
+            fontWeight: FontWeight.w400,
+            letterSpacing: 0.2,
           ),
-          const Expanded(child: AppDivider()),
-        ],
+        ),
       ),
     );
   }

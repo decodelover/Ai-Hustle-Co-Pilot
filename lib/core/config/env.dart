@@ -23,6 +23,7 @@ part 'env.g.dart';
 ///
 /// Generated code lives in `env.g.dart`. Re-run `build_runner`
 /// after modifying `.env` or adding new fields.
+// Touch to trigger build_runner rebuild
 @Envied(path: '.env', obfuscate: true)
 abstract class Env {
   /// The Supabase project URL.

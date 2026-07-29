@@ -1,15 +1,15 @@
-/// Premium Welcome onboarding screen with AppAuthBackground ambient glow & live carousel.
+/// Pixel-perfect Onboarding (Screen 1) matching master reference design.
+///
+/// Features dark slate gradient (#3D4655), 3-line bold title, hero AI product
+/// illustration container with rounded top corners, and dark glassmorphism
+/// capsule navigation bar at the bottom.
 library;
 
-import 'dart:async';
-
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/app_auth_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Hero welcome & animated onboarding screen.
+/// Hero Onboarding & Welcome screen.
 class WelcomeScreen extends StatefulWidget {
   /// Creates a [WelcomeScreen].
   const WelcomeScreen({super.key});
@@ -20,271 +20,385 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _pulseController;
-  late final PageController _pageController;
-  Timer? _autoAdvanceTimer;
-  int _currentPage = 0;
-
-  final List<({String title, String subtitle, IconData icon, Color color})>
-      _features = [
-    (
-      title: 'Smart Matching Engine',
-      subtitle: 'Real-time high-paying opportunity discovery tailored to your skills',
-      icon: Icons.psychology_rounded,
-      color: AppColors.primary,
-    ),
-    (
-      title: 'AI Proposal Writer',
-      subtitle: 'Generate winning, highly tailored client applications in seconds',
-      icon: Icons.auto_awesome_rounded,
-      color: AppColors.secondary,
-    ),
-    (
-      title: 'Workflow Automation',
-      subtitle: 'Automate contracts, client follow-ups, and invoice reminders effortlessly',
-      icon: Icons.bolt_rounded,
-      color: AppColors.success,
-    ),
-  ];
+  late final AnimationController _animController;
+  late final Animation<double> _fadeAnim;
+  late final Animation<Offset> _slideAnim;
 
   @override
   void initState() {
     super.initState();
-    _pulseController = AnimationController(
+    _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 900),
+    );
 
-    _pageController = PageController();
+    _fadeAnim = CurvedAnimation(
+      parent: _animController,
+      curve: Curves.easeOut,
+    );
 
-    _autoAdvanceTimer = Timer.periodic(const Duration(milliseconds: 3500), (_) {
-      if (_pageController.hasClients) {
-        final nextPage = (_currentPage + 1) % _features.length;
-        _pageController.animateToPage(
-          nextPage,
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.easeInOutCubic,
-        );
-      }
-    });
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    _animController.forward();
   }
 
   @override
   void dispose() {
-    _pulseController.dispose();
-    _pageController.dispose();
-    _autoAdvanceTimer?.cancel();
+    _animController.dispose();
     super.dispose();
+  }
+
+  void _navigateToNext() {
+    context.pushNamed(RouteNames.login);
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-    final isDark = context.isDarkMode;
+    final mediaQuery = MediaQuery.of(context);
+    final topPadding = mediaQuery.padding.top;
+    final bottomPadding = mediaQuery.padding.bottom;
 
-    return AppAuthBackground(
-      child: ResponsivePageContainer(
-        child: AnimatedPage(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.space24,
-              vertical: AppSpacing.space16,
-            ),
-            child: Column(
-              children: [
-                const Spacer(),
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF4A5568),
+              Color(0xFF3D4655),
+              Color(0xFF2B323E),
+            ],
+            stops: [0.0, 0.5, 1.0],
+          ),
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: SlideTransition(
+            position: _slideAnim,
+            child: FadeTransition(
+              opacity: _fadeAnim,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: topPadding > 0 ? 8.0 : 16.0),
 
-                // ── Animated Pulsing Hero Badge ────────────────────────
-                AnimatedBuilder(
-                  animation: _pulseController,
-                  builder: (context, child) {
-                    final scale = 1.0 + (_pulseController.value * 0.08);
-                    final glowOpacity = 0.35 + (_pulseController.value * 0.35);
-
-                    return Transform.scale(
-                      scale: scale,
-                      child: Container(
-                        width: 92.0,
-                        height: 92.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [
-                              isDark ? AppColors.darkPrimary : AppColors.primary,
-                              isDark ? AppColors.darkSecondary : AppColors.secondary,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(
-                                alpha: glowOpacity,
-                              ),
-                              blurRadius: 36.0,
-                              spreadRadius: 10.0,
+                        // ── Top Left: App Title ─────────────────────────────
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 28.0),
+                          child: Text(
+                            'AI Hustle Co-Pilot',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -0.2,
                             ),
-                          ],
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.auto_awesome_rounded,
-                            size: 46.0,
-                            color: Colors.white,
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
 
-                const SizedBox(height: AppSpacing.space24),
+                        const SizedBox(height: 36.0),
 
-                // ── Title & Subtitle ──────────────────────────────────
-                Text(
-                  'Supercharge Your Freelance Career',
-                  style: textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppSpacing.space8),
-                Text(
-                  'AI-powered opportunity discovery, proposal generation, and workflow automation.',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-
-                const SizedBox(height: AppSpacing.space24),
-
-                // ── Live Animated Value Proposition Carousel ────────────
-                SizedBox(
-                  height: 140,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    onPageChanged: (index) {
-                      setState(() => _currentPage = index);
-                    },
-                    itemCount: _features.length,
-                    itemBuilder: (context, index) {
-                      final feature = _features[index];
-
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                        padding: const EdgeInsets.all(AppSpacing.space16),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? const Color(0xFF1E1E2E).withValues(alpha: 0.85)
-                              : Colors.white.withValues(alpha: 0.90),
-                          borderRadius: BorderRadius.circular(AppRadius.lg),
-                          border: Border.all(
-                            color: (isDark
-                                    ? AppColors.darkOutline
-                                    : AppColors.outline)
-                                .withValues(alpha: 0.6),
+                        // ── Main Heading: Exactly 3 Lines ───────────────────
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 28.0),
+                          child: Text(
+                            'Build\nYour AI\nBusiness',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 38.0,
+                              fontWeight: FontWeight.w700,
+                              height: 1.12,
+                              letterSpacing: -0.8,
+                            ),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(
-                                alpha: isDark ? 0.3 : 0.06,
-                              ),
-                              blurRadius: 16.0,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
                         ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              height: 48,
-                              decoration: BoxDecoration(
-                                color: feature.color.withValues(alpha: 0.15),
-                                borderRadius:
-                                    BorderRadius.circular(AppRadius.md),
+
+                        const SizedBox(height: 24.0),
+
+                        // ── Center/Lower Hero Tech Graphic Illustration ──────
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(top: 8.0),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF262D38),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(36.0),
+                                topRight: Radius.circular(36.0),
                               ),
-                              child: Icon(
-                                feature.icon,
-                                size: 24,
-                                color: feature.color,
-                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.35),
+                                  blurRadius: 32.0,
+                                  offset: const Offset(0, -10),
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: AppSpacing.space16),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(36.0),
+                                topRight: Radius.circular(36.0),
+                              ),
+                              child: Stack(
                                 children: [
-                                  Text(
-                                    feature.title,
-                                    style: textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
+                                  Positioned.fill(
+                                    child: CustomPaint(
+                                      painter: _HeroIllustrationPainter(),
                                     ),
                                   ),
-                                  const SizedBox(height: AppSpacing.space4),
-                                  Text(
-                                    feature.subtitle,
-                                    style: textTheme.bodySmall?.copyWith(
-                                      color: colorScheme.onSurfaceVariant,
+                                  // Subtle gradient overlay at bottom of hero
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    height: 160,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.transparent,
+                                            const Color(0xFF212731)
+                                                .withValues(alpha: 0.95),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: AppSpacing.space12),
-
-                // ── Carousel Indicator Dots ────────────────────────────
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(_features.length, (index) {
-                    final isSelected = index == _currentPage;
-
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                      width: isSelected ? 24.0 : 8.0,
-                      height: 8.0,
+                  // ── Bottom Navigation Capsule ─────────────────────────────
+                  Positioned(
+                    left: 24.0,
+                    right: 24.0,
+                    bottom: (bottomPadding > 0 ? bottomPadding : 24.0) + 12.0,
+                    child: Container(
+                      height: 72.0,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary
-                            : colorScheme.outlineVariant,
-                        borderRadius: BorderRadius.circular(AppRadius.full),
+                        color: const Color(0xFF323B49).withValues(alpha: 0.92),
+                        borderRadius: BorderRadius.circular(40.0),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.12),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.4),
+                            blurRadius: 24.0,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
                       ),
-                    );
-                  }),
-                ),
+                      child: Row(
+                        children: [
+                          // Left: Circular Back Button
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => context.pushNamed(RouteNames.login),
+                              customBorder: const CircleBorder(),
+                              child: Container(
+                                width: 44.0,
+                                height: 44.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back_rounded,
+                                  color: Colors.white70,
+                                  size: 20.0,
+                                ),
+                              ),
+                            ),
+                          ),
 
-                const Spacer(),
+                          const Spacer(),
 
-                // ── Action CTA Buttons ────────────────────────────────
-                AppButton(
-                  text: 'Sign In',
-                  onPressed: () => context.pushNamed(RouteNames.login),
-                ),
-                const SizedBox(height: AppSpacing.space12),
-                AppButton(
-                  text: 'Create Account',
-                  variant: AppButtonVariant.outlined,
-                  onPressed: () => context.pushNamed(RouteNames.register),
-                ),
-                const SizedBox(height: AppSpacing.space16),
-              ],
+                          // Center: Large White Circular Play Button
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: _navigateToNext,
+                              customBorder: const CircleBorder(),
+                              child: Container(
+                                width: 54.0,
+                                height: 54.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.25),
+                                      blurRadius: 16.0,
+                                      spreadRadius: 2.0,
+                                    ),
+                                  ],
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: Color(0xFF2B323E),
+                                    size: 30.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const Spacer(),
+
+                          // Right: Start >>> Text Button
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => context.pushNamed(RouteNames.register),
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.0,
+                                  vertical: 8.0,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Start',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4.0),
+                                    Text(
+                                      '>>>',
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: -1.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// Custom Painter for the premium AI product graphic in lower half of screen 1.
+class _HeroIllustrationPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width * 0.5, size.height * 0.45);
+    final baseRadius = size.width * 0.42;
+
+    // Glowing subtle outer radial ring
+    final glowPaint = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          const Color(0xFF4A566A).withValues(alpha: 0.4),
+          const Color(0xFF262D38).withValues(alpha: 0.0),
+        ],
+      ).createShader(Rect.fromCircle(center: center, radius: baseRadius * 1.3));
+
+    canvas.drawCircle(center, baseRadius * 1.3, glowPaint);
+
+    // Dark sleek metallic device disc body
+    final bodyPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFF384353),
+          Color(0xFF1E242E),
+        ],
+      ).createShader(Rect.fromCircle(center: center, radius: baseRadius));
+
+    canvas.drawCircle(center, baseRadius, bodyPaint);
+
+    // Inner concentric ring
+    final ringPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..color = Colors.white.withValues(alpha: 0.12);
+
+    canvas.drawCircle(center, baseRadius * 0.72, ringPaint);
+
+    // Top sensor/turret dome
+    final sensorCenter = Offset(center.dx + baseRadius * 0.3, center.dy - baseRadius * 0.25);
+    final sensorPaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [
+          Color(0xFF4E5B70),
+          Color(0xFF1B212A),
+        ],
+      ).createShader(Rect.fromCircle(center: sensorCenter, radius: baseRadius * 0.28));
+
+    canvas.drawCircle(sensorCenter, baseRadius * 0.28, sensorPaint);
+
+    final sensorBorder = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..color = const Color(0xFF3D82F7).withValues(alpha: 0.4);
+
+    canvas.drawCircle(sensorCenter, baseRadius * 0.28, sensorBorder);
+
+    // Small status LED indicators
+    final ledPaint = Paint()
+      ..color = const Color(0xFF3D82F7)
+      ..style = PaintingStyle.fill;
+
+    final whiteLedPaint = Paint()
+      ..color = Colors.white70
+      ..style = PaintingStyle.fill;
+
+    canvas
+      ..drawCircle(
+        Offset(sensorCenter.dx - 8, sensorCenter.dy - 6),
+        3.0,
+        ledPaint,
+      )
+      ..drawCircle(
+        Offset(sensorCenter.dx + 8, sensorCenter.dy - 6),
+        3.0,
+        whiteLedPaint,
+      );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -1,21 +1,22 @@
-/// Production-ready Sign Up screen with AppAuthBackground ambient mesh glow, glass surface, and trust badges.
+/// Pixel-perfect Create Account Screen (Screen 3) matching master reference design.
+///
+/// Features top left circular white back button with tiny shadow, centered blue
+/// app title (#3D82F7), white card with radius 32, inputs for Name, Email, and
+/// Password, terms agreement checkbox, blue pill submit button (#3D82F7, radius 28),
+/// and horizontal social login row (Facebook, Google, Apple).
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/app_auth_background.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_header_widget.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/password_strength_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/terms_checkbox_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Full-featured enterprise Sign Up screen.
+/// Full-featured Register screen conforming strictly to master design reference.
 class RegisterScreen extends ConsumerStatefulWidget {
   /// Creates a [RegisterScreen].
   const RegisterScreen({super.key});
@@ -28,20 +29,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
-  bool _agreeToTerms = false;
+  bool _agreeToTerms = true;
   String? _nameError;
   String? _emailError;
   String? _passwordError;
-  String? _confirmPasswordError;
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -53,26 +51,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _emailError = _emailController.text.trim().isEmpty
           ? 'Email address is required'
           : null;
-      _passwordError = _passwordController.text.length < 8
-          ? 'Password must be at least 8 characters'
+      _passwordError = _passwordController.text.length < 6
+          ? 'Password must be at least 6 characters'
           : null;
-      _confirmPasswordError =
-          _confirmPasswordController.text != _passwordController.text
-              ? 'Passwords do not match'
-              : null;
     });
 
-    if (_nameError != null ||
-        _emailError != null ||
-        _passwordError != null ||
-        _confirmPasswordError != null) {
+    if (_nameError != null || _emailError != null || _passwordError != null) {
       return;
     }
 
     if (!_agreeToTerms) {
-      AppSnackBar.showWarning(
-        context,
-        message: 'Please accept the Terms of Service and Privacy Policy.',
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please accept the Terms of Service.'),
+          backgroundColor: Color(0xFFDC2626),
+        ),
       );
       return;
     }
@@ -86,25 +79,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
     ref.listen<AsyncValue<void>>(
       signUpControllerProvider,
       (previous, next) {
         next.whenOrNull(
           error: (error, stackTrace) {
-            AppSnackBar.showError(
-              context,
-              message: error.toString(),
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.toString()),
+                backgroundColor: const Color(0xFFDC2626),
+              ),
             );
           },
           data: (_) {
             if (previous?.isLoading == true) {
-              AppSnackBar.showSuccess(
-                context,
-                message: 'Account created! Please verify your email.',
-              );
               context.goNamed(RouteNames.verifyEmail);
             }
           },
@@ -115,180 +103,224 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final signUpState = ref.watch(signUpControllerProvider);
     final isLoading = signUpState.isLoading;
 
-    return AppAuthBackground(
-      child: Column(
-        children: [
-          AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
-              onPressed: () => context.pop(),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F5F8),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 12.0,
           ),
-          Expanded(
-            child: ResponsivePageContainer(
-              child: AnimatedPage(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.space24,
-                    vertical: AppSpacing.space12,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Column(
+                children: [
+                  // ── Top Navigation Bar ────────────────────────────────────
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      // ── Header ───────────────────────────────────────────
-                      const AuthHeaderWidget(
-                        title: 'Create Your Account',
-                        subtitle:
-                            'Start automating your freelancing hustle today',
-                      ),
-
-                      const SizedBox(height: AppSpacing.space24),
-
-                      // ── Card Surface Container ────────────────────────────
-                      AppCard(
-                        variant: isDark
-                            ? AppCardVariant.filled
-                            : AppCardVariant.elevated,
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpacing.space20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // ── Full Name Field ──────────────────────────
-                              AppTextField(
-                                label: 'Full Name',
-                                hint: 'Alex Johnson',
-                                controller: _nameController,
-                                errorText: _nameError,
-                                isDisabled: isLoading,
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => context.pop(),
+                            customBorder: const CircleBorder(),
+                            child: Container(
+                              width: 40.0,
+                              height: 40.0,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.06),
+                                    blurRadius: 10.0,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
                               ),
-
-                              const SizedBox(height: AppSpacing.space16),
-
-                              // ── Email Address Field ──────────────────────
-                              AppTextField(
-                                label: 'Email Address',
-                                hint: 'you@example.com',
-                                controller: _emailController,
-                                errorText: _emailError,
-                                isDisabled: isLoading,
+                              child: const Icon(
+                                Icons.chevron_left_rounded,
+                                color: Color(0xFF555555),
+                                size: 26.0,
                               ),
-
-                              const SizedBox(height: AppSpacing.space16),
-
-                              // ── Password Field ───────────────────────────
-                              AppTextField(
-                                label: 'Password',
-                                hint: '••••••••',
-                                type: AppTextFieldType.password,
-                                controller: _passwordController,
-                                errorText: _passwordError,
-                                isDisabled: isLoading,
-                                onChanged: (_) => setState(() {}),
-                              ),
-
-                              PasswordStrengthWidget(
-                                password: _passwordController.text,
-                              ),
-
-                              const SizedBox(height: AppSpacing.space16),
-
-                              // ── Confirm Password Field ───────────────────
-                              AppTextField(
-                                label: 'Confirm Password',
-                                hint: '••••••••',
-                                type: AppTextFieldType.password,
-                                controller: _confirmPasswordController,
-                                errorText: _confirmPasswordError,
-                                isDisabled: isLoading,
-                              ),
-
-                              const SizedBox(height: AppSpacing.space16),
-
-                              // ── Terms & Conditions Checkbox ───────────────
-                              TermsCheckboxWidget(
-                                value: _agreeToTerms,
-                                onChanged: (val) {
-                                  if (val != null) {
-                                    setState(() => _agreeToTerms = val);
-                                  }
-                                },
-                              ),
-
-                              const SizedBox(height: AppSpacing.space24),
-
-                              // ── Create Account Button ────────────────────
-                              AppButton(
-                                text: 'Create Account',
-                                isLoading: isLoading,
-                                onPressed: _onSignUpSubmitted,
-                              ),
-
-                              const OrDividerWidget(),
-
-                              // ── Social Login Buttons ──────────────────────
-                              SocialLoginButtons(
-                                isLoading: isLoading,
-                                onGooglePressed: () {
-                                  AppSnackBar.showInfo(
-                                    context,
-                                    message: 'Google Sign Up initiated...',
-                                  );
-                                },
-                                onGitHubPressed: () {
-                                  AppSnackBar.showInfo(
-                                    context,
-                                    message: 'GitHub Sign Up initiated...',
-                                  );
-                                },
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: AppSpacing.space24),
-
-                      // ── Security & Trust Banner ───────────────────────────
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.shield_outlined,
-                            size: 14.0,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                          const SizedBox(width: AppSpacing.space8),
-                          Text(
-                            '100% Free Trial • No Credit Card Required',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                              fontSize: 11.0,
-                            ),
-                          ),
-                        ],
+                      const Text(
+                        'AI Hustle Co-Pilot',
+                        style: TextStyle(
+                          color: Color(0xFF3D82F7),
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.4,
+                        ),
                       ),
-
-                      const SizedBox(height: AppSpacing.space16),
-
-                      // ── Footer Prompt ────────────────────────────────────
-                      AuthFooterWidget(
-                        promptText: 'Already have an account? ',
-                        actionText: 'Sign In',
-                        onActionPressed: () =>
-                            context.pushNamed(RouteNames.login),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space16),
                     ],
                   ),
-                ),
+
+                  const SizedBox(height: 20.0),
+
+                  // ── Main Card Container ───────────────────────────────────
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(32.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 24.0,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // ── Card Heading ─────────────────────────────────────
+                        const Text(
+                          'Create an Account?',
+                          style: TextStyle(
+                            color: Color(0xFF111111),
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.3,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 24.0),
+
+                        // ── Name Input ───────────────────────────────────────
+                        AuthInputField(
+                          label: 'Name',
+                          hintText: 'Johan orindo',
+                          controller: _nameController,
+                          errorText: _nameError,
+                          isDisabled: isLoading,
+                        ),
+
+                        const SizedBox(height: 18.0),
+
+                        // ── Email Input ──────────────────────────────────────
+                        AuthInputField(
+                          label: 'Email',
+                          hintText: 'joedoe75@gmail.com',
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          errorText: _emailError,
+                          isDisabled: isLoading,
+                        ),
+
+                        const SizedBox(height: 18.0),
+
+                        // ── Password Input ───────────────────────────────────
+                        AuthInputField(
+                          label: 'Password',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          controller: _passwordController,
+                          errorText: _passwordError,
+                          isDisabled: isLoading,
+                        ),
+
+                        const SizedBox(height: 16.0),
+
+                        // ── Terms Agreement Checkbox ─────────────────────────
+                        TermsCheckboxWidget(
+                          value: _agreeToTerms,
+                          onChanged: (val) {
+                            if (val != null) {
+                              setState(() => _agreeToTerms = val);
+                            }
+                          },
+                        ),
+
+                        const SizedBox(height: 24.0),
+
+                        // ── Primary Action Button: Blue Pill ──────────────────
+                        SizedBox(
+                          height: 56.0,
+                          child: ElevatedButton(
+                            onPressed: isLoading ? null : _onSignUpSubmitted,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF3D82F7),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28.0),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            child: isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : const Text('Create account'),
+                          ),
+                        ),
+
+                        const SizedBox(height: 8.0),
+
+                        // ── Divider ──────────────────────────────────────────
+                        const OrDividerWidget(),
+
+                        // ── Social Login Buttons ─────────────────────────────
+                        SocialLoginButtons(
+                          isLoading: isLoading,
+                          onFacebookPressed: () {},
+                          onGooglePressed: () {},
+                          onApplePressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20.0),
+
+                  // ── Footer Prompt: Toggle to Login ─────────────────────────
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Already have an account? ',
+                        style: TextStyle(
+                          color: Color(0xFF777777),
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => context.pushNamed(RouteNames.login),
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: Color(0xFF3D82F7),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16.0),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

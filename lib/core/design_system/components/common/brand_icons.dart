@@ -1,4 +1,4 @@
-/// Official Brand Icon primitives for Google and GitHub.
+/// Official Brand Icon primitives for Google, Facebook, Apple, and GitHub.
 library;
 
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ class GoogleBrandIcon extends StatelessWidget {
   /// Creates a [GoogleBrandIcon].
   const GoogleBrandIcon({
     super.key,
-    this.size = 20.0,
+    this.size = 22.0,
   });
 
   /// Icon dimensions.
@@ -69,12 +69,114 @@ class _GoogleLogoPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+/// Official Facebook brand icon widget.
+class FacebookBrandIcon extends StatelessWidget {
+  /// Creates a [FacebookBrandIcon].
+  const FacebookBrandIcon({
+    super.key,
+    this.size = 22.0,
+  });
+
+  /// Icon dimensions.
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: const BoxDecoration(
+        color: Color(0xFF1877F2),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          'f',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w900,
+            fontSize: size * 0.7,
+            height: 1.0,
+            fontFamily: 'Roboto',
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Official Apple brand icon widget.
+class AppleBrandIcon extends StatelessWidget {
+  /// Creates an [AppleBrandIcon].
+  const AppleBrandIcon({
+    super.key,
+    this.size = 22.0,
+    this.color,
+  });
+
+  /// Icon dimensions.
+  final double size;
+
+  /// Optional icon color override.
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    final effectiveColor =
+        color ?? Theme.of(context).colorScheme.onSurface;
+
+    return CustomPaint(
+      size: Size(size, size),
+      painter: _AppleLogoPainter(color: effectiveColor),
+    );
+  }
+}
+
+class _AppleLogoPainter extends CustomPainter {
+  _AppleLogoPainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final w = size.width;
+    final h = size.height;
+
+    final path = Path()
+      ..moveTo(w * 0.52, h * 0.15)
+      ..cubicTo(w * 0.52, h * 0.05, w * 0.60, h * 0.0, w * 0.60, h * 0.0)
+      ..cubicTo(w * 0.60, h * 0.10, w * 0.52, h * 0.15, w * 0.52, h * 0.15)
+      ..moveTo(w * 0.72, h * 0.42)
+      ..cubicTo(w * 0.72, h * 0.32, w * 0.80, h * 0.26, w * 0.81, h * 0.25)
+      ..cubicTo(w * 0.73, h * 0.14, w * 0.60, h * 0.16, w * 0.55, h * 0.16)
+      ..cubicTo(w * 0.43, h * 0.16, w * 0.37, h * 0.23, w * 0.31, h * 0.23)
+      ..cubicTo(w * 0.24, h * 0.23, w * 0.18, h * 0.16, w * 0.10, h * 0.16)
+      ..cubicTo(w * 0.0, h * 0.16, -0.06, h * 0.33, -0.06, h * 0.52)
+      ..cubicTo(-0.06, h * 0.71, w * 0.12, h * 0.98, w * 0.24, h * 0.98)
+      ..cubicTo(w * 0.30, h * 0.98, w * 0.35, h * 0.91, w * 0.43, h * 0.91)
+      ..cubicTo(w * 0.50, h * 0.91, w * 0.55, h * 0.98, w * 0.62, h * 0.98)
+      ..cubicTo(w * 0.74, h * 0.98, w * 0.82, h * 0.75, w * 0.82, h * 0.75)
+      ..cubicTo(w * 0.82, h * 0.75, w * 0.72, h * 0.71, w * 0.72, h * 0.55)
+      ..cubicTo(w * 0.72, h * 0.42, w * 0.72, h * 0.42, w * 0.72, h * 0.42);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _AppleLogoPainter oldDelegate) =>
+      oldDelegate.color != color;
+}
+
 /// Official GitHub Octocat brand icon widget.
 class GitHubBrandIcon extends StatelessWidget {
   /// Creates a [GitHubBrandIcon].
   const GitHubBrandIcon({
     super.key,
-    this.size = 20.0,
+    this.size = 22.0,
     this.color,
   });
 

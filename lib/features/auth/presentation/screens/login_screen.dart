@@ -1,12 +1,14 @@
-/// Production-ready Sign In screen with AppAuthBackground ambient mesh glow, glass surface, and trust badges.
+/// Pixel-perfect Sign In Screen (Screen 2) matching master reference design.
+///
+/// Features centered top app name in #3D82F7 blue, large white card surface
+/// with radius 32 & soft Apple shadow, filled inputs (#F4F5F8, radius 16, height 56),
+/// remember me & forgot password row, blue pill submit button (#3D82F7, radius 28),
+/// and horizontal social login row (Facebook, Google, Apple).
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/app_auth_background.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_header_widget.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/remember_me_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
@@ -14,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Full-featured enterprise Sign In screen.
+/// Full-featured Login screen conforming strictly to master design reference.
 class LoginScreen extends ConsumerStatefulWidget {
   /// Creates a [LoginScreen].
   const LoginScreen({super.key});
@@ -26,6 +28,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
   bool _rememberMe = false;
   String? _emailError;
   String? _passwordError;
@@ -57,25 +60,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
     ref.listen<AsyncValue<void>>(
       signInControllerProvider,
       (previous, next) {
         next.whenOrNull(
           error: (error, stackTrace) {
-            AppSnackBar.showError(
-              context,
-              message: error.toString(),
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.toString()),
+                backgroundColor: const Color(0xFFDC2626),
+              ),
             );
           },
           data: (_) {
             if (previous?.isLoading == true) {
-              AppSnackBar.showSuccess(
-                context,
-                message: 'Welcome back to AI Hustle Co-Pilot!',
-              );
               context.goNamed(RouteNames.dashboard);
             }
           },
@@ -86,176 +84,210 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final signInState = ref.watch(signInControllerProvider);
     final isLoading = signInState.isLoading;
 
-    return AppAuthBackground(
-      child: Column(
-        children: [
-          AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
-              onPressed: () => context.pop(),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF4F5F8),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 16.0,
             ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          Expanded(
-            child: ResponsivePageContainer(
-              child: AnimatedPage(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.space24,
-                    vertical: AppSpacing.space12,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 440),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 12.0),
+
+                  // ── Top Center: App Name ───────────────────────────────────
+                  const Text(
+                    'AI Hustle Co-Pilot',
+                    style: TextStyle(
+                      color: Color(0xFF3D82F7),
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.4,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                  const SizedBox(height: 24.0),
+
+                  // ── Main Card Container ───────────────────────────────────
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(32.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 24.0,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // ── Card Heading ─────────────────────────────────────
+                        const Text(
+                          'Welcome Back!',
+                          style: TextStyle(
+                            color: Color(0xFF111111),
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.3,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 6.0),
+                        const Text(
+                          'Continue your AI journey',
+                          style: TextStyle(
+                            color: Color(0xFF777777),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 28.0),
+
+                        // ── Email Input ──────────────────────────────────────
+                        AuthInputField(
+                          label: 'Email',
+                          hintText: 'joedoe75@gmail.com',
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          errorText: _emailError,
+                          isDisabled: isLoading,
+                        ),
+
+                        const SizedBox(height: 18.0),
+
+                        // ── Password Input ───────────────────────────────────
+                        AuthInputField(
+                          label: 'Password',
+                          hintText: '••••••••',
+                          isPassword: true,
+                          controller: _passwordController,
+                          errorText: _passwordError,
+                          isDisabled: isLoading,
+                        ),
+
+                        const SizedBox(height: 16.0),
+
+                        // ── Remember Me & Forgot Password ────────────────────
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RememberMeWidget(
+                              value: _rememberMe,
+                              onChanged: (val) {
+                                if (val != null) {
+                                  setState(() => _rememberMe = val);
+                                }
+                              },
+                            ),
+                            GestureDetector(
+                              onTap: () => context.pushNamed(
+                                RouteNames.forgotPassword,
+                              ),
+                              child: const Text(
+                                'Forgot password?',
+                                style: TextStyle(
+                                  color: Color(0xFF3D82F7),
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 28.0),
+
+                        // ── Primary Action Button: Blue Pill ──────────────────
+                        SizedBox(
+                          height: 56.0,
+                          child: ElevatedButton(
+                            onPressed: isLoading ? null : _onSignInSubmitted,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF3D82F7),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28.0),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            child: isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : const Text('Login'),
+                          ),
+                        ),
+
+                        const SizedBox(height: 8.0),
+
+                        // ── Divider ──────────────────────────────────────────
+                        const OrDividerWidget(),
+
+                        // ── Social Login Buttons ─────────────────────────────
+                        SocialLoginButtons(
+                          isLoading: isLoading,
+                          onFacebookPressed: () {},
+                          onGooglePressed: () {},
+                          onApplePressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24.0),
+
+                  // ── Footer Prompt: Toggle to Register ──────────────────────
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // ── Header ───────────────────────────────────────────
-                      const AuthHeaderWidget(
-                        title: 'Welcome Back',
-                        subtitle:
-                            'Sign in to access your AI Hustle Co-Pilot workspace',
+                      const Text(
+                        "Don't have an account? ",
+                        style: TextStyle(
+                          color: Color(0xFF777777),
+                          fontSize: 14.0,
+                        ),
                       ),
-
-                      const SizedBox(height: AppSpacing.space24),
-
-                      // ── Enterprise Card Container Surface ─────────────────
-                      AppCard(
-                        variant: isDark
-                            ? AppCardVariant.filled
-                            : AppCardVariant.elevated,
-                        child: Padding(
-                          padding: const EdgeInsets.all(AppSpacing.space20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // ── Email Input ─────────────────────────────
-                              AppTextField(
-                                label: 'Email Address',
-                                hint: 'you@example.com',
-                                controller: _emailController,
-                                errorText: _emailError,
-                                isDisabled: isLoading,
-                              ),
-
-                              const SizedBox(height: AppSpacing.space16),
-
-                              // ── Password Input ──────────────────────────
-                              AppTextField(
-                                label: 'Password',
-                                hint: '••••••••',
-                                type: AppTextFieldType.password,
-                                controller: _passwordController,
-                                errorText: _passwordError,
-                                isDisabled: isLoading,
-                              ),
-
-                              const SizedBox(height: AppSpacing.space12),
-
-                              // ── Remember Me & Forgot Password ────────────
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: RememberMeWidget(
-                                      value: _rememberMe,
-                                      onChanged: (val) {
-                                        if (val != null) {
-                                          setState(() => _rememberMe = val);
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: AppSpacing.space8),
-                                  GestureDetector(
-                                    onTap: () => context.pushNamed(
-                                      RouteNames.forgotPassword,
-                                    ),
-                                    child: Text(
-                                      'Forgot Password?',
-                                      style:
-                                          theme.textTheme.bodyMedium?.copyWith(
-                                        color: isDark
-                                            ? AppColors.darkPrimary
-                                            : AppColors.primary,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: AppSpacing.space24),
-
-                              // ── Sign In Button ───────────────────────────
-                              AppButton(
-                                text: 'Sign In',
-                                isLoading: isLoading,
-                                onPressed: _onSignInSubmitted,
-                              ),
-
-                              const OrDividerWidget(),
-
-                              // ── Social Login Buttons ──────────────────────
-                              SocialLoginButtons(
-                                isLoading: isLoading,
-                                onGooglePressed: () {
-                                  AppSnackBar.showInfo(
-                                    context,
-                                    message: 'Google Sign In initiated...',
-                                  );
-                                },
-                                onGitHubPressed: () {
-                                  AppSnackBar.showInfo(
-                                    context,
-                                    message: 'GitHub Sign In initiated...',
-                                  );
-                                },
-                              ),
-                            ],
+                      GestureDetector(
+                        onTap: () => context.pushNamed(RouteNames.register),
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Color(0xFF3D82F7),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: AppSpacing.space24),
-
-                      // ── Trust & Security Banner ───────────────────────────
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.lock_outline_rounded,
-                            size: 14.0,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                          const SizedBox(width: AppSpacing.space8),
-                          Text(
-                            '256-bit Bank-Grade Encryption • Privacy Guaranteed',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                              fontSize: 11.0,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: AppSpacing.space16),
-
-                      // ── Footer Prompt ────────────────────────────────────
-                      AuthFooterWidget(
-                        promptText: "Don't have an account? ",
-                        actionText: 'Sign Up',
-                        onActionPressed: () =>
-                            context.pushNamed(RouteNames.register),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space16),
                     ],
                   ),
-                ),
+
+                  const SizedBox(height: 16.0),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

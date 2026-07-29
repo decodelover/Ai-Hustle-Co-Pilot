@@ -1,49 +1,54 @@
 /// Enterprise color palette definitions for AI Hustle Co-Pilot.
 ///
-/// Contains explicit constants for Light and Dark themes, chart visualizations,
-/// AI copilot accents, status indicators, and interaction overlays.
+/// Established directly from the Master Design Specification:
+/// - Primary Accent & Buttons: Vibrant Blue (#3D82F7)
+/// - Light Canvas Background: Light Soft Gray (#F4F5F8)
+/// - Card Surface: Pure White (#FFFFFF)
+/// - Dark Onboarding Canvas: Dark Slate (#3D4655 / #2B323E)
+/// - Primary Text: Deep Charcoal (#111111)
+/// - Secondary Text & Muted Labels: Soft Gray (#777777)
 library;
 
 import 'package:flutter/material.dart';
 
-/// Centralized immutable color constants adhering strictly to the Enterprise Design Specification.
+/// Centralized immutable color constants adhering strictly to the Master Specification.
 abstract class AppColors {
   // ── Light Theme Palette ────────────────────────────────────────────────
-  /// Deep Violet primary color representing intelligence and AI capability.
-  static const Color primary = Color(0xFF6D28D9);
+  /// Vibrant Blue primary color representing trust, tech, and action (#3D82F7).
+  static const Color primary = Color(0xFF3D82F7);
 
   /// High-contrast text/icon color on top of primary filled elements.
   static const Color onPrimary = Color(0xFFFFFFFF);
 
-  /// Indigo accent for secondary interactive elements, active tabs, and navigation.
-  static const Color secondary = Color(0xFF4F46E5);
+  /// Indigo-Blue accent for secondary interactive elements and active tabs (#1877F2).
+  static const Color secondary = Color(0xFF1877F2);
 
   /// Contrast color for text/icons on top of secondary elements.
   static const Color onSecondary = Color(0xFFFFFFFF);
 
-  /// Electric Magenta reserved exclusively for AI Copilot triggers and spark indicators.
-  static const Color accent = Color(0xFFEC4899);
+  /// Electric Cyan-Blue reserved for AI Copilot triggers and spark indicators.
+  static const Color accent = Color(0xFF3B82F6);
 
-  /// Contrast text over electric magenta accent elements.
+  /// Contrast text over accent elements.
   static const Color onAccent = Color(0xFFFFFFFF);
 
-  /// Soft Slate background tint preventing blinding glare during extended usage.
-  static const Color background = Color(0xFFF8FAFC);
+  /// Soft light canvas background (#F4F5F8).
+  static const Color background = Color(0xFFF4F5F8);
 
-  /// Pure white surface color for cards, panels, and container dialogs.
+  /// Pure white surface color for cards, panels, and container dialogs (#FFFFFF).
   static const Color surface = Color(0xFFFFFFFF);
 
-  /// Subtle grey container surface for inputs, table headers, and nested cards.
-  static const Color surfaceVariant = Color(0xFFF1F5F9);
+  /// Input background and nested container fill (#F4F5F8).
+  static const Color surfaceVariant = Color(0xFFF4F5F8);
 
-  /// Near-black Slate 900 text color delivering 16.5:1 WCAG AAA contrast.
-  static const Color onSurface = Color(0xFF0F172A);
+  /// Deep charcoal text color (#111111).
+  static const Color onSurface = Color(0xFF111111);
 
-  /// Secondary body text, subheadings, and field labels (5.2:1 WCAG AA).
-  static const Color onSurfaceVariant = Color(0xFF475569);
+  /// Secondary body text, subheadings, and field labels (#777777).
+  static const Color onSurfaceVariant = Color(0xFF777777);
 
   /// Crisp 1px border stroke for card bounds and input fields.
-  static const Color outline = Color(0xFFE2E8F0);
+  static const Color outline = Color(0xFFE5E7EB);
 
   /// Active focus and hover border stroke state.
   static const Color outlineVariant = Color(0xFFCBD5E1);
@@ -70,7 +75,7 @@ abstract class AppColors {
   static const Color onDanger = Color(0xFFFFFFFF);
 
   /// Royal blue for neutral system notifications and informational badges.
-  static const Color info = Color(0xFF2563EB);
+  static const Color info = Color(0xFF3D82F7);
 
   /// Contrast text over info containers.
   static const Color onInfo = Color(0xFFFFFFFF);
@@ -79,7 +84,7 @@ abstract class AppColors {
   static const Color skeletonStart = Color(0xFFE2E8F0);
 
   /// Skeleton shimmer ending color for light mode loading state.
-  static const Color skeletonEnd = Color(0xFFF8FAFC);
+  static const Color skeletonEnd = Color(0xFFF4F5F8);
 
   /// Alias for skeletonStart.
   static const Color shimmerBaseLight = skeletonStart;
@@ -94,16 +99,16 @@ abstract class AppColors {
   /// Primary container dark background color.
   static const Color primaryContainerDark = darkSurfaceVariant;
 
-  /// Alias for onSurface (Slate 900 text).
+  /// Alias for onSurface (#111111 text).
   static const Color textPrimary = onSurface;
 
-  /// Alias for onSurface (Slate 900 text).
+  /// Alias for onSurface (#111111 text).
   static const Color textPrimaryLight = onSurface;
 
   /// Alias for darkOnSurface (Off-white text).
   static const Color textPrimaryDark = darkOnSurface;
 
-  /// Alias for onSurfaceVariant (Slate 600 secondary text).
+  /// Alias for onSurfaceVariant (#777777 secondary text).
   static const Color textSecondary = onSurfaceVariant;
 
   /// Alias for onSurfaceVariant.
@@ -122,44 +127,44 @@ abstract class AppColors {
   static const Color card = surface;
 
   // ── Dark Theme Palette ─────────────────────────────────────────────────
-  /// Luminous violet primary for high contrast on dark surfaces (7.8:1).
-  static const Color darkPrimary = Color(0xFF9333EA);
+  /// Luminous blue primary for high contrast on dark surfaces (#3D82F7).
+  static const Color darkPrimary = Color(0xFF3D82F7);
 
   /// Text color on top of dark primary filled buttons.
   static const Color darkOnPrimary = Color(0xFFFFFFFF);
 
-  /// Luminous Indigo for dark mode secondary active states.
-  static const Color darkSecondary = Color(0xFF818CF8);
+  /// Secondary active states in dark mode.
+  static const Color darkSecondary = Color(0xFF60A5FA);
 
   /// Text color on top of dark secondary elements.
   static const Color darkOnSecondary = Color(0xFF0F172A);
 
-  /// Neon Magenta for AI Copilot glows and key triggers in dark mode.
-  static const Color darkAccent = Color(0xFFF472B6);
+  /// Accent glows in dark mode.
+  static const Color darkAccent = Color(0xFF60A5FA);
 
   /// Text color on top of dark accent containers.
   static const Color darkOnAccent = Color(0xFF0F172A);
 
-  /// Deep Space Blue-Black background canvas inspired by Raycast and Linear.
-  static const Color darkBackground = Color(0xFF090D16);
+  /// Master Slate dark background canvas (#3D4655).
+  static const Color darkBackground = Color(0xFF3D4655);
 
-  /// Dark Gray-Blue surface for floating panels, cards, and navigation.
-  static const Color darkSurface = Color(0xFF111827);
+  /// Dark surface for panels, cards, and navigation (#2B323E).
+  static const Color darkSurface = Color(0xFF2B323E);
 
-  /// Elevated surface variant for input containers and headers in dark mode.
-  static const Color darkSurfaceVariant = Color(0xFF1F2937);
+  /// Elevated surface variant for inputs in dark mode (#262D38).
+  static const Color darkSurfaceVariant = Color(0xFF262D38);
 
-  /// Off-white text delivering 15.8:1 contrast against dark background.
+  /// Off-white text delivering high contrast against dark background.
   static const Color darkOnSurface = Color(0xFFF8FAFC);
 
-  /// Muted secondary text for dark mode (6.4:1 WCAG AA).
+  /// Muted secondary text for dark mode.
   static const Color darkOnSurfaceVariant = Color(0xFF94A3B8);
 
   /// Subtle dark border stroke separating card containers.
-  static const Color darkOutline = Color(0xFF1F2937);
+  static const Color darkOutline = Color(0xFF262D38);
 
   /// Active dark border highlight stroke.
-  static const Color darkOutlineVariant = Color(0xFF374151);
+  static const Color darkOutlineVariant = Color(0xFF3D4655);
 
   /// Bright Emerald green for dark mode success indicators.
   static const Color darkSuccess = Color(0xFF10B981);
@@ -186,10 +191,10 @@ abstract class AppColors {
   static const Color darkOnInfo = Color(0xFF0F172A);
 
   /// Skeleton shimmer starting color for dark mode loading state.
-  static const Color darkSkeletonStart = Color(0xFF1F2937);
+  static const Color darkSkeletonStart = Color(0xFF262D38);
 
   /// Skeleton shimmer ending color for dark mode loading state.
-  static const Color darkSkeletonEnd = Color(0xFF111827);
+  static const Color darkSkeletonEnd = Color(0xFF2B323E);
 
   /// Alias for darkSkeletonStart.
   static const Color shimmerBaseDark = darkSkeletonStart;
@@ -207,42 +212,42 @@ abstract class AppColors {
   static const Color darkCard = darkSurface;
 
   // ── Chart Palette (Data Visualization) ──────────────────────────────────
-  /// Chart series 1 color (Primary Violet).
-  static const Color chart1 = Color(0xFF6D28D9);
+  /// Chart series 1 color (Primary Blue).
+  static const Color chart1 = Color(0xFF3D82F7);
 
   /// Chart series 2 color (Emerald Green).
   static const Color chart2 = Color(0xFF059669);
 
   /// Chart series 3 color (Royal Blue).
-  static const Color chart3 = Color(0xFF2563EB);
+  static const Color chart3 = Color(0xFF1877F2);
 
   /// Chart series 4 color (Amber Yellow).
   static const Color chart4 = Color(0xFFD97706);
 
-  /// Chart series 5 color (Electric Pink).
-  static const Color chart5 = Color(0xFFEC4899);
+  /// Chart series 5 color (Sky Blue).
+  static const Color chart5 = Color(0xFF60A5FA);
 
   // ── Interaction State Overlays ──────────────────────────────────────────
   /// Light mode hover overlay color.
-  static const Color hoverOverlay = Color(0x0A0F172A);
+  static const Color hoverOverlay = Color(0x0A111111);
 
   /// Light mode focus overlay color.
-  static const Color focusOverlay = Color(0x1F6D28D9);
+  static const Color focusOverlay = Color(0x1F3D82F7);
 
   /// Light mode pressed state overlay color.
-  static const Color pressedOverlay = Color(0x1F0F172A);
+  static const Color pressedOverlay = Color(0x1F111111);
 
   /// Light mode disabled container fill.
-  static const Color disabledSurface = Color(0x1F0F172A);
+  static const Color disabledSurface = Color(0x1F111111);
 
   /// Light mode disabled text color.
-  static const Color disabledText = Color(0x610F172A);
+  static const Color disabledText = Color(0x61111111);
 
   /// Dark mode hover overlay color.
   static const Color darkHoverOverlay = Color(0x0AF8FAFC);
 
   /// Dark mode focus overlay color.
-  static const Color darkFocusOverlay = Color(0x339333EA);
+  static const Color darkFocusOverlay = Color(0x333D82F7);
 
   /// Dark mode pressed state overlay color.
   static const Color darkPressedOverlay = Color(0x1FF8FAFC);

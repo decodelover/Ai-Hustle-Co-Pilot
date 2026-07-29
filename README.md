@@ -47,21 +47,21 @@
       <br />
       <strong>🎯 Onboarding</strong>
       <br />
-      <em>Animated welcome with particle effects & social OAuth</em>
+      <em>Master dark slate design with 3-line headline & glass capsule nav</em>
     </td>
     <td align="center" width="25%">
       <img src="docs/screenshots/login_screen.png" alt="Login Screen" width="100%" />
       <br />
       <strong>🔐 Login</strong>
       <br />
-      <em>Premium sign-in with Google & GitHub OAuth</em>
+      <em>Pixel-perfect sign-in with Facebook, Google & Apple OAuth</em>
     </td>
     <td align="center" width="25%">
       <img src="docs/screenshots/signup_screen.png" alt="Sign Up Screen" width="100%" />
       <br />
       <strong>📝 Sign Up</strong>
       <br />
-      <em>Registration with real-time password strength</em>
+      <em>Account creation with Terms agreement & social login</em>
     </td>
     <td align="center" width="25%">
       <img src="docs/screenshots/dashboard_screen.png" alt="Dashboard Screen" width="100%" />
@@ -90,7 +90,7 @@
 
 ### 🎨 Design Excellence
 
-- **Custom Material 3 Design System** — Deep violet/indigo palette with teal accents
+- **Custom Material 3 Design System** — Master Electric Blue palette (`#3D82F7`) with soft canvas (`#F4F5F8`) & dark slate (`#3D4655`)
 - **Dual Theme Support** — Fully designed light and dark themes with system-aware switching
 - **Motion System** — Curated micro-animations, transitions, and interaction feedback
 - **Responsive Layouts** — Adaptive UI across Mobile (<600dp), Tablet (600-1199dp), Desktop (1200-1919dp), UltraWide (≥1920dp)
@@ -98,7 +98,7 @@
 
 ### 🔒 Security & Reliability
 
-- **Supabase Authentication** — Email/password, Google, and GitHub OAuth
+- **Enterprise Authentication** — Email/password, Facebook, Google, and Apple OAuth
 - **Secure Token Storage** — `flutter_secure_storage` for credential management
 - **Row Level Security** — Database-level access control
 - **Offline-First Architecture** — Graceful degradation with cached data and queued sync

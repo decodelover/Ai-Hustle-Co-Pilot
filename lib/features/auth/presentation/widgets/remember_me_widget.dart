@@ -1,7 +1,6 @@
-/// Enterprise RememberMeWidget checkbox with WCAG AA touch target bounds.
+/// Enterprise RememberMeWidget checkbox with reference design styling.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable Remember Me checkbox widget.
@@ -21,34 +20,38 @@ class RememberMeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: AppSpacing.space48,
-          height: AppSpacing.space48,
-          child: Checkbox(
-            value: value,
-            onChanged: onChanged,
-            activeColor: isDark ? AppColors.darkPrimary : AppColors.primary,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppRadius.borderSmall,
+    return InkWell(
+      onTap: () => onChanged(!value),
+      borderRadius: BorderRadius.circular(8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: Checkbox(
+              value: value,
+              onChanged: onChanged,
+              activeColor: const Color(0xFF3D82F7),
+              checkColor: Colors.white,
+              side: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () => onChanged(!value),
-          child: Text(
+          const SizedBox(width: 8.0),
+          const Text(
             'Remember me',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
+            style: TextStyle(
+              color: Color(0xFF777777),
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
-/// Enterprise TermsCheckboxWidget for accepting Terms of Service and Privacy Policy.
+/// Enterprise TermsCheckboxWidget matching reference design.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
+import 'package:ai_hustle_copilot/core/design_system/feedback/app_dialog.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable terms and conditions agreement checkbox widget.
@@ -21,36 +21,36 @@ class TermsCheckboxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 36.0,
-          height: 36.0,
+          width: 24.0,
+          height: 24.0,
           child: Checkbox(
             value: value,
             onChanged: onChanged,
-            activeColor: isDark ? AppColors.darkPrimary : AppColors.primary,
-            shape: const RoundedRectangleBorder(
-              borderRadius: AppRadius.borderSmall,
+            activeColor: const Color(0xFF3D82F7),
+            checkColor: Colors.white,
+            side: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
             ),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ),
-        const SizedBox(width: AppSpacing.space8),
+        const SizedBox(width: 8.0),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 6.0),
+          child: GestureDetector(
+            onTap: () => onChanged(!value),
             child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(
+                const Text(
                   'I agree to the ',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isDark
-                        ? AppColors.darkOnSurfaceVariant
-                        : AppColors.onSurfaceVariant,
+                  style: TextStyle(
+                    color: Color(0xFF777777),
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 GestureDetector(
@@ -63,36 +63,11 @@ class TermsCheckboxWidget extends StatelessWidget {
                       primaryActionText: 'Close',
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Terms of Service',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDark ? AppColors.darkPrimary : AppColors.primary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Text(
-                  ' and ',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isDark
-                        ? AppColors.darkOnSurfaceVariant
-                        : AppColors.onSurfaceVariant,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    AppDialog.show<void>(
-                      context: context,
-                      title: 'Privacy Policy',
-                      description:
-                          'We respect your privacy and process all domain data with encrypted enterprise standards.',
-                      primaryActionText: 'Close',
-                    );
-                  },
-                  child: Text(
-                    'Privacy Policy',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: isDark ? AppColors.darkPrimary : AppColors.primary,
+                    style: TextStyle(
+                      color: Color(0xFF3D82F7),
+                      fontSize: 13.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
