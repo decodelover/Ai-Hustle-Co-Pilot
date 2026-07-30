@@ -75,6 +75,15 @@ class FakeAuthRemoteDataSource implements AuthRemoteDataSource {
     return mockUser;
   }
 
+  @override
+  Future<AuthUserDto> verifyOtp({
+    required String email,
+    required String token,
+  }) async {
+    if (errorToThrow != null) throw errorToThrow!;
+    return mockUser!;
+  }
+
   void emitState(AuthUserDto? dto) {
     _streamController.add(dto);
   }

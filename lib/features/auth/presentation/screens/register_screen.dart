@@ -93,7 +93,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           },
           data: (_) {
             if (previous?.isLoading == true) {
-              context.goNamed(RouteNames.verifyEmail);
+              context.goNamed(
+                RouteNames.verifyEmail,
+                extra: _emailController.text.trim(),
+              );
             }
           },
         );
@@ -291,8 +294,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const SizedBox(height: 20.0),
 
                   // ── Footer Prompt: Toggle to Login ─────────────────────────
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
                     children: [
                       const Text(
                         'Already have an account? ',

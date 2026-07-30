@@ -130,6 +130,22 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async {
+    try {
+      final dto = await remoteDataSource.verifyOtp(
+        email: email.value,
+        token: token,
+      );
+      return AuthUserMapper.dtoToEntity(dto);
+    } catch (e, s) {
+      throw _mapExceptionToAuthFailure(e, s);
+    }
+  }
+
   /// Maps raw exceptions (Supabase, network, system) into domain [AuthFailure] instances.
   AuthFailure _mapExceptionToAuthFailure(Object error, StackTrace? stackTrace) {
     if (error is AuthFailure) {

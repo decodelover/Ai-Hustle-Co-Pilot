@@ -50,4 +50,10 @@ abstract interface class AuthRemoteDataSource {
 
   /// Refreshes the active session token and returns the updated [AuthUserDto].
   Future<AuthUserDto?> refreshSession();
+
+  /// Verifies an OTP code for [email] with [token].
+  Future<AuthUserDto> verifyOtp({
+    required String email,
+    required String token,
+  });
 }

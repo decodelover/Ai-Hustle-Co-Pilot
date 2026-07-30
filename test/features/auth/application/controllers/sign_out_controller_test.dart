@@ -45,6 +45,13 @@ class FakeSignOutRepository implements AuthRepository {
 
   @override
   Future<AuthUser?> refreshSession() async => null;
+
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async =>
+      const AuthUser(id: 'usr_signout_1', email: 'signout@example.com');
 }
 
 void main() {

@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart';
 
 /// Base failure class for all domain-level errors.
 @immutable
-sealed class Failure {
+abstract base class Failure {
   const Failure({
     required this.message,
     this.code,
@@ -42,7 +42,7 @@ sealed class Failure {
 }
 
 /// Failure originating from a remote server or HTTP error.
-class ServerFailure extends Failure {
+base class ServerFailure extends Failure {
   const ServerFailure({
     required super.message,
     super.code,
@@ -50,7 +50,7 @@ class ServerFailure extends Failure {
 }
 
 /// Failure originating from a local cache or disk read/write error.
-class CacheFailure extends Failure {
+base class CacheFailure extends Failure {
   const CacheFailure({
     required super.message,
     super.code,
@@ -58,7 +58,7 @@ class CacheFailure extends Failure {
 }
 
 /// Failure originating from network disconnection or connection timeout.
-class NetworkFailure extends Failure {
+base class NetworkFailure extends Failure {
   const NetworkFailure({
     super.message = 'No internet connection. Please check your network.',
     super.code = 1001,
@@ -66,7 +66,7 @@ class NetworkFailure extends Failure {
 }
 
 /// Failure originating from invalid user credentials or authentication error.
-class AuthFailure extends Failure {
+base class AuthFailure extends Failure {
   const AuthFailure({
     required super.message,
     super.code,
@@ -74,7 +74,7 @@ class AuthFailure extends Failure {
 }
 
 /// Failure originating from an expired session or unauthorized token (401).
-class UnauthorizedFailure extends Failure {
+base class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure({
     super.message = 'Your session has expired. Please sign in again.',
     super.code = 401,
@@ -82,7 +82,7 @@ class UnauthorizedFailure extends Failure {
 }
 
 /// Failure originating from payload or form input validation failures.
-class ValidationFailure extends Failure {
+base class ValidationFailure extends Failure {
   const ValidationFailure({
     required super.message,
     super.code = 422,
@@ -104,7 +104,7 @@ class ValidationFailure extends Failure {
 }
 
 /// Failure originating when a requested resource is missing (404).
-class NotFoundFailure extends Failure {
+base class NotFoundFailure extends Failure {
   const NotFoundFailure({
     super.message = 'The requested item was not found.',
     super.code = 404,
@@ -112,7 +112,7 @@ class NotFoundFailure extends Failure {
 }
 
 /// Failure originating from unhandled or unexpected system errors.
-class UnknownFailure extends Failure {
+base class UnknownFailure extends Failure {
   const UnknownFailure({
     super.message = 'An unexpected error occurred. Please try again.',
     super.code,
@@ -123,25 +123,6 @@ class UnknownFailure extends Failure {
 extension FailureMessageX on Failure {
   /// Converts any domain failure into a clear, user-friendly message.
   String toUserMessage() {
-    switch (this) {
-      case final NetworkFailure f:
-        return f.message;
-      case final UnauthorizedFailure f:
-        return f.message;
-      case final NotFoundFailure f:
-        return f.message;
-      case final ValidationFailure f:
-        return f.message;
-      case final AuthFailure f:
-        return f.message;
-      case final ServerFailure f:
-        return f.message.isNotEmpty
-            ? f.message
-            : 'Server error. Please try again later.';
-      case final CacheFailure f:
-        return 'Local storage error: ${f.message}';
-      case final UnknownFailure f:
-        return f.message;
-    }
+    return message.isNotEmpty ? message : 'An unexpected error occurred.';
   }
 }

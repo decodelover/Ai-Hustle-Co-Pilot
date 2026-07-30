@@ -50,6 +50,12 @@ class FakeRefreshSessionRepository implements AuthRepository {
     }
     return mockUser;
   }
+
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async => mockUser;
 }
 
 void main() {

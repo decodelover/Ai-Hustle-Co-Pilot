@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <!-- Deep Link Intent Filter for Supabase Auth Callback -->
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="aihustlecopilot" android:host="login-callback" />
+                <data android:scheme="aihustlecopilot" />
             </intent-filter>
         </activity>
         <meta-data

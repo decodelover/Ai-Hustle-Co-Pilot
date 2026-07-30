@@ -100,4 +100,23 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
     if (user == null) return null;
     return AuthUserDto.fromSupabaseUser(user);
   }
+
+  @override
+  Future<AuthUserDto> verifyOtp({
+    required String email,
+    required String token,
+  }) async {
+    final response = await _auth.verifyOTP(
+      email: email,
+      token: token,
+      type: OtpType.signup,
+    );
+
+    final user = response.user;
+    if (user == null) {
+      throw const AuthException('OTP verification failed: Invalid or expired code.');
+    }
+
+    return AuthUserDto.fromSupabaseUser(user);
+  }
 }

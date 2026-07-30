@@ -34,12 +34,9 @@ void main() {
       await tester.pumpWidget(createTestableWidget(const WelcomeScreen()));
       await tester.pump();
 
-      expect(
-        find.text('Supercharge Your Freelance Career'),
-        findsOneWidget,
-      );
-      expect(find.text('Sign In'), findsOneWidget);
-      expect(find.text('Create Account'), findsOneWidget);
+      expect(find.text('AI Hustle Co-Pilot'), findsOneWidget);
+      expect(find.text('Build\nYour AI\nBusiness'), findsOneWidget);
+      expect(find.text('Start'), findsOneWidget);
     });
 
     testWidgets('LoginScreen renders email, password, and sign in button',
@@ -47,11 +44,11 @@ void main() {
       await tester.pumpWidget(createTestableWidget(const LoginScreen()));
       await tester.pump();
 
-      expect(find.text('Welcome Back'), findsOneWidget);
-      expect(find.text('Email Address'), findsOneWidget);
+      expect(find.text('Welcome Back!'), findsOneWidget);
+      expect(find.text('Email'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);
-      expect(find.text('Remember me'), findsOneWidget);
-      expect(find.text('Forgot Password?'), findsOneWidget);
+      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text('Login'), findsOneWidget);
     });
 
     testWidgets('RegisterScreen renders registration form and password strength',
@@ -59,10 +56,11 @@ void main() {
       await tester.pumpWidget(createTestableWidget(const RegisterScreen()));
       await tester.pump();
 
-      expect(find.text('Create Your Account'), findsOneWidget);
-      expect(find.text('Full Name'), findsOneWidget);
-      expect(find.text('Confirm Password'), findsOneWidget);
-      expect(find.text('Create Account'), findsOneWidget);
+      expect(find.text('Create an Account?'), findsOneWidget);
+      expect(find.text('Name'), findsOneWidget);
+      expect(find.text('Email'), findsOneWidget);
+      expect(find.text('Password'), findsOneWidget);
+      expect(find.text('Create account'), findsOneWidget);
     });
 
     testWidgets('ForgotPasswordScreen renders reset email input',
@@ -81,9 +79,9 @@ void main() {
           createTestableWidget(const EmailVerificationScreen()));
       await tester.pump();
 
-      expect(find.text('Verify Your Email'), findsOneWidget);
-      expect(find.text('Resend Verification Email'), findsOneWidget);
-      expect(find.text('Refresh Status'), findsOneWidget);
+      expect(find.text('Confirm Your Email OTP'), findsOneWidget);
+      expect(find.text('Confirm & Verify'), findsOneWidget);
+      expect(find.text('Resend OTP Code'), findsOneWidget);
     });
 
     testWidgets('VerificationSuccessScreen renders success state and CTA',

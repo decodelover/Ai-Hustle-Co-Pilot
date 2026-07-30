@@ -99,6 +99,17 @@ class FakeAuthRepository implements AuthRepository {
     return currentUser;
   }
 
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async {
+    if (shouldFail) {
+      throw const NetworkFailure();
+    }
+    return currentUser ?? AuthUser(id: 'usr_otp_1', email: email.value);
+  }
+
   void dispose() {
     _authStateController.close();
   }

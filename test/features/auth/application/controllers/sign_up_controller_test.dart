@@ -50,6 +50,12 @@ class FakeSignUpRepository implements AuthRepository {
 
   @override
   Future<AuthUser?> refreshSession() async => mockUser;
+
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async => mockUser;
 }
 
 void main() {

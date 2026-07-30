@@ -68,4 +68,13 @@ abstract interface class AuthRepository {
   /// Returns `null` if no active session is present to refresh.
   /// Throws [SessionExpiredFailure] if token refresh is rejected.
   Future<AuthUser?> refreshSession();
+
+  /// Verifies an OTP code for [email] with [token].
+  ///
+  /// Returns the verified [AuthUser] on success.
+  /// Throws [AuthFailure] if token is invalid or expired.
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  });
 }

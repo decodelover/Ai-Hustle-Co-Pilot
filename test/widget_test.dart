@@ -9,8 +9,12 @@ void main() {
         child: AiHustleCoPilotApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.byType(AiHustleCoPilotApp), findsOneWidget);
+
+    // Allow background ticker loops to settle cleanly before disposal
+    await tester.pump(const Duration(seconds: 6));
   });
 }

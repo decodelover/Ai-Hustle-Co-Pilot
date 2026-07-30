@@ -108,7 +108,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RoutePaths.verifyEmail,
         name: RouteNames.verifyEmail,
-        builder: (context, state) => const EmailVerificationScreen(),
+        builder: (context, state) {
+          final email = state.extra as String?;
+          return EmailVerificationScreen(
+            email: email ?? 'your registered email address',
+          );
+        },
       ),
       GoRoute(
         path: RoutePaths.verificationSuccess,

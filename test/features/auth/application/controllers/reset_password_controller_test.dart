@@ -45,6 +45,13 @@ class FakeResetPasswordRepository implements AuthRepository {
 
   @override
   Future<AuthUser?> refreshSession() async => null;
+
+  @override
+  Future<AuthUser> verifyOtp({
+    required Email email,
+    required String token,
+  }) async =>
+      const AuthUser(id: 'usr_reset_1', email: 'reset@example.com');
 }
 
 void main() {
