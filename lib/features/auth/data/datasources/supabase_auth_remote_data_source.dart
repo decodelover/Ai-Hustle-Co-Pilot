@@ -44,6 +44,7 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
     final response = await _auth.signUp(
       email: email,
       password: password,
+      emailRedirectTo: 'aihustlecopilot://login-callback',
       data: displayName != null ? {'display_name': displayName} : null,
     );
 
@@ -78,7 +79,10 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
 
   @override
   Future<void> resetPassword({required String email}) async {
-    await _auth.resetPasswordForEmail(email);
+    await _auth.resetPasswordForEmail(
+      email,
+      redirectTo: 'aihustlecopilot://login-callback',
+    );
   }
 
   @override
