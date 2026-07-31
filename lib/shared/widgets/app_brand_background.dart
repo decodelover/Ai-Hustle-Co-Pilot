@@ -109,6 +109,7 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
                         widget.variant == AppBrandBackgroundVariant.welcome
                         ? 0.70
                         : 0.72,
+                    curveDip: 0.82,
                     child: widget.header == null
                         ? null
                         : SafeArea(child: widget.header!),
@@ -125,11 +126,7 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
               ),
             if (isPublicSurface)
               Positioned(
-                top:
-                    height *
-                    (widget.variant == AppBrandBackgroundVariant.welcome
-                        ? 0.66
-                        : 0.68),
+                top: height * 0.74,
                 left: 0,
                 right: 0,
                 bottom: 0,

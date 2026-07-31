@@ -20,7 +20,7 @@ class BrandIdentityHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final showWideTagline = showTagline && constraints.maxWidth >= 380;
+        final showWideTagline = showTagline && constraints.maxWidth >= 520;
 
         return Padding(
           padding: EdgeInsets.fromLTRB(
