@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <em>Discover opportunities. Generate winning proposals. Manage your pipeline — all enhanced by artificial intelligence.</em>
+  <em>Discover opportunities. Generate winning proposals. Manage your project pipeline. Create smart AI documents — all powered by artificial intelligence.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,9 @@
 
 ## 📋 Overview
 
-**AI Hustle Co-Pilot** is a premium, enterprise-grade mobile application that empowers freelancers with AI-driven tools to discover high-value opportunities, generate compelling proposals, manage application pipelines, and optimize their freelancing workflow. Built with Flutter for Android and iOS, it delivers a world-class user experience comparable to **Linear**, **Notion AI**, **Stripe Dashboard**, and **Raycast**.
+**AI Hustle Co-Pilot** is a commercial-grade, enterprise Flutter mobile & cross-platform application that empowers freelancers and agencies with AI-driven tools to discover high-value opportunities, execute multi-agent AI tasks, manage project knowledge bases, generate winning proposals, and compile structured documents in real-time.
+
+Built strictly adhering to **Clean Architecture**, **Feature-First modularization**, **Riverpod state management**, and a custom **Material 3 Enterprise Design System**, AI Hustle Co-Pilot delivers a SaaS experience benchmarked against **Linear**, **Notion AI**, **Stripe Dashboard**, and **ChatGPT Canvas**.
 
 ---
 
@@ -38,7 +40,7 @@
   <img src="docs/screenshots/app_showcase.png" alt="AI Hustle Co-Pilot — App Showcase" width="100%" />
 </p>
 
-### Screen Details
+### Key Screen Overview
 
 <table>
   <tr>
@@ -47,28 +49,28 @@
       <br />
       <strong>🎯 Onboarding</strong>
       <br />
-      <em>Master dark slate design with 3-line headline & glass capsule nav</em>
+      <em>Deep navy topographic wave header (#0D1B2A) with curved transition card</em>
     </td>
     <td align="center" width="25%">
-      <img src="docs/screenshots/login_screen.png" alt="Login Screen" width="100%" />
+      <img src="docs/screenshots/login_screen.png" alt="Sign In Screen" width="100%" />
       <br />
-      <strong>🔐 Login</strong>
+      <strong>🔐 Sign In</strong>
       <br />
-      <em>Pixel-perfect sign-in with Facebook, Google & Apple OAuth</em>
+      <em>Sign-in with OAuth social login, Remember Me, and filled inputs</em>
     </td>
     <td align="center" width="25%">
-      <img src="docs/screenshots/signup_screen.png" alt="Sign Up Screen" width="100%" />
+      <img src="docs/screenshots/signup_screen.png" alt="Create Account Screen" width="100%" />
       <br />
       <strong>📝 Sign Up</strong>
       <br />
-      <em>Account creation with Terms agreement & social login</em>
+      <em>Account creation with Terms agreement, OAuth, and navigation guards</em>
     </td>
     <td align="center" width="25%">
       <img src="docs/screenshots/dashboard_screen.png" alt="Dashboard Screen" width="100%" />
       <br />
       <strong>📊 Dashboard</strong>
       <br />
-      <em>AI-powered metrics, insights & activity feed</em>
+      <em>AI metrics, revenue trackers, opportunity feed & activity log</em>
     </td>
   </tr>
 </table>
@@ -81,34 +83,35 @@
 
 | Feature | Description |
 |---------|-------------|
-| **AI-Powered Proposals** | Generate tailored, winning proposals using advanced AI models |
-| **Opportunity Discovery** | Smart matching and real-time opportunity feed with intelligent filters |
-| **Application Pipeline** | Kanban-style pipeline tracking from discovery to contract |
-| **AI Studio** | Dedicated workspace for AI-assisted resume analysis, cover letters, and skill gap detection |
-| **Smart Dashboard** | Real-time metrics, AI insights, activity feeds, and actionable analytics |
-| **Adaptive Shell** | Enterprise-grade responsive navigation that adapts across phone, tablet, and desktop |
+| **AI Document Studio** | Block-based document engine (Notion & ChatGPT Canvas rival) with streaming token updates, Notion `/` slash menu, auto-versioning, and multi-format exporter (PDF, DOCX, MD, HTML, TXT) |
+| **AI Project Workspaces** | Grounded project workspaces with system prompt directives, target audience settings, tech stack rules, active RAG knowledge files, and autonomous AI agents |
+| **AI Chat & LLM Engine** | Real-time AI chat streaming with multi-provider fallback (Gemini, Claude, OpenAI), prompt library, code block actions, and conversation persistence |
+| **Opportunity Discovery** | Smart opportunity feed with real-time matching scores, domain categorization, and budget filters |
+| **Application Pipeline** | Kanban-style pipeline tracking opportunities from discovery to proposal submission and active contract |
+| **Executive Dashboard** | Real-time analytics, revenue metrics, active proposal trackers, and AI insight banners |
+| **Adaptive Shell Navigation** | Responsive 3-pane desktop navigation, collapsible drawer, and mobile bottom bar built with GoRouter ShellRoute |
 
 ### 🎨 Design Excellence
 
-- **Custom Material 3 Design System** — Master Electric Blue palette (`#3D82F7`) with soft canvas (`#F4F5F8`) & dark slate (`#3D4655`)
-- **Dual Theme Support** — Fully designed light and dark themes with system-aware switching
-- **Motion System** — Curated micro-animations, transitions, and interaction feedback
-- **Responsive Layouts** — Adaptive UI across Mobile (<600dp), Tablet (600-1199dp), Desktop (1200-1919dp), UltraWide (≥1920dp)
-- **4-State UI Lifecycle** — Every screen implements Loading, Empty, Error, and Success states
+- **Master Design System V2.0** — Deep navy (`#0D1B2A`), electric blue (`#3D82F7`), soft surface canvas (`#F4F5F8`), and crisp white typography
+- **Topographic Contour Wave Header** — Signature organic curved header vector pattern across authentication & onboarding screens
+- **60 FPS Motion System** — Micro-animations, page transitions, and isolate-backed compute tasks
+- **Responsive Layout Breakpoints** — Mobile (<600dp), Tablet (600-1199dp), Desktop (≥1200dp)
+- **Mandatory 4-State UI Lifecycle** — Loading, Empty, Error, and Success states across all screens
 
 ### 🔒 Security & Reliability
 
-- **Enterprise Authentication** — Email/password, Facebook, Google, and Apple OAuth
-- **Secure Token Storage** — `flutter_secure_storage` for credential management
-- **Row Level Security** — Database-level access control
-- **Offline-First Architecture** — Graceful degradation with cached data and queued sync
-- **Error Boundary System** — Structured error mapping from data to presentation layers
+- **Enterprise Authentication** — Email/password with Supabase backend, Facebook, Google, and Apple OAuth
+- **Encrypted Credential Storage** — `flutter_secure_storage` for token and session security
+- **Row Level Security (RLS)** — Database access control rules
+- **Offline-First Strategy** — Cached reads, background sync queues, and network resilience
+- **Strict Error Mapping** — Clean Domain Failure mapping eliminating raw exceptions in presentation code
 
 ---
 
 ## 🏗 Architecture
 
-This project follows **Clean Architecture** with a **Feature-First** organization pattern, **Repository Pattern**, and **Dependency Injection** via **Riverpod**.
+This project strictly enforces **Feature-First Clean Architecture** with the **Repository Pattern** and **Riverpod** code generation.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -145,38 +148,28 @@ This project follows **Clean Architecture** with a **Feature-First** organizatio
 
 ```
 lib/
-├── core/                            # Application-wide core infrastructure
-│   ├── config/                     # Environment & app configuration (Envied)
-│   ├── constants/                  # App constants, asset paths
+├── core/                            # Application-wide infrastructure
+│   ├── config/                     # Environment & app configuration
+│   ├── constants/                  # Tokens, spatial grid, asset constants
 │   ├── design_system/              # Enterprise Design System Foundation
-│   │   ├── animations/            # Motion system & transition utilities
-│   │   ├── components/            # Reusable UI primitives (buttons, cards)
-│   │   ├── feedback/              # Empty, error, success state widgets
-│   │   ├── inputs/                # Form fields & interactive inputs
-│   │   ├── layout/                # Responsive containers & grids
-│   │   ├── loading/               # Skeleton loaders & shimmer effects
-│   │   └── tokens/                # Design tokens (colors, spacing, typography)
-│   ├── errors/                     # Custom exceptions & domain failures
-│   ├── init/                       # App initialization orchestrator
-│   ├── logging/                    # Structured logging abstraction
-│   ├── network/                    # Dio HTTP client & interceptor pipeline
+│   ├── errors/                     # Exceptions & domain failure classes
+│   ├── network/                    # Dio HTTP client & interceptors
 │   ├── router/                     # GoRouter configuration & auth guards
-│   ├── security/                   # Encrypted credential storage
-│   └── theme/                      # Material 3 theme data & extensions
+│   ├── security/                   # Secure storage abstraction
+│   └── theme/                      # Material 3 theme extensions & color system
 ├── features/                        # Feature-first domain modules
-│   ├── auth/                       # Authentication (full Clean Architecture)
-│   ├── dashboard/                  # Enterprise AI Dashboard
-│   ├── shell/                      # Adaptive App Shell (responsive navigation)
-│   ├── ai_studio/                  # AI-powered workspace
-│   ├── applications/               # Application pipeline tracking
-│   ├── discover/                   # Opportunity browsing & search
-│   ├── profile/                    # User profile & settings
-│   └── splash/                     # App launch & initialization
-├── shared/                          # Cross-feature reusable infrastructure
-└── l10n/                            # Localization
+│   ├── auth/                       # Authentication & OAuth screens
+│   ├── dashboard/                  # Executive AI Dashboard
+│   ├── documents/                  # AI Document Studio (Block Engine & Exporter)
+│   ├── projects/                   # AI Project Workspace & Agent Engine
+│   ├── ai_studio/                  # AI Studio & Workspace hub
+│   ├── applications/               # Pipeline application tracking
+│   ├── discover/                   # Opportunity matching & discovery
+│   ├── profile/                    # Profile & settings
+│   ├── shell/                      # Adaptive App Shell navigation
+│   └── splash/                     # App launch & onboarding screens
+└── shared/                          # Cross-feature reusable components
 ```
-
-> For detailed architectural documentation, see **[ARCHITECTURE.md](doc/ARCHITECTURE.md)**.
 
 ---
 
@@ -184,18 +177,15 @@ lib/
 
 | Category | Technology | Purpose |
 |----------|------------|---------|
-| **Framework** | Flutter 3.12+ | Cross-platform mobile (Android & iOS) |
-| **Language** | Dart 3.12+ | Type-safe, null-safe development |
-| **State Management** | Riverpod 2.6+ | Compile-safe DI & reactive state |
-| **Navigation** | GoRouter 14.6+ | Declarative routing with guards & deep links |
-| **Backend** | Supabase 2.9+ | Auth, database, storage, realtime |
-| **Networking** | Dio 5.7+ | HTTP client with interceptors |
-| **Local Storage** | Hive + Secure Storage | Fast KV cache + encrypted credentials |
-| **Data Modeling** | Freezed + json_serializable | Immutable models & JSON serialization |
-| **Functional** | fpdart 1.1+ | `Either`, `Option` for type-safe error handling |
-| **Typography** | Google Fonts (Outfit + Inter) | Premium typeface system |
-| **Environment** | Envied | Compile-time environment injection |
-| **Code Gen** | build_runner | Automated code generation pipeline |
+| **Framework** | Flutter 3.29+ | Cross-platform mobile & desktop SDK |
+| **Language** | Dart 3.7+ | Strong type safety & sound null safety |
+| **State Management** | Riverpod 2.6+ | Declarative, compile-safe dependency injection |
+| **Navigation** | GoRouter 14.8+ | Declarative routing, ShellRoutes, guards & deep links |
+| **Backend** | Supabase 2.9+ | Authentication, database, storage, realtime |
+| **Networking** | Dio 5.8+ | Enterprise HTTP client with interceptor pipeline |
+| **Local Storage** | Hive + Secure Storage | Key-value caching & encrypted user tokens |
+| **Data Modeling** | Freezed + json_serializable | Immutable entities & DTO serialization |
+| **Export Engine** | Compute Isolates | Background PDF, DOCX, Markdown, HTML compilation |
 
 ---
 
@@ -203,10 +193,10 @@ lib/
 
 ### Prerequisites
 
-- **Flutter SDK** `>=3.12.1` — [Install Flutter](https://docs.flutter.dev/get-started/install)
+- **Flutter SDK** `>=3.24.0` — [Install Flutter](https://docs.flutter.dev/get-started/install)
 - **Dart SDK** (included with Flutter)
-- **Android Studio** or **Xcode** (for platform-specific builds)
-- **Supabase Project** — [Create one at supabase.com](https://supabase.com)
+- **Android Studio** or **Xcode**
+- **Supabase Account** — [supabase.com](https://supabase.com)
 
 ### Installation
 
@@ -217,7 +207,6 @@ cd Ai-Hustle-Co-Pilot
 
 # 2. Configure environment variables
 cp .env.example .env
-# Edit .env and add your Supabase credentials
 
 # 3. Install dependencies
 flutter pub get
@@ -225,94 +214,40 @@ flutter pub get
 # 4. Run code generation
 dart run build_runner build --delete-conflicting-outputs
 
-# 5. Launch on a connected device or emulator
+# 5. Launch on connected device or emulator
 flutter run
 ```
 
-### Environment Configuration
-
-Create a `.env` file in the project root (see `.env.example`):
-
-```env
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
-```
-
-> ⚠️ **Security**: The `.env` file is included in `.gitignore` and must **never** be committed to version control.
-
-### Running Tests
+### Running Verification & Tests
 
 ```bash
-# Run all tests (115+ test cases)
+# Run unit & widget test suite
 flutter test
 
-# Run with coverage
-flutter test --coverage
-
-# Run static analysis
+# Run static analysis (strict 0-warning policy)
 flutter analyze
 ```
 
 ---
 
-## 📖 Documentation
+## 🗺 Completed Phases
 
-| Document | Description |
-|----------|-------------|
-| [ARCHITECTURE.md](doc/ARCHITECTURE.md) | Clean Architecture deep-dive, layer responsibilities, data flow |
-| [DESIGN_LANGUAGE.md](DESIGN_LANGUAGE.md) | Enterprise design language specification |
-| [DESIGN_SYSTEM.md](doc/DESIGN_SYSTEM.md) | Component library, tokens, and usage guide |
-| [TESTING.md](doc/TESTING.md) | Test architecture, conventions, and quality gates |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines and development workflow |
-| [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
-| [SECURITY.md](SECURITY.md) | Security policy and vulnerability reporting |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards and behavior guidelines |
-| [ADR Index](doc/adr/) | Architecture Decision Records |
-
----
-
-## 🗺 Roadmap
-
-### Completed Phases
-
-- [x] **Phase 1.0** — Project Scaffold, Environment Config, Logging, Network Layer
-- [x] **Phase 2.0** — Core Infrastructure (Errors, Storage, Security, Providers)
-- [x] **Phase 2.1** — Authentication Domain Layer (Entities, Use Cases, Value Objects)
-- [x] **Phase 2.2** — Authentication Data Layer (DTOs, Mappers, Repository Impl)
-- [x] **Phase 2.3** — Authentication Application Layer (Controllers, State Models)
-- [x] **Phase 2.4A** — Enterprise Design System Foundation (Tokens, Animations)
-- [x] **Phase 2.4B** — Enterprise Design System Components (Buttons, Cards, Inputs)
-- [x] **Phase 2.5** — Authentication Presentation Layer (Screens, Widgets, OAuth)
-- [x] **Phase 2.6** — Enterprise Adaptive App Shell (Navigation, Responsive Layout)
-- [x] **Phase 3.0** — Enterprise Dashboard Foundation (Metrics, Insights, Activity)
-
-### Upcoming Phases
-
-- [ ] **Phase 3.1** — Opportunity Discovery & Smart Matching
-- [ ] **Phase 3.2** — AI Proposal Generation Engine
-- [ ] **Phase 3.3** — Application Pipeline Management
-- [ ] **Phase 3.4** — AI Studio Workspace
-- [ ] **Phase 4.0** — User Profile & Settings
-- [ ] **Phase 5.0** — Offline Sync, Push Notifications, Analytics
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our **[Contributing Guide](CONTRIBUTING.md)** for details on:
-
-- Setting up your development environment
-- Code style guidelines and architecture constraints
-- Submitting pull requests
-- Reporting issues
+- [x] **Phase 1.0** — Project Scaffold, Environment Config, Network Layer
+- [x] **Phase 2.0** — Core Infrastructure (Storage, Security, Exception Handlers)
+- [x] **Phase 2.1 - 2.5** — Authentication Clean Architecture (Domain, Data, Application, Presentation, OAuth)
+- [x] **Phase 2.4A & 2.4B** — Enterprise Design System Foundation & Component Library
+- [x] **Phase 2.6** — Enterprise Adaptive App Shell Navigation
+- [x] **Phase 3.0** — Enterprise Dashboard Foundation
+- [x] **Phase 3.1** — Enterprise AI Workspace Foundation
+- [x] **Phase 3.2** — AI Chat Intelligence & Real LLM Integration
+- [x] **Phase 3.3** — Enterprise AI Project Workspace & AI Agent Execution Engine
+- [x] **Phase 3.4** — Enterprise AI Document Studio & Intelligent Document Generation Engine
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License. See **[LICENSE](LICENSE)** for more information.
-
----
+This project is licensed under the MIT License. See **[LICENSE](LICENSE)** for details.
 
 <p align="center">
   Built with ❤️ using Flutter & Dart

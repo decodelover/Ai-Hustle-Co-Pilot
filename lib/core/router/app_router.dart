@@ -15,7 +15,11 @@ import 'package:ai_hustle_copilot/features/auth/presentation/screens/verificatio
 import 'package:ai_hustle_copilot/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:ai_hustle_copilot/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:ai_hustle_copilot/features/discover/presentation/screens/discover_screen.dart';
+import 'package:ai_hustle_copilot/features/documents/presentation/screens/document_editor_screen.dart';
+import 'package:ai_hustle_copilot/features/documents/presentation/screens/document_library_screen.dart';
+import 'package:ai_hustle_copilot/features/documents/presentation/screens/template_gallery_screen.dart';
 import 'package:ai_hustle_copilot/features/profile/presentation/screens/profile_screen.dart';
+import 'package:ai_hustle_copilot/features/projects/presentation/screens/project_workspace_screen.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/screens/shell_scaffold.dart';
 import 'package:ai_hustle_copilot/features/splash/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -165,6 +169,47 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: ProfileScreen(),
             ),
+          ),
+          GoRoute(
+            path: RoutePaths.projects,
+            name: RouteNames.projects,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: ProjectWorkspaceScreen(),
+            ),
+          ),
+          GoRoute(
+            path: RoutePaths.documents,
+            name: RouteNames.documents,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: DocumentLibraryScreen(),
+            ),
+          ),
+          GoRoute(
+            path: RoutePaths.documentTemplates,
+            name: RouteNames.documentTemplates,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: TemplateGalleryScreen(),
+            ),
+          ),
+          GoRoute(
+            path: RoutePaths.documentEditor,
+            name: RouteNames.documentEditor,
+            pageBuilder: (context, state) {
+              final id = state.pathParameters['id'] ?? 'doc_101';
+              return NoTransitionPage(
+                child: DocumentEditorScreen(documentId: id),
+              );
+            },
+          ),
+          GoRoute(
+            path: RoutePaths.projectDocumentEditor,
+            name: RouteNames.projectDocumentEditor,
+            pageBuilder: (context, state) {
+              final docId = state.pathParameters['id'] ?? 'doc_101';
+              return NoTransitionPage(
+                child: DocumentEditorScreen(documentId: docId),
+              );
+            },
           ),
         ],
       ),

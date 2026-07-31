@@ -1,11 +1,6 @@
-/// Interactive AI recommendation cards panel.
+/// Interactive AI Recommendation Cards Panel — Master Design System V2.0.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/components/buttons/app_button.dart';
-import 'package:ai_hustle_copilot/core/design_system/components/cards/app_card.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/insight_card_model.dart';
 import 'package:flutter/material.dart';
 
@@ -19,50 +14,60 @@ class AiInsightsPanel extends StatelessWidget {
     super.key,
   });
 
+  /// Injected insights models.
   final List<InsightCardModel> insights;
+
+  /// Dismiss callback.
   final ValueChanged<String> onDismiss;
+
+  /// Toggle favorite callback.
   final ValueChanged<String> onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
-    return AppCard(
-      padding: const EdgeInsets.all(AppSpacing.xl),
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24.0),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(
-                Icons.auto_awesome,
+              Icon(
+                Icons.auto_awesome_rounded,
                 size: 20,
-                color: AppColors.primary,
+                color: Color(0xFFFF6B6B),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              SizedBox(width: 8.0),
               Expanded(
                 child: Text(
                   'AI Recommendations & Tips',
-                  style: textTheme.titleMedium?.copyWith(
+                  style: TextStyle(
+                    color: Color(0xFF111827),
+                    fontSize: 18.0,
                     fontWeight: FontWeight.w700,
+                    letterSpacing: -0.3,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: 16.0),
 
           if (insights.isEmpty)
-            Center(
+            const Center(
               child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.lg),
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'No new recommendations at this time.',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+                  style: TextStyle(
+                    color: Color(0xFF6B7280),
+                    fontSize: 13.5,
                   ),
                 ),
               ),
@@ -72,19 +77,16 @@ class AiInsightsPanel extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: insights.length,
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: AppSpacing.md),
+              separatorBuilder: (context, index) => const SizedBox(height: 12.0),
               itemBuilder: (context, index) {
                 final insight = insights[index];
 
                 return Container(
-                  padding: const EdgeInsets.all(AppSpacing.md),
+                  padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(AppRadius.md),
-                    border: Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.2),
-                    ),
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(color: const Color(0xFFE5E7EB)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +97,9 @@ class AiInsightsPanel extends StatelessWidget {
                           Expanded(
                             child: Text(
                               insight.title,
-                              style: textTheme.labelLarge?.copyWith(
+                              style: const TextStyle(
+                                color: Color(0xFF111827),
+                                fontSize: 14.5,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -103,44 +107,71 @@ class AiInsightsPanel extends StatelessWidget {
                           Row(
                             children: [
                               IconButton(
-                                iconSize: 16,
+                                iconSize: 18,
                                 constraints: const BoxConstraints(),
                                 padding: EdgeInsets.zero,
                                 onPressed: () => onToggleFavorite(insight.id),
                                 icon: Icon(
                                   insight.isFavorite
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_border,
+                                      ? Icons.bookmark_rounded
+                                      : Icons.bookmark_border_rounded,
                                   color: insight.isFavorite
-                                      ? AppColors.primary
-                                      : colorScheme.onSurfaceVariant,
+                                      ? const Color(0xFF0D1B2A)
+                                      : const Color(0xFF6B7280),
                                 ),
                               ),
-                              const SizedBox(width: AppSpacing.sm),
+                              const SizedBox(width: 8.0),
                               IconButton(
-                                iconSize: 16,
+                                iconSize: 18,
                                 constraints: const BoxConstraints(),
                                 padding: EdgeInsets.zero,
                                 onPressed: () => onDismiss(insight.id),
-                                icon: const Icon(Icons.close),
+                                icon: const Icon(
+                                  Icons.close_rounded,
+                                  color: Color(0xFF6B7280),
+                                ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: AppSpacing.xs),
+                      const SizedBox(height: 6.0),
                       Text(
                         insight.description,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
+                        style: const TextStyle(
+                          color: Color(0xFF6B7280),
+                          fontSize: 13.0,
+                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.md),
-                      AppButton(
-                        text: insight.actionLabel,
-                        variant: AppButtonVariant.secondary,
-                        icon: Icons.bolt_outlined,
-                        onPressed: () {},
+                      const SizedBox(height: 14.0),
+                      SizedBox(
+                        height: 40.0,
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFF0D1B2A),
+                            side: const BorderSide(color: Color(0xFFE5E7EB)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.bolt_rounded,
+                            size: 16.0,
+                            color: Color(0xFF0D1B2A),
+                          ),
+                          label: Text(
+                            insight.actionLabel,
+                            style: const TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ),
                     ],
                   ),

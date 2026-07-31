@@ -9,8 +9,9 @@ import 'package:ai_hustle_copilot/features/ai_studio/domain/repositories/convers
 
 /// Repository implementation routing conversation operations to local storage.
 final class ConversationRepositoryImpl implements ConversationRepository {
-  /// Constructs [ConversationRepositoryImpl] with injected [AiStudioLocalDataSource].
-  ConversationRepositoryImpl({required this.localDataSource});
+  /// Constructs [ConversationRepositoryImpl] with optional injected [AiStudioLocalDataSource].
+  ConversationRepositoryImpl({AiStudioLocalDataSource? localDataSource})
+      : localDataSource = localDataSource ?? AiStudioLocalDataSource();
 
   /// Injected local data source.
   final AiStudioLocalDataSource localDataSource;

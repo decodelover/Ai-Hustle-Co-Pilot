@@ -51,6 +51,17 @@ abstract final class ShellNavigationConfig {
       isPrimaryTab: true,
     ),
     ShellNavigationItem(
+      id: 'documents',
+      icon: Icons.description_outlined,
+      selectedIcon: Icons.description_rounded,
+      title: 'AI Documents',
+      tooltip: 'AI Document Studio & Generation Engine',
+      route: RoutePaths.documents,
+      analyticsIdentifier: 'nav_documents',
+      isPrimaryTab: true,
+      isPinnedShortcut: true,
+    ),
+    ShellNavigationItem(
       id: 'profile',
       icon: Icons.person_outline_rounded,
       selectedIcon: Icons.person_rounded,

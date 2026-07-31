@@ -1,10 +1,6 @@
-/// Active projects summary card widget.
+/// Active Projects Summary List — Master Design System V2.0.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/components/cards/app_card.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/recent_project_model.dart';
 import 'package:flutter/material.dart';
 
@@ -16,59 +12,58 @@ class RecentProjectsList extends StatelessWidget {
     super.key,
   });
 
+  /// Active project list.
   final List<RecentProjectModel> projects;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
-    return AppCard(
-      padding: const EdgeInsets.all(AppSpacing.xl),
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24.0),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  'Active Projects',
-                  style: textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              const Text(
+                'Active Projects',
+                style: TextStyle(
+                  color: Color(0xFF111827),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
               Text(
                 'View All (${projects.length})',
-                style: textTheme.labelMedium?.copyWith(
-                  color: AppColors.primary,
+                style: const TextStyle(
+                  color: Color(0xFF3A5FA0),
+                  fontSize: 13.0,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: 16.0),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: projects.length,
-            separatorBuilder: (context, index) =>
-                const SizedBox(height: AppSpacing.md),
+            separatorBuilder: (context, index) => const SizedBox(height: 12.0),
             itemBuilder: (context, index) {
               final project = projects[index];
 
               return Container(
-                padding: const EdgeInsets.all(AppSpacing.md),
+                padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                  border: Border.all(
-                    color: colorScheme.outlineVariant.withValues(alpha: 0.3),
-                  ),
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,53 +74,55 @@ class RecentProjectsList extends StatelessWidget {
                         Expanded(
                           child: Text(
                             project.title,
-                            style: textTheme.labelLarge?.copyWith(
+                            style: const TextStyle(
+                              color: Color(0xFF111827),
+                              fontSize: 14.5,
                               fontWeight: FontWeight.w700,
                             ),
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.sm),
+                        const SizedBox(width: 8.0),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.sm,
-                            vertical: AppSpacing.xs,
+                            horizontal: 8.0,
+                            vertical: 3.0,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.success.withValues(alpha: 0.1),
-                            borderRadius:
-                                BorderRadius.circular(AppRadius.full),
+                            color: const Color(0xFF10B981).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Text(
                             '${project.aiUsageScore}% AI Score',
-                            style: textTheme.labelSmall?.copyWith(
-                              color: AppColors.success,
+                            style: const TextStyle(
+                              color: Color(0xFF10B981),
+                              fontSize: 11.0,
                               fontWeight: FontWeight.w700,
-                              fontSize: 10,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 4.0),
                     Text(
                       project.clientName,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                      style: const TextStyle(
+                        color: Color(0xFF6B7280),
+                        fontSize: 12.5,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: AppSpacing.md),
-
-                    // Progress bar
+                    const SizedBox(height: 12.0),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(AppRadius.full),
+                      borderRadius: BorderRadius.circular(4.0),
                       child: LinearProgressIndicator(
                         value: project.progress,
-                        minHeight: 6,
-                        backgroundColor:
-                            colorScheme.surfaceContainerHighest,
+                        minHeight: 6.0,
+                        backgroundColor: const Color(0xFFE5E7EB),
                         valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
+                          Color(0xFF0D1B2A),
                         ),
                       ),
                     ),

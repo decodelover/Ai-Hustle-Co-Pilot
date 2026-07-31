@@ -35,8 +35,8 @@ void main() {
       await tester.pump();
 
       expect(find.text('AI Hustle Co-Pilot'), findsOneWidget);
-      expect(find.text('Build\nYour AI\nBusiness'), findsOneWidget);
-      expect(find.text('Start'), findsOneWidget);
+      expect(find.text('Welcome'), findsOneWidget);
+      expect(find.text('Continue'), findsOneWidget);
     });
 
     testWidgets('LoginScreen renders email, password, and sign in button',
@@ -44,10 +44,10 @@ void main() {
       await tester.pumpWidget(createTestableWidget(const LoginScreen()));
       await tester.pump();
 
-      expect(find.text('Welcome Back!'), findsOneWidget);
+      expect(find.text('Sign in'), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);
-      expect(find.text('Forgot password?'), findsOneWidget);
+      expect(find.text('Forgot Password?'), findsOneWidget);
       expect(find.text('Login'), findsOneWidget);
     });
 
@@ -56,7 +56,7 @@ void main() {
       await tester.pumpWidget(createTestableWidget(const RegisterScreen()));
       await tester.pump();
 
-      expect(find.text('Create an Account?'), findsOneWidget);
+      expect(find.text('Create an Account'), findsOneWidget);
       expect(find.text('Name'), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);

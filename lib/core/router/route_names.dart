@@ -51,6 +51,9 @@ abstract final class RouteNames {
 
   /// Documents and proposals repository.
   static const String documents = 'documents';
+  static const String documentTemplates = 'document-templates';
+  static const String documentEditor = 'document-editor';
+  static const String projectDocumentEditor = 'project-document-editor';
 
   /// AI Tools Marketplace.
   static const String marketplace = 'marketplace';
@@ -60,6 +63,12 @@ abstract final class RouteNames {
 
   /// Workspace settings.
   static const String settings = 'settings';
+
+  /// AI Projects Command Center.
+  static const String projects = 'projects';
+
+  /// AI Project Workspace.
+  static const String projectWorkspace = 'project-workspace';
 
   /// Notifications center.
   static const String notifications = 'notifications';
@@ -88,8 +97,13 @@ abstract final class RoutePaths {
   static const String aiStudio = '/ai-studio';
   static const String applications = '/applications';
   static const String profile = '/profile';
+  static const String projects = '/projects';
+  static const String projectWorkspace = '/projects/:id';
   static const String automation = '/automation';
   static const String documents = '/documents';
+  static const String documentTemplates = '/documents/templates';
+  static const String documentEditor = '/documents/:id';
+  static const String projectDocumentEditor = '/projects/:projectId/documents/:id';
   static const String marketplace = '/marketplace';
   static const String subscription = '/subscription';
   static const String settings = '/settings';

@@ -1,7 +1,7 @@
-/// Dedicated AuthInputField component matching master reference specs.
+/// Dedicated AuthInputField component matching Master Design System V2.0 specs.
 ///
-/// Features filled background (#F4F5F8), height 56, border radius 16,
-/// no outline border, label above field, and password eye icon toggle.
+/// Features filled background (#F8FAFC), height 56, border radius 16,
+/// label above field, floating focus border (#0D1B2A), and password eye toggle.
 library;
 
 import 'package:flutter/material.dart';
@@ -71,7 +71,7 @@ class _AuthInputFieldState extends State<AuthInputField> {
         Text(
           widget.label,
           style: const TextStyle(
-            color: Color(0xFF111111),
+            color: Color(0xFF111827),
             fontSize: 14.0,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.1,
@@ -91,20 +91,20 @@ class _AuthInputFieldState extends State<AuthInputField> {
             onChanged: widget.onChanged,
             onFieldSubmitted: widget.onSubmitted,
             style: const TextStyle(
-              color: Color(0xFF111111),
+              color: Color(0xFF111827),
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: const TextStyle(
-                color: Color(0xFFAAAAAA),
+                color: Color(0xFF9CA3AF),
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
               errorText: widget.errorText,
               filled: true,
-              fillColor: const Color(0xFFF4F5F8),
+              fillColor: const Color(0xFFF8FAFC),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 16.0,
@@ -120,21 +120,21 @@ class _AuthInputFieldState extends State<AuthInputField> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: const BorderSide(
-                  color: Color(0xFF3D82F7),
+                  color: Color(0xFF0D1B2A),
                   width: 1.5,
                 ),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: const BorderSide(
-                  color: Color(0xFFDC2626),
+                  color: Color(0xFFEF4444),
                   width: 1.5,
                 ),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: const BorderSide(
-                  color: Color(0xFFDC2626),
+                  color: Color(0xFFEF4444),
                   width: 1.5,
                 ),
               ),
@@ -144,7 +144,7 @@ class _AuthInputFieldState extends State<AuthInputField> {
                         _obscureText
                             ? Icons.visibility_off_outlined
                             : Icons.visibility_outlined,
-                        color: const Color(0xFF888888),
+                        color: const Color(0xFF6B7280),
                         size: 20.0,
                       ),
                       onPressed: () {

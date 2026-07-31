@@ -18,6 +18,7 @@ class EnvironmentConfig {
     required this.apiBaseUrl,
     required this.supabaseUrl,
     required this.supabasePublishableKey,
+    required this.geminiApiKey,
     this.enableHttpLogging = true,
     this.enableVerboseErrors = true,
     this.connectTimeout = const Duration(seconds: 15),
@@ -29,6 +30,7 @@ class EnvironmentConfig {
     String? apiBaseUrl,
     String? supabaseUrl,
     String? supabasePublishableKey,
+    String? geminiApiKey,
   }) {
     return EnvironmentConfig(
       environment: AppEnvironment.dev,
@@ -36,6 +38,7 @@ class EnvironmentConfig {
       supabaseUrl: supabaseUrl ?? _getEnvSupabaseUrl(),
       supabasePublishableKey:
           supabasePublishableKey ?? _getEnvSupabasePublishableKey(),
+      geminiApiKey: geminiApiKey ?? _getEnvGeminiApiKey(),
     );
   }
 
@@ -44,6 +47,7 @@ class EnvironmentConfig {
     String? apiBaseUrl,
     String? supabaseUrl,
     String? supabasePublishableKey,
+    String? geminiApiKey,
   }) {
     return EnvironmentConfig(
       environment: AppEnvironment.staging,
@@ -51,6 +55,7 @@ class EnvironmentConfig {
       supabaseUrl: supabaseUrl ?? _getEnvSupabaseUrl(),
       supabasePublishableKey:
           supabasePublishableKey ?? _getEnvSupabasePublishableKey(),
+      geminiApiKey: geminiApiKey ?? _getEnvGeminiApiKey(),
       enableVerboseErrors: false,
     );
   }
@@ -60,6 +65,7 @@ class EnvironmentConfig {
     String? apiBaseUrl,
     String? supabaseUrl,
     String? supabasePublishableKey,
+    String? geminiApiKey,
   }) {
     return EnvironmentConfig(
       environment: AppEnvironment.prod,
@@ -67,6 +73,7 @@ class EnvironmentConfig {
       supabaseUrl: supabaseUrl ?? _getEnvSupabaseUrl(),
       supabasePublishableKey:
           supabasePublishableKey ?? _getEnvSupabasePublishableKey(),
+      geminiApiKey: geminiApiKey ?? _getEnvGeminiApiKey(),
       enableHttpLogging: false,
       enableVerboseErrors: false,
     );
@@ -84,6 +91,9 @@ class EnvironmentConfig {
   /// Supabase publishable API key (client-safe, RLS-protected).
   final String supabasePublishableKey;
 
+  /// Google Gemini AI API key.
+  final String geminiApiKey;
+
   /// Whether HTTP request/response logging is enabled.
   final bool enableHttpLogging;
 
@@ -97,9 +107,6 @@ class EnvironmentConfig {
   final Duration receiveTimeout;
 
   /// Whether the Supabase credentials are placeholder values.
-  ///
-  /// Returns `true` if either the URL or key contains 'placeholder',
-  /// indicating the developer has not yet configured real credentials.
   bool get hasPlaceholderCredentials =>
       supabaseUrl.contains('placeholder') ||
       supabasePublishableKey.contains('placeholder');
@@ -120,6 +127,14 @@ class EnvironmentConfig {
     }
   }
 
+  static String _getEnvGeminiApiKey() {
+    try {
+      return Env.geminiApiKey;
+    } catch (_) {
+      return '';
+    }
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -129,6 +144,7 @@ class EnvironmentConfig {
           apiBaseUrl == other.apiBaseUrl &&
           supabaseUrl == other.supabaseUrl &&
           supabasePublishableKey == other.supabasePublishableKey &&
+          geminiApiKey == other.geminiApiKey &&
           enableHttpLogging == other.enableHttpLogging &&
           enableVerboseErrors == other.enableVerboseErrors;
 
@@ -138,6 +154,7 @@ class EnvironmentConfig {
         apiBaseUrl,
         supabaseUrl,
         supabasePublishableKey,
+        geminiApiKey,
         enableHttpLogging,
         enableVerboseErrors,
       );

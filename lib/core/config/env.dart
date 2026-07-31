@@ -6,7 +6,7 @@
 ///
 /// ## Setup
 /// 1. Copy `.env.example` to `.env` in the project root.
-/// 2. Fill in your Supabase credentials.
+/// 2. Fill in your Supabase and Gemini AI credentials.
 /// 3. Run `dart run build_runner build --delete-conflicting-outputs`.
 ///
 /// ## Security
@@ -23,7 +23,6 @@ part 'env.g.dart';
 ///
 /// Generated code lives in `env.g.dart`. Re-run `build_runner`
 /// after modifying `.env` or adding new fields.
-// Touch to trigger build_runner rebuild
 @Envied(path: '.env', obfuscate: true)
 abstract class Env {
   /// The Supabase project URL.
@@ -38,4 +37,8 @@ abstract class Env {
   /// grants access allowed by Row Level Security (RLS) policies.
   @EnviedField(varName: 'SUPABASE_PUBLISHABLE_KEY')
   static final String supabasePublishableKey = _Env.supabasePublishableKey;
+
+  /// Google Gemini AI API Key.
+  @EnviedField(varName: 'GEMINI_API_KEY')
+  static final String geminiApiKey = _Env.geminiApiKey;
 }

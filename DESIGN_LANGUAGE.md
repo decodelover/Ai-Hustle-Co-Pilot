@@ -1,14 +1,15 @@
-# AI Hustle Co-Pilot — Enterprise Design Language Specification (v1.0)
+# AI Hustle Co-Pilot — Enterprise Design Language Specification (v2.0)
 
 > **Primary Design Authority**: `UI/UX Pro Max Design Intelligence`
-> **Visual Direction**: Premium AI SaaS Blend (Linear + Notion + Stripe Dashboard + Raycast + Google Gemini + Apple HIG)
+> **Master Reference Document**: `design_structure.md` (Design System Version 2.0)
+> **Visual Direction**: Premium Dark Blue Identity (`#0D1B2A`), Topographic Wave Header Branding, and Apple / Linear Inspired Minimalism.
 
 ---
 
 ## 1. Color Philosophy & Palette Architecture
 
 ### 1.1 Brand Identity & Design Intent
-AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The color system is engineered to minimize cognitive fatigue during long productivity sessions while creating distinct visual focus for AI-generated insights, primary CTAs, and system statuses.
+AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The color system is engineered around **Primary Dark Blue (`#0D1B2A`)** and **Accent Coral (`#FF6B6B`)**, minimizing glare and cognitive fatigue during long productivity sessions.
 
 ---
 
@@ -16,25 +17,28 @@ AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The 
 
 | Token | Hex Code | HSL / Opacity | Purpose & Design Rationale |
 |-------|----------|---------------|----------------------------|
-| `primary` | `#3D82F7` | `hsl(218, 93%, 60%)` | **Vibrant Blue**: Represents trust, action, and intelligence. Used for primary buttons, focus highlights, and active branding. |
+| `primaryDarkBlue` | `#0D1B2A` | `hsl(212, 53%, 11%)` | **Primary Brand Color**: Wave headers, dark canvas, and primary CTAs. |
+| `primaryBlue` | `#152A4D` | `hsl(217, 57%, 19%)` | **Secondary Dark Blue**: Header gradients and elevated dark surfaces. |
+| `primary` | `#0D1B2A` | `hsl(212, 53%, 11%)` | Primary button fill and active brand elements. |
 | `onPrimary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Crisp contrast for primary button text and filled icons. |
-| `secondary` | `#1877F2` | `hsl(214, 89%, 52%)` | **Indigo Blue**: Used for secondary interactive elements, selected navigation items, and active tabs. |
+| `secondary` | `#3A5FA0` | `hsl(218, 47%, 43%)` | **Accent Blue**: Secondary interactive elements and active tab indicators. |
 | `onSecondary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Contrast text for secondary interactive surfaces. |
-| `accent` | `#3B82F6` | `hsl(217, 91%, 60%)` | **Electric Blue**: Reserved for AI copilot triggers, spark indicators, and key conversion paths. |
-| `onAccent` | `#FFFFFF` | `hsl(0, 0%, 100%)` | High contrast text over accent banners and glowing triggers. |
-| `background` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Soft Light Gray Canvas. Eliminates glare while matching master reference screens. |
-| `surface` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Pure elevated white surface for cards, panels, and container dialogs. |
-| `surfaceVariant` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Subtle grey container surface for form inputs (#F4F5F8), table headers, and nested cards. |
-| `onSurface` | `#111111` | `hsl(0, 0%, 7%)` | Deep Charcoal. Delivers 18.5:1 WCAG AAA text contrast. |
-| `onSurfaceVariant`| `#777777` | `hsl(0, 0%, 47%)` | Secondary body text, subheadings, and field labels (#777777). |
+| `accent` | `#3A5FA0` | `hsl(218, 47%, 43%)` | Reserved for AI copilot triggers and active highlights. |
+| `accentCoral` | `#FF6B6B` | `hsl(0, 100%, 71%)` | **Coral Highlight**: Key CTA highlights, spark badges, and notifications. |
+| `onAccent` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Contrast text over accent banners. |
+| `background` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Clean White Canvas. |
+| `surface` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Pure white surface for cards, panels, and container dialogs. |
+| `surfaceVariant` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Light gray container surface for form inputs (#F8FAFC). |
+| `onSurface` | `#111827` | `hsl(221, 39%, 11%)` | Deep Charcoal primary text (18.5:1 AAA contrast). |
+| `onSurfaceVariant`| `#6B7280` | `hsl(220, 9%, 46%)` | Secondary body text, subheadings, and field labels. |
 | `outline` | `#E5E7EB` | `hsl(220, 13%, 91%)` | Crisp 1px border stroke for card bounds and input fields. |
 | `outlineVariant` | `#CBD5E1` | `hsl(213, 27%, 84%)` | Hover/focus border stroke state. |
-| `success` | `#059669` | `hsl(160, 84%, 39%)` | **Emerald**: Confirms completed workflows, saved drafts, and active syncs. |
-| `warning` | `#D97706` | `hsl(38, 92%, 44%)` | **Amber**: Alerts user to pending approvals, quota limits, or network degradation. |
-| `danger` | `#DC2626` | `hsl(0, 72%, 51%)` | **Ruby Red**: Destructive actions, validation errors, and authentication failures. |
-| `info` | `#3D82F7` | `hsl(218, 93%, 60%)` | **Royal Blue**: Neutral system notifications and informational badges. |
-| `skeletonStart` | `#E2E8F0` | `hsl(214, 32%, 91%)` | Base shimmer gradient starting color for 4-state loading lifecycle. |
-| `skeletonEnd` | `#F4F5F8` | `hsl(225, 20%, 97%)` | Highlight shimmer gradient ending color. |
+| `success` | `#10B981` | `hsl(160, 84%, 39%)` | **Emerald**: Confirms completed workflows and verified status. |
+| `warning` | `#F59E0B` | `hsl(38, 92%, 50%)` | **Amber**: Alerts user to pending approvals or quota limits. |
+| `danger` | `#EF4444` | `hsl(0, 84%, 60%)` | **Ruby Red**: Destructive actions, validation errors, and auth failures. |
+| `info` | `#3A5FA0` | `hsl(218, 47%, 43%)` | Neutral system notifications and informational badges. |
+| `skeletonStart` | `#E2E8F0` | `hsl(214, 32%, 91%)` | Base shimmer gradient starting color. |
+| `skeletonEnd` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Highlight shimmer gradient ending color. |
 
 ---
 

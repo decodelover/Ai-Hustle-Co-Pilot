@@ -1,10 +1,6 @@
-/// Unified reusable KPI Metric Card with 4-state lifecycle support.
+/// Unified reusable KPI Metric Card — Master Design System V2.0.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/components/cards/app_card.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_metric_card_model.dart';
 import 'package:flutter/material.dart';
 
@@ -25,97 +21,117 @@ class DashboardMetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
     final trendColor = model.isPositiveTrend
-        ? AppColors.success
-        : colorScheme.error;
+        ? const Color(0xFF10B981)
+        : const Color(0xFFEF4444);
 
-    return AppCard(
-      onTap: onTap,
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(24.0),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(24.0),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24.0),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: (model.accentColor ?? colorScheme.primary)
-                      .withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
-                child: Icon(
-                  model.icon,
-                  size: 20,
-                  color: model.accentColor ?? colorScheme.primary,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.xs,
-                ),
-                decoration: BoxDecoration(
-                  color: trendColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(AppRadius.full),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      model.isPositiveTrend
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
-                      size: 12,
-                      color: trendColor,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: (model.accentColor ?? const Color(0xFF0D1B2A))
+                          .withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
-                    const SizedBox(width: 2),
-                    Text(
-                      '${model.trendPercentage.abs().toStringAsFixed(1)}%',
-                      style: textTheme.labelSmall?.copyWith(
-                        color: trendColor,
-                        fontWeight: FontWeight.w700,
+                    child: Icon(
+                      model.icon,
+                      size: 20,
+                      color: model.accentColor ?? const Color(0xFF0D1B2A),
+                    ),
+                  ),
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 4.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: trendColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            model.isPositiveTrend
+                                ? Icons.arrow_upward_rounded
+                                : Icons.arrow_downward_rounded,
+                            size: 12,
+                            color: trendColor,
+                          ),
+                          const SizedBox(width: 2),
+                          Flexible(
+                            child: Text(
+                              '${model.trendPercentage.abs().toStringAsFixed(1)}%',
+                              style: TextStyle(
+                                color: trendColor,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.title,
+                    style: const TextStyle(
+                      color: Color(0xFF6B7280),
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2.0),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      model.value,
+                      style: const TextStyle(
+                        color: Color(0xFF111827),
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.5,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            model.title,
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            model.value,
-            style: textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.5,
-            ),
-          ),
-          if (model.subtitle != null) ...[
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              model.subtitle!,
-              style: textTheme.labelSmall?.copyWith(
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
-              ),
-            ),
-          ],
-        ],
+        ),
       ),
     );
   }

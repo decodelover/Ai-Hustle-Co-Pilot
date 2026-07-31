@@ -1,14 +1,10 @@
-/// Reusable timeline activity feed widget.
+/// AI Activity Timeline Feed — Master Design System V2.0.
 library;
 
-import 'package:ai_hustle_copilot/core/design_system/components/cards/app_card.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/activity_feed_model.dart';
 import 'package:flutter/material.dart';
 
-/// Timeline feed widget rendering recent AI actions, project updates, and logs.
+/// Real-time activity timeline feed.
 class RecentActivityFeed extends StatelessWidget {
   /// Creates a [RecentActivityFeed].
   const RecentActivityFeed({
@@ -16,123 +12,97 @@ class RecentActivityFeed extends StatelessWidget {
     super.key,
   });
 
+  /// Injected activity items.
   final List<ActivityFeedModel> activities;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textTheme = theme.textTheme;
-
-    return AppCard(
-      padding: const EdgeInsets.all(AppSpacing.xl),
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24.0),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  'Recent Activity Feed',
-                  style: textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              const Text(
+                'AI Activity Timeline',
+                style: TextStyle(
+                  color: Color(0xFF111827),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.3,
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
               Text(
-                'View All',
-                style: textTheme.labelMedium?.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
+                '${activities.length} items',
+                style: const TextStyle(
+                  color: Color(0xFF6B7280),
+                  fontSize: 12.0,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: 16.0),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: activities.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 14.0),
+            itemBuilder: (context, index) {
+              final item = activities[index];
 
-          if (activities.isEmpty)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xl),
-                child: Text(
-                  'No recent activities recorded.',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0D1B2A).withValues(alpha: 0.08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      item.icon,
+                      size: 18,
+                      color: const Color(0xFF0D1B2A),
+                    ),
                   ),
-                ),
-              ),
-            )
-          else
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: activities.length,
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: AppSpacing.md),
-              itemBuilder: (context, index) {
-                final activity = activities[index];
-
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(AppRadius.md),
-                      ),
-                      child: Icon(
-                        activity.icon,
-                        size: 18,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.md),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            activity.title,
-                            style: textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
+                  const SizedBox(width: 12.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.title,
+                          style: const TextStyle(
+                            color: Color(0xFF111827),
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w700,
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            activity.description,
-                            style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                            ),
+                        ),
+                        const SizedBox(height: 2.0),
+                        Text(
+                          item.description,
+                          style: const TextStyle(
+                            color: Color(0xFF6B7280),
+                            fontSize: 12.0,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: AppSpacing.xs),
-                    Text(
-                      _formatTimeAgo(activity.timestamp),
-                      style: textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
-  }
-
-  String _formatTimeAgo(DateTime timestamp) {
-    final diff = DateTime.now().difference(timestamp);
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    return '${diff.inDays}d ago';
   }
 }
