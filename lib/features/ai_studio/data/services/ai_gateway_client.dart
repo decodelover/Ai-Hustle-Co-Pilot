@@ -9,9 +9,8 @@ import 'package:ai_hustle_copilot/features/ai_studio/domain/services/content_mod
 /// Centralized client managing gateway request moderation, provider routing, and stream throttling.
 final class AiGatewayClient {
   /// Creates an [AiGatewayClient].
-  AiGatewayClient({
-    ContentModerationService? moderationService,
-  }) : _moderationService = moderationService ?? ContentModerationService();
+  AiGatewayClient({ContentModerationService? moderationService})
+    : _moderationService = moderationService ?? ContentModerationService();
 
   final ContentModerationService _moderationService;
 
@@ -34,7 +33,10 @@ final class AiGatewayClient {
     }
 
     // 2. Resolve Provider Instance via Factory
-    final provider = LlmProviderFactory.getProviderForModel(modelId, apiKey: apiKey);
+    final provider = LlmProviderFactory.getProviderForModel(
+      modelId,
+      apiKey: apiKey,
+    );
 
     // 3. Obtain raw token stream
     final rawStream = provider.streamResponse(

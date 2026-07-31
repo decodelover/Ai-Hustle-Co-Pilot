@@ -10,14 +10,16 @@ final class MemoryRepositoryImpl implements MemoryRepository {
     AiMemory(
       id: 'mem_1',
       category: MemoryCategory.project,
-      content: 'Project uses Flutter, Riverpod, Clean Architecture, and Design System V2.0.',
+      content:
+          'Project uses Flutter, Riverpod, Clean Architecture, and Design System V2.0.',
       createdAt: DateTime.now().subtract(const Duration(days: 2)),
       tags: const ['architecture', 'flutter', 'riverpod'],
     ),
     AiMemory(
       id: 'mem_2',
       category: MemoryCategory.user,
-      content: 'User prefers concise, production-ready code with no temporary mock placeholders.',
+      content:
+          'User prefers concise, production-ready code with no temporary mock placeholders.',
       createdAt: DateTime.now().subtract(const Duration(days: 1)),
       relevanceWeight: 0.9,
       tags: const ['coding_style', 'preferences'],
@@ -48,7 +50,9 @@ final class MemoryRepositoryImpl implements MemoryRepository {
     return _memories.where((m) {
       if (m.tags.any((tag) => lower.contains(tag))) return true;
       final words = lower.split(' ');
-      return words.any((w) => w.length > 3 && m.content.toLowerCase().contains(w));
+      return words.any(
+        (w) => w.length > 3 && m.content.toLowerCase().contains(w),
+      );
     }).toList();
   }
 }

@@ -60,7 +60,8 @@ class _AppBaseCardState extends State<AppBaseCard> {
     final theme = Theme.of(context);
     final effectiveBg = widget.backgroundColor ?? theme.cardTheme.color;
     final effectiveRadius = widget.borderRadius ?? AppRadius.borderRadiusMd;
-    final effectiveBorder = widget.borderColor ?? theme.colorScheme.outlineVariant;
+    final effectiveBorder =
+        widget.borderColor ?? theme.colorScheme.outlineVariant;
 
     final cardContent = AnimatedContainer(
       duration: AppAnimation.fast,

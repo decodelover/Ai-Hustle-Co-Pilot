@@ -9,8 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AgentController extends StateNotifier<AsyncValue<AgentTask?>> {
   /// Creates an [AgentController].
   AgentController({ExecuteAgentTaskUseCase? executeUseCase})
-      : _executeUseCase = executeUseCase ?? ExecuteAgentTaskUseCase(),
-        super(const AsyncData(null));
+    : _executeUseCase = executeUseCase ?? ExecuteAgentTaskUseCase(),
+      super(const AsyncData(null));
 
   final ExecuteAgentTaskUseCase _executeUseCase;
 

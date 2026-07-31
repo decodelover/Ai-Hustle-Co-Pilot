@@ -9,7 +9,7 @@ import 'package:ai_hustle_copilot/features/ai_studio/domain/repositories/ai_gate
 final class AiGatewayRepositoryImpl implements AiGatewayRepository {
   /// Creates an [AiGatewayRepositoryImpl].
   AiGatewayRepositoryImpl({AiGatewayClient? gatewayClient})
-      : _gatewayClient = gatewayClient ?? AiGatewayClient();
+    : _gatewayClient = gatewayClient ?? AiGatewayClient();
 
   final AiGatewayClient _gatewayClient;
 

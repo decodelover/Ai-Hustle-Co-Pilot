@@ -11,10 +11,7 @@ void main() {
     });
 
     test('empty string throws AuthValidationException', () {
-      expect(
-        () => Email('   '),
-        throwsA(isA<AuthValidationException>()),
-      );
+      expect(() => Email('   '), throwsA(isA<AuthValidationException>()));
     });
 
     test('invalid email format throws AuthValidationException', () {

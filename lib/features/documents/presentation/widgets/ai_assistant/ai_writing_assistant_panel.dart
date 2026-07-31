@@ -13,18 +13,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Desktop right panel / mobile bottom sheet AI writing assistant.
 class AiWritingAssistantPanel extends ConsumerStatefulWidget {
   /// Creates an [AiWritingAssistantPanel].
-  const AiWritingAssistantPanel({
-    this.projectContext,
-    super.key,
-  });
+  const AiWritingAssistantPanel({this.projectContext, super.key});
 
   final Project? projectContext;
 
   @override
-  ConsumerState<AiWritingAssistantPanel> createState() => _AiWritingAssistantPanelState();
+  ConsumerState<AiWritingAssistantPanel> createState() =>
+      _AiWritingAssistantPanelState();
 }
 
-class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPanel> {
+class _AiWritingAssistantPanelState
+    extends ConsumerState<AiWritingAssistantPanel> {
   final TextEditingController _promptController = TextEditingController();
 
   @override
@@ -60,7 +59,11 @@ class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPane
                 const Expanded(
                   child: Row(
                     children: [
-                      Icon(Icons.auto_awesome, size: 18, color: AppColors.secondary),
+                      Icon(
+                        Icons.auto_awesome,
+                        size: 18,
+                        color: AppColors.secondary,
+                      ),
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -102,12 +105,19 @@ class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPane
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.gps_fixed, size: 14, color: AppColors.secondary),
+                        const Icon(
+                          Icons.gps_fixed,
+                          size: 14,
+                          color: AppColors.secondary,
+                        ),
                         const SizedBox(width: 6),
                         const Expanded(
                           child: Text(
                             'Targeting selected block',
-                            style: TextStyle(fontSize: 12, color: AppColors.onSurface),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.onSurface,
+                            ),
                           ),
                         ),
                         TextButton(
@@ -116,7 +126,10 @@ class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPane
                             padding: EdgeInsets.zero,
                             minimumSize: const Size(40, 20),
                           ),
-                          child: const Text('Clear', style: TextStyle(fontSize: 11)),
+                          child: const Text(
+                            'Clear',
+                            style: TextStyle(fontSize: 11),
+                          ),
                         ),
                       ],
                     ),
@@ -140,9 +153,15 @@ class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPane
                   maxLines: 3,
                   style: const TextStyle(fontSize: 13),
                   decoration: InputDecoration(
-                    hintText: 'e.g. Write an executive summary outlining key metrics...',
-                    hintStyle: const TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    hintText:
+                        'e.g. Write an executive summary outlining key metrics...',
+                    hintStyle: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.onSurfaceVariant,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
                 ),
@@ -166,15 +185,22 @@ class _AiWritingAssistantPanelState extends ConsumerState<AiWritingAssistantPane
                       ? const SizedBox(
                           width: 14,
                           height: 14,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
                         )
                       : const Icon(Icons.auto_awesome, size: 16),
-                  label: Text(isGenerating ? 'Streaming Content...' : 'Generate with AI'),
+                  label: Text(
+                    isGenerating ? 'Streaming Content...' : 'Generate with AI',
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryDarkBlue,
                     foregroundColor: Colors.white,
                     minimumSize: const Size.fromHeight(42),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
 

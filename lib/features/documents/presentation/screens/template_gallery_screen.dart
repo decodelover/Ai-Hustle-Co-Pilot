@@ -10,10 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Preset Document Template Selection Gallery.
 class TemplateGalleryScreen extends ConsumerWidget {
   /// Creates a [TemplateGalleryScreen].
-  const TemplateGalleryScreen({
-    this.onSelectTemplate,
-    super.key,
-  });
+  const TemplateGalleryScreen({this.onSelectTemplate, super.key});
 
   final ValueChanged<DocumentTemplate>? onSelectTemplate;
 
@@ -61,7 +58,10 @@ class TemplateGalleryScreen extends ConsumerWidget {
                       children: [
                         Row(
                           children: [
-                            Text(tpl.iconName, style: const TextStyle(fontSize: 28)),
+                            Text(
+                              tpl.iconName,
+                              style: const TextStyle(fontSize: 28),
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
@@ -80,11 +80,17 @@ class TemplateGalleryScreen extends ConsumerWidget {
                           tpl.description,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.onSurfaceVariant,
+                          ),
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.surfaceVariant,
                             borderRadius: BorderRadius.circular(4),

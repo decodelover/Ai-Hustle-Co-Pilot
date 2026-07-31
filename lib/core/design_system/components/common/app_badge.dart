@@ -65,10 +65,7 @@ class AppBadge extends StatelessWidget {
       return Container(
         width: 8.0,
         height: 8.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: dotColor,
-        ),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: dotColor),
       );
     }
 
@@ -82,7 +79,9 @@ class AppBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: bg,
         borderRadius: AppRadius.borderPill,
-        border: border != BorderSide.none ? Border.fromBorderSide(border) : null,
+        border: border != BorderSide.none
+            ? Border.fromBorderSide(border)
+            : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -132,7 +131,7 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkPrimary.withValues(alpha: 0.2)
               : AppColors.primary.withValues(alpha: 0.1),
           isDark ? AppColors.darkPrimary : AppColors.primary,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.secondary:
         return (
@@ -140,7 +139,7 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkSecondary.withValues(alpha: 0.2)
               : AppColors.secondary.withValues(alpha: 0.1),
           isDark ? AppColors.darkSecondary : AppColors.secondary,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.success:
         return (
@@ -148,7 +147,7 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkSuccess.withValues(alpha: 0.2)
               : AppColors.success.withValues(alpha: 0.1),
           isDark ? AppColors.darkSuccess : AppColors.success,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.warning:
         return (
@@ -156,7 +155,7 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkWarning.withValues(alpha: 0.2)
               : AppColors.warning.withValues(alpha: 0.1),
           isDark ? AppColors.darkWarning : AppColors.warning,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.danger:
         return (
@@ -164,7 +163,7 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkDanger.withValues(alpha: 0.2)
               : AppColors.danger.withValues(alpha: 0.1),
           isDark ? AppColors.darkDanger : AppColors.danger,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.info:
         return (
@@ -172,13 +171,13 @@ class AppBadge extends StatelessWidget {
               ? AppColors.darkInfo.withValues(alpha: 0.2)
               : AppColors.info.withValues(alpha: 0.1),
           isDark ? AppColors.darkInfo : AppColors.info,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppBadgeVariant.outline:
         return (
           Colors.transparent,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide(color: isDark ? AppColors.darkOutline : AppColors.outline)
+          BorderSide(color: isDark ? AppColors.darkOutline : AppColors.outline),
         );
     }
   }

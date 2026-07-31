@@ -13,7 +13,10 @@ void main() {
     });
 
     test('maps ServerException to ServerFailure', () {
-      const exception = ServerException(message: 'Internal server error', statusCode: 500);
+      const exception = ServerException(
+        message: 'Internal server error',
+        statusCode: 500,
+      );
       final result = ErrorMapper.mapToFailure(exception);
       expect(result, isA<ServerFailure>());
       expect(result.message, 'Internal server error');
@@ -78,10 +81,16 @@ void main() {
   group('FailureMessageX Unit Tests', () {
     test('toUserMessage returns clean user-facing descriptions', () {
       const networkFailure = NetworkFailure();
-      expect(networkFailure.toUserMessage(), contains('No internet connection'));
+      expect(
+        networkFailure.toUserMessage(),
+        contains('No internet connection'),
+      );
 
       const unauthorizedFailure = UnauthorizedFailure();
-      expect(unauthorizedFailure.toUserMessage(), contains('session has expired'));
+      expect(
+        unauthorizedFailure.toUserMessage(),
+        contains('session has expired'),
+      );
 
       const notFoundFailure = NotFoundFailure();
       expect(notFoundFailure.toUserMessage(), contains('not found'));

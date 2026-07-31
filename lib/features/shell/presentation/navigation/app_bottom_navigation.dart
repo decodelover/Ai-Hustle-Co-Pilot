@@ -1,6 +1,7 @@
 /// Phone Bottom Navigation bar widget with center AI action button slot.
 library;
 
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/features/shell/application/controllers/shell_controller.dart';
 import 'package:ai_hustle_copilot/features/shell/domain/models/shell_navigation_config.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,10 @@ class AppBottomNavigation extends ConsumerWidget {
     );
 
     return NavigationBar(
+      height: 76,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      indicatorColor: AppColors.primary.withValues(alpha: 0.10),
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
       onDestinationSelected: (index) {
         final targetItem = primaryTabs[index];

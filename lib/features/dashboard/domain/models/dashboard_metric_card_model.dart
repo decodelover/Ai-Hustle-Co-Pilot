@@ -81,13 +81,13 @@ class DashboardMetricCardModel {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        value,
-        trendPercentage,
-        isPositiveTrend,
-        icon,
-        accentColor,
-        subtitle,
-      );
+    id,
+    title,
+    value,
+    trendPercentage,
+    isPositiveTrend,
+    icon,
+    accentColor,
+    subtitle,
+  );
 }

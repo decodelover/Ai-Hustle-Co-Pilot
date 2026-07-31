@@ -37,32 +37,33 @@ void main() {
       expect(updated.isRefreshing, isTrue);
     });
 
-    testWidgets('DashboardMetricCard renders title, value, and trend percentage',
-        (WidgetTester tester) async {
-      const model = DashboardMetricCardModel(
-        id: 'active_projects',
-        title: 'Active Projects',
-        value: '18',
-        trendPercentage: 12.5,
-        isPositiveTrend: true,
-        icon: Icons.folder_open_outlined,
-      );
+    testWidgets(
+      'DashboardMetricCard renders title, value, and trend percentage',
+      (WidgetTester tester) async {
+        const model = DashboardMetricCardModel(
+          id: 'active_projects',
+          title: 'Active Projects',
+          value: '18',
+          trendPercentage: 12.5,
+          isPositiveTrend: true,
+          icon: Icons.folder_open_outlined,
+        );
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DashboardMetricCard(model: model),
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: Scaffold(body: DashboardMetricCard(model: model)),
           ),
-        ),
-      );
+        );
 
-      expect(find.text('Active Projects'), findsOneWidget);
-      expect(find.text('18'), findsOneWidget);
-      expect(find.text('12.5%'), findsOneWidget);
-    });
+        expect(find.text('Active Projects'), findsOneWidget);
+        expect(find.text('18'), findsOneWidget);
+        expect(find.text('12.5%'), findsOneWidget);
+      },
+    );
 
-    testWidgets('DashboardHeaderWidget renders greeting, score, and CTA',
-        (WidgetTester tester) async {
+    testWidgets('DashboardHeaderWidget renders greeting, score, and CTA', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
@@ -90,25 +91,25 @@ void main() {
       expect(find.text('New Project'), findsOneWidget);
     });
 
-    testWidgets('DashboardScreen renders skeleton loader initially then success grid',
-        (WidgetTester tester) async {
-      tester.view.physicalSize = const Size(1440, 1200);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(tester.view.resetPhysicalSize);
+    testWidgets(
+      'DashboardScreen renders skeleton loader initially then success grid',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1440, 1200);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(tester.view.resetPhysicalSize);
 
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: DashboardScreen(),
-          ),
-        ),
-      );
+        await tester.pumpWidget(
+          const ProviderScope(child: MaterialApp(home: DashboardScreen())),
+        );
 
-      // Verify widget mounted
-      expect(find.byType(DashboardScreen), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 700));
-      await tester.pumpAndSettle();
-      expect(find.textContaining('Alex Manager'), findsOneWidget);
-    });
+        // Verify widget mounted
+        expect(find.byType(DashboardScreen), findsOneWidget);
+        await tester.pump(const Duration(milliseconds: 700));
+        await tester.pumpAndSettle();
+        expect(find.textContaining('there'), findsOneWidget);
+        expect(find.text('NEXT BEST ACTION'), findsOneWidget);
+        expect(find.text('Quick actions'), findsOneWidget);
+      },
+    );
   });
 }

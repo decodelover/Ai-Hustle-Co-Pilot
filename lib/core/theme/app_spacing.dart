@@ -138,28 +138,34 @@ abstract class AppSpacing {
   static const EdgeInsets paddingAllXl = EdgeInsets.all(xl);
 
   /// Horizontal padding 8dp (sm).
-  static const EdgeInsets paddingHorizontalSm =
-      EdgeInsets.symmetric(horizontal: sm);
+  static const EdgeInsets paddingHorizontalSm = EdgeInsets.symmetric(
+    horizontal: sm,
+  );
 
   /// Horizontal padding 16dp (md).
-  static const EdgeInsets paddingHorizontalMd =
-      EdgeInsets.symmetric(horizontal: md);
+  static const EdgeInsets paddingHorizontalMd = EdgeInsets.symmetric(
+    horizontal: md,
+  );
 
   /// Horizontal padding 24dp (lg).
-  static const EdgeInsets paddingHorizontalLg =
-      EdgeInsets.symmetric(horizontal: lg);
+  static const EdgeInsets paddingHorizontalLg = EdgeInsets.symmetric(
+    horizontal: lg,
+  );
 
   /// Vertical padding 8dp (sm).
-  static const EdgeInsets paddingVerticalSm =
-      EdgeInsets.symmetric(vertical: sm);
+  static const EdgeInsets paddingVerticalSm = EdgeInsets.symmetric(
+    vertical: sm,
+  );
 
   /// Vertical padding 16dp (md).
-  static const EdgeInsets paddingVerticalMd =
-      EdgeInsets.symmetric(vertical: md);
+  static const EdgeInsets paddingVerticalMd = EdgeInsets.symmetric(
+    vertical: md,
+  );
 
   /// Vertical padding 24dp (lg).
-  static const EdgeInsets paddingVerticalLg =
-      EdgeInsets.symmetric(vertical: lg);
+  static const EdgeInsets paddingVerticalLg = EdgeInsets.symmetric(
+    vertical: lg,
+  );
 
   // ── SizedBox Gap Helpers ────────────────────────────────────────────────
   /// 4dp square gap.

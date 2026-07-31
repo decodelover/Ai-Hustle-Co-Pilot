@@ -8,11 +8,7 @@ abstract class AppShadows {
   // ── Light Theme Shadows ────────────────────────────────────────────────
   /// Subtle card elevation shadow for light mode.
   static const List<BoxShadow> lightSm = [
-    BoxShadow(
-      color: Color(0x0D0F172A),
-      offset: Offset(0, 1),
-      blurRadius: 2,
-    ),
+    BoxShadow(color: Color(0x0D0F172A), offset: Offset(0, 1), blurRadius: 2),
   ];
 
   /// Medium popover/dropdown shadow for light mode.
@@ -47,49 +43,29 @@ abstract class AppShadows {
     ),
   ];
 
-  /// Signature AI Copilot glowing purple shadow for light mode.
+  /// Restrained navy AI Copilot shadow for light mode.
   static const List<BoxShadow> lightAiGlow = [
-    BoxShadow(
-      color: Color(0x406D28D9),
-      blurRadius: 20,
-      spreadRadius: 2,
-    ),
+    BoxShadow(color: Color(0x403A5FA0), blurRadius: 20, spreadRadius: 2),
   ];
 
   // ── Dark Theme Shadows ─────────────────────────────────────────────────
   /// Subtle card elevation shadow for dark mode.
   static const List<BoxShadow> darkSm = [
-    BoxShadow(
-      color: Color(0x66000000),
-      offset: Offset(0, 1),
-      blurRadius: 2,
-    ),
+    BoxShadow(color: Color(0x66000000), offset: Offset(0, 1), blurRadius: 2),
   ];
 
   /// Medium popover/dropdown shadow for dark mode.
   static const List<BoxShadow> darkMd = [
-    BoxShadow(
-      color: Color(0x80000000),
-      offset: Offset(0, 4),
-      blurRadius: 12,
-    ),
+    BoxShadow(color: Color(0x80000000), offset: Offset(0, 4), blurRadius: 12),
   ];
 
   /// Elevated modal/dialog shadow for dark mode.
   static const List<BoxShadow> darkLg = [
-    BoxShadow(
-      color: Color(0xB3000000),
-      offset: Offset(0, 12),
-      blurRadius: 24,
-    ),
+    BoxShadow(color: Color(0xB3000000), offset: Offset(0, 12), blurRadius: 24),
   ];
 
-  /// Signature AI Copilot glowing neon purple shadow for dark mode.
+  /// Restrained blue AI Copilot shadow for dark mode.
   static const List<BoxShadow> darkAiGlow = [
-    BoxShadow(
-      color: Color(0x599333EA),
-      blurRadius: 24,
-      spreadRadius: 2,
-    ),
+    BoxShadow(color: Color(0x5960A5FA), blurRadius: 24, spreadRadius: 2),
   ];
 }

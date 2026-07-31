@@ -14,7 +14,8 @@ import 'package:ai_hustle_copilot/features/projects/domain/services/project_temp
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Centralized Riverpod AsyncNotifier orchestrating Phase 3.3 Project Workspace actions.
-final class ProjectWorkspaceController extends StateNotifier<AsyncValue<ProjectWorkspaceState>> {
+final class ProjectWorkspaceController
+    extends StateNotifier<AsyncValue<ProjectWorkspaceState>> {
   /// Constructs [ProjectWorkspaceController].
   ProjectWorkspaceController({
     required this.projectRepository,
@@ -46,13 +47,15 @@ final class ProjectWorkspaceController extends StateNotifier<AsyncValue<ProjectW
       final projects = await projectRepository.getProjects();
       final active = projects.isNotEmpty ? projects.first : null;
 
-      state = AsyncData(ProjectWorkspaceState(
-        projects: projects,
-        activeProject: active,
-        projectContext: active?.context,
-        projectActivities: active?.activities ?? [],
-        projectMembers: active?.members ?? [],
-      ));
+      state = AsyncData(
+        ProjectWorkspaceState(
+          projects: projects,
+          activeProject: active,
+          projectContext: active?.context,
+          projectActivities: active?.activities ?? [],
+          projectMembers: active?.members ?? [],
+        ),
+      );
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
     }
@@ -69,12 +72,14 @@ final class ProjectWorkspaceController extends StateNotifier<AsyncValue<ProjectW
       final recalculatedHealth = healthService.calculateHealthScore(match);
       final updated = match.copyWith(healthScore: recalculatedHealth);
 
-      state = AsyncData(current.copyWith(
-        activeProject: updated,
-        projectContext: updated.context,
-        projectActivities: updated.activities,
-        projectMembers: updated.members,
-      ));
+      state = AsyncData(
+        current.copyWith(
+          activeProject: updated,
+          projectContext: updated.context,
+          projectActivities: updated.activities,
+          projectMembers: updated.members,
+        ),
+      );
     });
   }
 
@@ -110,11 +115,16 @@ final class ProjectWorkspaceController extends StateNotifier<AsyncValue<ProjectW
     if (currentState == null || currentState.activeProject == null) return;
 
     final logs = <String>[];
-    state = AsyncData(currentState.copyWith(
-      isExecutingAgent: true,
-      activeAgent: agent.copyWith(isExecuting: true, currentTaskDescription: task.title),
-      executionLogs: logs,
-    ));
+    state = AsyncData(
+      currentState.copyWith(
+        isExecutingAgent: true,
+        activeAgent: agent.copyWith(
+          isExecuting: true,
+          currentTaskDescription: task.title,
+        ),
+        executionLogs: logs,
+      ),
+    );
 
     await _executionSub?.cancel();
     _executionSub = agentRepository
@@ -126,24 +136,30 @@ final class ProjectWorkspaceController extends StateNotifier<AsyncValue<ProjectW
         .listen(
           (logChunk) {
             logs.add(logChunk);
-            state = AsyncData(currentState.copyWith(
-              isExecutingAgent: true,
-              executionLogs: List.from(logs),
-            ));
+            state = AsyncData(
+              currentState.copyWith(
+                isExecutingAgent: true,
+                executionLogs: List.from(logs),
+              ),
+            );
           },
           onDone: () {
-            state = AsyncData(currentState.copyWith(
-              isExecutingAgent: false,
-              activeAgent: agent.copyWith(isExecuting: false),
-            ));
+            state = AsyncData(
+              currentState.copyWith(
+                isExecutingAgent: false,
+                activeAgent: agent.copyWith(isExecuting: false),
+              ),
+            );
           },
           onError: (Object error) {
             logs.add('\n[ERROR]: Agent execution failed: $error');
-            state = AsyncData(currentState.copyWith(
-              isExecutingAgent: false,
-              activeAgent: agent.copyWith(isExecuting: false),
-              executionLogs: List.from(logs),
-            ));
+            state = AsyncData(
+              currentState.copyWith(
+                isExecutingAgent: false,
+                activeAgent: agent.copyWith(isExecuting: false),
+                executionLogs: List.from(logs),
+              ),
+            );
           },
         );
   }

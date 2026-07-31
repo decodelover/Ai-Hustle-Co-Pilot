@@ -15,7 +15,10 @@ class AnalyticsService {
   const AnalyticsService();
 
   /// Logs a navigation event.
-  void logNavigationEvent(String identifier, {Map<String, dynamic>? parameters}) {
+  void logNavigationEvent(
+    String identifier, {
+    Map<String, dynamic>? parameters,
+  }) {
     AppLogger.info(
       'ANALYTICS: [Navigation] -> $identifier (params: $parameters)',
     );

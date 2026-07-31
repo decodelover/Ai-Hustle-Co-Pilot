@@ -30,7 +30,8 @@ class AppProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final activeColor = color ?? theme.colorScheme.primary;
-    final trackColor = backgroundColor ?? theme.colorScheme.surfaceContainerHighest;
+    final trackColor =
+        backgroundColor ?? theme.colorScheme.surfaceContainerHighest;
     final percentageInt = (progress * 100).clamp(0, 100).toInt();
 
     return Column(

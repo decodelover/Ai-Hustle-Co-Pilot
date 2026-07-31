@@ -27,8 +27,9 @@ class _AiStudioScreenState extends ConsumerState<AiStudioScreen> {
       context: context,
       builder: (context) => PromptLibraryModal(
         onSelectPrompt: (template) {
-          final activeId =
-              ref.read(conversationControllerProvider).activeConversationId;
+          final activeId = ref
+              .read(conversationControllerProvider)
+              .activeConversationId;
           if (activeId != null) {
             // Trigger prompt insertion
           }
@@ -87,9 +88,7 @@ class _AiStudioScreenState extends ConsumerState<AiStudioScreen> {
                 ),
 
                 // Virtualized Message Thread
-                Expanded(
-                  child: MessageListView(conversationId: activeId),
-                ),
+                Expanded(child: MessageListView(conversationId: activeId)),
 
                 // AI Composer Pro
                 MessageComposerPro(
@@ -107,11 +106,7 @@ class _AiStudioScreenState extends ConsumerState<AiStudioScreen> {
               height: double.infinity,
               decoration: const BoxDecoration(
                 color: Color(0xFF1E242E),
-                border: Border(
-                  left: BorderSide(
-                    color: Color(0xFF2B323E),
-                  ),
-                ),
+                border: Border(left: BorderSide(color: Color(0xFF2B323E))),
               ),
               padding: const EdgeInsets.all(20.0),
               child: Column(

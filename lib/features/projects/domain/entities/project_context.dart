@@ -48,11 +48,11 @@ final class ProjectContext {
 
   @override
   int get hashCode => Object.hash(
-        projectId,
-        systemInstructions,
-        Object.hashAll(techStack),
-        Object.hashAll(keyRules),
-        targetAudience,
-        architectureNotes,
-      );
+    projectId,
+    systemInstructions,
+    Object.hashAll(techStack),
+    Object.hashAll(keyRules),
+    targetAudience,
+    architectureNotes,
+  );
 }

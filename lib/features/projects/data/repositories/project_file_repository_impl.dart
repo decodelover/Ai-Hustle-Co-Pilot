@@ -15,7 +15,11 @@ final class ProjectFileRepositoryImpl implements ProjectFileRepository {
   }
 
   @override
-  Future<ProjectFile> uploadFile(String projectId, String name, List<int> bytes) async {
+  Future<ProjectFile> uploadFile(
+    String projectId,
+    String name,
+    List<int> bytes,
+  ) async {
     await Future<void>.delayed(const Duration(milliseconds: 40));
     final dotIndex = name.lastIndexOf('.');
     final ext = dotIndex != -1 ? name.substring(dotIndex) : '.txt';

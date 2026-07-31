@@ -14,9 +14,7 @@ class AppSectionHeader extends StatelessWidget {
     super.key,
     this.subtitle,
     this.action,
-    this.padding = const EdgeInsets.only(
-      bottom: AppSpacing.space16,
-    ),
+    this.padding = const EdgeInsets.only(bottom: AppSpacing.space16),
   });
 
   /// Primary section header title.
@@ -49,7 +47,9 @@ class AppSectionHeader extends StatelessWidget {
                   title,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
+                    color: isDark
+                        ? AppColors.darkOnSurface
+                        : AppColors.onSurface,
                   ),
                 ),
                 if (subtitle != null) ...[

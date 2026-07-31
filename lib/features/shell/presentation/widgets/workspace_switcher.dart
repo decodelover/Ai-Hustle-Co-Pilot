@@ -11,10 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Multi-tenant WorkspaceSwitcher dropdown selector widget.
 class WorkspaceSwitcher extends ConsumerWidget {
   /// Creates a [WorkspaceSwitcher].
-  const WorkspaceSwitcher({
-    this.compact = false,
-    super.key,
-  });
+  const WorkspaceSwitcher({this.compact = false, super.key});
 
   /// Compact mode for collapsed sidebar / small top bar.
   final bool compact;
@@ -49,13 +46,14 @@ class WorkspaceSwitcher extends ConsumerWidget {
         children: [
           ..._sampleWorkspaces.map(
             (ws) => ListTile(
-              leading: AppAvatar(
-                name: ws.name,
-              ),
+              leading: AppAvatar(name: ws.name),
               title: Text(ws.name),
               subtitle: Text(ws.planTier),
               trailing: ref.read(activeWorkspaceProvider) == ws
-                  ? const Icon(Icons.check_circle_rounded, color: AppColors.primary)
+                  ? const Icon(
+                      Icons.check_circle_rounded,
+                      color: AppColors.primary,
+                    )
                   : null,
               onTap: () {
                 ref.read(shellControllerProvider.notifier).selectWorkspace(ws);
@@ -90,10 +88,7 @@ class WorkspaceSwitcher extends ConsumerWidget {
     if (compact) {
       return IconButton(
         tooltip: 'Switch Workspace (${activeWs.name})',
-        icon: AppAvatar(
-          name: activeWs.name,
-          size: AppAvatarSize.sm,
-        ),
+        icon: AppAvatar(name: activeWs.name, size: AppAvatarSize.sm),
         onPressed: () => _showWorkspaceModal(context, ref),
       );
     }
@@ -106,10 +101,7 @@ class WorkspaceSwitcher extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppAvatar(
-              name: activeWs.name,
-              size: AppAvatarSize.sm,
-            ),
+            AppAvatar(name: activeWs.name, size: AppAvatarSize.sm),
             const SizedBox(width: AppSpacing.space8),
             Flexible(
               child: Column(

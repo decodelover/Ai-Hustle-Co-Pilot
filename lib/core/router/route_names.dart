@@ -103,7 +103,8 @@ abstract final class RoutePaths {
   static const String documents = '/documents';
   static const String documentTemplates = '/documents/templates';
   static const String documentEditor = '/documents/:id';
-  static const String projectDocumentEditor = '/projects/:projectId/documents/:id';
+  static const String projectDocumentEditor =
+      '/projects/:projectId/documents/:id';
   static const String marketplace = '/marketplace';
   static const String subscription = '/subscription';
   static const String settings = '/settings';

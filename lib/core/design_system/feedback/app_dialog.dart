@@ -100,9 +100,7 @@ class AppDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: isDark ? AppColors.darkSurface : AppColors.surface,
       elevation: AppElevation.level4,
-      shape: const RoundedRectangleBorder(
-        borderRadius: AppRadius.borderXLarge,
-      ),
+      shape: const RoundedRectangleBorder(borderRadius: AppRadius.borderXLarge),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.space24),
         child: Column(
@@ -115,7 +113,9 @@ class AppDialog extends StatelessWidget {
                   width: 48.0,
                   height: 48.0,
                   decoration: BoxDecoration(
-                    color: (iconColor ?? defaultIconColor).withValues(alpha: 0.1),
+                    color: (iconColor ?? defaultIconColor).withValues(
+                      alpha: 0.1,
+                    ),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -158,7 +158,8 @@ class AppDialog extends StatelessWidget {
                       child: AppButton(
                         text: secondaryActionText!,
                         variant: AppButtonVariant.outlined,
-                        onPressed: onSecondaryAction ??
+                        onPressed:
+                            onSecondaryAction ??
                             () => Navigator.of(context).pop(),
                       ),
                     ),
@@ -172,7 +173,8 @@ class AppDialog extends StatelessWidget {
                         variant: isDestructive
                             ? AppButtonVariant.destructive
                             : AppButtonVariant.primary,
-                        onPressed: onPrimaryAction ??
+                        onPressed:
+                            onPrimaryAction ??
                             () => Navigator.of(context).pop(),
                       ),
                     ),

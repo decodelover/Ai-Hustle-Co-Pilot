@@ -10,10 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Task Kanban board & list widget for executing AI agent tasks.
 class ProjectTaskBoardTab extends ConsumerWidget {
   /// Creates a [ProjectTaskBoardTab].
-  const ProjectTaskBoardTab({
-    required this.project,
-    super.key,
-  });
+  const ProjectTaskBoardTab({required this.project, super.key});
 
   /// Active project.
   final Project project;
@@ -39,7 +36,9 @@ class ProjectTaskBoardTab extends ConsumerWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0D1B2A),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
               ),
               icon: const Icon(Icons.add_rounded, size: 18),
               label: const Text('Add Task'),
@@ -80,7 +79,9 @@ class ProjectTaskBoardTab extends ConsumerWidget {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: _getStatusColor(task.status).withValues(alpha: 0.1),
+                        color: _getStatusColor(
+                          task.status,
+                        ).withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -119,17 +120,18 @@ class ProjectTaskBoardTab extends ConsumerWidget {
                     ElevatedButton.icon(
                       onPressed: () {
                         if (project.activeAgents.isNotEmpty) {
-                          ref.read(projectWorkspaceControllerProvider.notifier).executeTask(
-                                task,
-                                project.activeAgents.first,
-                              );
+                          ref
+                              .read(projectWorkspaceControllerProvider.notifier)
+                              .executeTask(task, project.activeAgents.first);
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF10B981),
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
                       ),
                       icon: const Icon(Icons.play_arrow_rounded, size: 16),
                       label: const Text('Run Task'),

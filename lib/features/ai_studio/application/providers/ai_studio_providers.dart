@@ -45,55 +45,65 @@ final creditRepositoryProvider = Provider<CreditRepository>((ref) {
 });
 
 /// Content Moderation Service Provider.
-final contentModerationServiceProvider = Provider<ContentModerationService>((ref) {
+final contentModerationServiceProvider = Provider<ContentModerationService>((
+  ref,
+) {
   return ContentModerationService();
 });
 
 /// Stream Chat Response Use Case Provider.
-final streamChatResponseUseCaseProvider = Provider<StreamChatResponseUseCase>((ref) {
+final streamChatResponseUseCaseProvider = Provider<StreamChatResponseUseCase>((
+  ref,
+) {
   return StreamChatResponseUseCase(
     gatewayRepository: ref.watch(aiGatewayRepositoryProvider),
-    retrievalService: MemoryRetrievalService(ref.watch(memoryRepositoryProvider)),
+    retrievalService: MemoryRetrievalService(
+      ref.watch(memoryRepositoryProvider),
+    ),
   );
 });
 
 /// Execute Agent Task Use Case Provider.
-final executeAgentTaskUseCaseProvider = Provider<ExecuteAgentTaskUseCase>((ref) {
+final executeAgentTaskUseCaseProvider = Provider<ExecuteAgentTaskUseCase>((
+  ref,
+) {
   return ExecuteAgentTaskUseCase();
 });
 
 /// Conversation Controller Provider.
 final conversationControllerProvider =
     StateNotifierProvider<ConversationController, AsyncValue<void>>((ref) {
-  return ConversationController(
-    repository: ref.watch(conversationRepositoryProvider),
-  );
-});
+      return ConversationController(
+        repository: ref.watch(conversationRepositoryProvider),
+      );
+    });
 
 /// Streaming Chat Controller Provider.
 final streamingChatControllerProvider =
     StateNotifierProvider<StreamingChatController, AsyncValue<String?>>((ref) {
-  return StreamingChatController(
-    repository: ref.watch(conversationRepositoryProvider),
-    streamChatResponseUseCase: ref.watch(streamChatResponseUseCaseProvider),
-  );
-});
+      return StreamingChatController(
+        repository: ref.watch(conversationRepositoryProvider),
+        streamChatResponseUseCase: ref.watch(streamChatResponseUseCaseProvider),
+      );
+    });
 
 /// Agent Controller Provider.
 final agentControllerProvider =
     StateNotifierProvider<AgentController, AsyncValue<AgentTask?>>((ref) {
-  return AgentController(
-    executeUseCase: ref.watch(executeAgentTaskUseCaseProvider),
-  );
-});
+      return AgentController(
+        executeUseCase: ref.watch(executeAgentTaskUseCaseProvider),
+      );
+    });
 
 /// Credit Wallet Controller Provider.
 final creditWalletControllerProvider =
-    StateNotifierProvider<CreditWalletController, AsyncValue<CreditWallet>>((ref) {
-  return CreditWalletController(
-    creditRepository: ref.watch(creditRepositoryProvider),
-  );
-});
+    StateNotifierProvider<CreditWalletController, AsyncValue<CreditWallet>>((
+      ref,
+    ) {
+      return CreditWalletController(
+        creditRepository: ref.watch(creditRepositoryProvider),
+      );
+    });
 
 /// Available Models Future Provider.
 final availableModelsProvider = FutureProvider<List<AiModel>>((ref) async {
@@ -101,6 +111,8 @@ final availableModelsProvider = FutureProvider<List<AiModel>>((ref) async {
 });
 
 /// Prompt Templates Future Provider.
-final promptTemplatesProvider = FutureProvider<List<PromptTemplate>>((ref) async {
+final promptTemplatesProvider = FutureProvider<List<PromptTemplate>>((
+  ref,
+) async {
   return AiStudioRepositoryImpl().getPromptTemplates();
 });

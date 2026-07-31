@@ -58,13 +58,13 @@ class QuickActionModel {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        label,
-        icon,
-        route,
-        badgeCount,
-        analyticsEvent,
-        requiredPermission,
-        isFeatured,
-      );
+    id,
+    label,
+    icon,
+    route,
+    badgeCount,
+    analyticsEvent,
+    requiredPermission,
+    isFeatured,
+  );
 }

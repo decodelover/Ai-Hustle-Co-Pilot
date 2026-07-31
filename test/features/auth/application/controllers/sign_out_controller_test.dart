@@ -13,16 +13,17 @@ class FakeSignOutRepository implements AuthRepository {
   bool shouldFail = false;
 
   @override
-  Future<AuthUser> signIn({required Email email, required Password password}) async =>
-      const AuthUser(id: '1', email: 'a@b.com');
+  Future<AuthUser> signIn({
+    required Email email,
+    required Password password,
+  }) async => const AuthUser(id: '1', email: 'a@b.com');
 
   @override
   Future<AuthUser> signUp({
     required Email email,
     required Password password,
     String? displayName,
-  }) async =>
-      const AuthUser(id: '1', email: 'a@b.com');
+  }) async => const AuthUser(id: '1', email: 'a@b.com');
 
   @override
   Future<void> signOut() async {
@@ -50,8 +51,7 @@ class FakeSignOutRepository implements AuthRepository {
   Future<AuthUser> verifyOtp({
     required Email email,
     required String token,
-  }) async =>
-      const AuthUser(id: 'usr_signout_1', email: 'signout@example.com');
+  }) async => const AuthUser(id: 'usr_signout_1', email: 'signout@example.com');
 }
 
 void main() {

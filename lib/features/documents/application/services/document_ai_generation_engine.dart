@@ -35,7 +35,12 @@ final class DocumentAiGenerationEngine {
     );
 
     // Simulated high-fidelity stream generator delivering Markdown chunks
-    final sampleResponse = _getSampleMarkdownForIntent(intent, userPrompt, document.title, systemPrompt);
+    final sampleResponse = _getSampleMarkdownForIntent(
+      intent,
+      userPrompt,
+      document.title,
+      systemPrompt,
+    );
     final words = sampleResponse.split(' ');
     final accumulated = StringBuffer();
 

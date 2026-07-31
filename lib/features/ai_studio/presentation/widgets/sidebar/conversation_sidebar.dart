@@ -9,10 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Enterprise Conversation Sidebar supporting search, folders, pinning, and new chat creation.
 class ConversationSidebar extends ConsumerWidget {
   /// Creates a [ConversationSidebar].
-  const ConversationSidebar({
-    super.key,
-    this.onConversationSelected,
-  });
+  const ConversationSidebar({super.key, this.onConversationSelected});
 
   /// Optional callback when a conversation is tapped (for mobile drawer closure).
   final VoidCallback? onConversationSelected;
@@ -27,11 +24,7 @@ class ConversationSidebar extends ConsumerWidget {
       height: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFF1E242E),
-        border: Border(
-          right: BorderSide(
-            color: Color(0xFF2B323E),
-          ),
-        ),
+        border: Border(right: BorderSide(color: Color(0xFF2B323E))),
       ),
       child: Column(
         children: [
@@ -57,10 +50,7 @@ class ConversationSidebar extends ConsumerWidget {
                 icon: const Icon(Icons.add_rounded, size: 20.0),
                 label: const Text(
                   'New Chat',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -188,11 +178,7 @@ class ConversationSidebar extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             decoration: const BoxDecoration(
               color: Color(0xFF181D26),
-              border: Border(
-                top: BorderSide(
-                  color: Color(0xFF2B323E),
-                ),
-              ),
+              border: Border(top: BorderSide(color: Color(0xFF2B323E))),
             ),
             child: Row(
               children: [
@@ -269,12 +255,19 @@ class _SidebarItem extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(8.0),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
+              vertical: 8.0,
+            ),
             child: Row(
               children: [
                 Icon(
-                  isPinned ? Icons.push_pin_rounded : Icons.chat_bubble_outline_rounded,
-                  color: isSelected ? AppColors.primary : const Color(0xFF777777),
+                  isPinned
+                      ? Icons.push_pin_rounded
+                      : Icons.chat_bubble_outline_rounded,
+                  color: isSelected
+                      ? AppColors.primary
+                      : const Color(0xFF777777),
                   size: 16.0,
                 ),
                 const SizedBox(width: 10.0),
@@ -286,7 +279,9 @@ class _SidebarItem extends StatelessWidget {
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.white70,
                       fontSize: 13.0,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                     ),
                   ),
                 ),
@@ -306,14 +301,20 @@ class _SidebarItem extends StatelessWidget {
                       value: 'pin',
                       child: Text(
                         isPinned ? 'Unpin Chat' : 'Pin to Top',
-                        style: const TextStyle(color: Colors.white, fontSize: 12.0),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
                     const PopupMenuItem(
                       value: 'delete',
                       child: Text(
                         'Delete Chat',
-                        style: TextStyle(color: Colors.redAccent, fontSize: 12.0),
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ),
                   ],

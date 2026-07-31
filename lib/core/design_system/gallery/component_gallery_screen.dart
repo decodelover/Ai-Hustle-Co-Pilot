@@ -10,8 +10,7 @@ class ComponentGalleryScreen extends StatefulWidget {
   const ComponentGalleryScreen({super.key});
 
   @override
-  State<ComponentGalleryScreen> createState() =>
-      _ComponentGalleryScreenState();
+  State<ComponentGalleryScreen> createState() => _ComponentGalleryScreenState();
 }
 
 class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
@@ -33,7 +32,9 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
 
   @override
   Widget build(BuildContext context) {
-    final activeTheme = _isDarkPreview ? AppTheme.darkTheme : AppTheme.lightTheme;
+    final activeTheme = _isDarkPreview
+        ? AppTheme.darkTheme
+        : AppTheme.lightTheme;
 
     return Theme(
       data: activeTheme,
@@ -96,10 +97,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
           title: 'Button Variants',
           subtitle: 'Enterprise button primitives adhering to M3 rules',
         ),
-        AppButton(
-          text: 'Primary Button',
-          onPressed: () {},
-        ),
+        AppButton(text: 'Primary Button', onPressed: () {}),
         const SizedBox(height: AppSpacing.space12),
         AppButton(
           text: 'Secondary Button',
@@ -131,10 +129,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
           onPressed: () {},
         ),
         const SizedBox(height: AppSpacing.space12),
-        const AppButton(
-          text: 'Loading State',
-          isLoading: true,
-        ),
+        const AppButton(text: 'Loading State', isLoading: true),
         const SizedBox(height: AppSpacing.space24),
         const AppSectionHeader(title: 'Icon Buttons'),
         Row(
@@ -150,10 +145,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
               variant: AppIconButtonVariant.outlined,
               onPressed: () {},
             ),
-            AppIconButton(
-              icon: Icons.delete_outline_rounded,
-              onPressed: () {},
-            ),
+            AppIconButton(icon: Icons.delete_outline_rounded, onPressed: () {}),
           ],
         ),
       ],
@@ -169,10 +161,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
           title: 'Text Inputs',
           subtitle: 'Validation, prefix/suffix icons, and password toggle',
         ),
-        AppTextField(
-          label: 'Standard Input',
-          hint: 'Enter your text',
-        ),
+        AppTextField(label: 'Standard Input', hint: 'Enter your text'),
         SizedBox(height: AppSpacing.space16),
         AppTextField(
           label: 'Email Input',
@@ -197,10 +186,7 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
           errorText: 'This field is required',
         ),
         SizedBox(height: AppSpacing.space16),
-        AppTextField(
-          label: 'Success State Input',
-          isSuccess: true,
-        ),
+        AppTextField(label: 'Success State Input', isSuccess: true),
       ],
     );
   }
@@ -218,7 +204,10 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
           title: 'Standard Card',
           subtitle: 'Level 1 subtle elevation with stroke border',
           leading: const AppAvatar(name: 'AI Co-Pilot'),
-          trailing: const AppBadge(label: 'Active', variant: AppBadgeVariant.success),
+          trailing: const AppBadge(
+            label: 'Active',
+            variant: AppBadgeVariant.success,
+          ),
           onTap: () {},
         ),
         const SizedBox(height: AppSpacing.space16),
@@ -256,7 +245,11 @@ class _ComponentGalleryScreenState extends State<ComponentGalleryScreen>
             AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.xs),
             AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.sm),
             AppAvatar(name: 'Alex Johnson', isOnline: true),
-            AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.lg, isOnline: false),
+            AppAvatar(
+              name: 'Alex Johnson',
+              size: AppAvatarSize.lg,
+              isOnline: false,
+            ),
             AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.xl),
           ],
         ),

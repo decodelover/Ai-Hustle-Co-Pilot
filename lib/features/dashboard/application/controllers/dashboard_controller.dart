@@ -8,11 +8,18 @@ import 'package:ai_hustle_copilot/features/dashboard/data/repositories/dashboard
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_state.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Provider exposing the concrete [DashboardRepository] contract.
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
+  SupabaseClient? client;
+  try {
+    client = Supabase.instance.client;
+  } catch (_) {
+    // Tests and design previews intentionally run without Supabase startup.
+  }
   return DashboardRepositoryImpl(
-    remoteDataSource: DashboardRemoteDataSourceImpl(),
+    remoteDataSource: DashboardRemoteDataSourceImpl(supabaseClient: client),
   );
 });
 
@@ -55,8 +62,10 @@ class DashboardController extends AutoDisposeAsyncNotifier<DashboardState> {
     if (current == null) return;
 
     final updatedInsights = current.insights
-        .map((item) =>
-            item.id == insightId ? item.copyWith(isDismissed: true) : item)
+        .map(
+          (item) =>
+              item.id == insightId ? item.copyWith(isDismissed: true) : item,
+        )
         .toList();
 
     state = AsyncData(current.copyWith(insights: updatedInsights));
@@ -68,9 +77,11 @@ class DashboardController extends AutoDisposeAsyncNotifier<DashboardState> {
     if (current == null) return;
 
     final updatedInsights = current.insights
-        .map((item) => item.id == insightId
-            ? item.copyWith(isFavorite: !item.isFavorite)
-            : item)
+        .map(
+          (item) => item.id == insightId
+              ? item.copyWith(isFavorite: !item.isFavorite)
+              : item,
+        )
         .toList();
 
     state = AsyncData(current.copyWith(insights: updatedInsights));
@@ -80,5 +91,5 @@ class DashboardController extends AutoDisposeAsyncNotifier<DashboardState> {
 /// Main controller provider for the Dashboard feature.
 final dashboardControllerProvider =
     AsyncNotifierProvider.autoDispose<DashboardController, DashboardState>(
-  DashboardController.new,
-);
+      DashboardController.new,
+    );

@@ -9,8 +9,14 @@ abstract class AppColors {
   /// Primary Dark Blue brand color (#0D1B2A) used for headers, dark surfaces, and primary CTAs.
   static const Color primaryDarkBlue = Color(0xFF0D1B2A);
 
+  /// Semantic alias for the deepest brand canvas.
+  static const Color deepNavy = primaryDarkBlue;
+
   /// Primary Blue secondary brand color (#152A4D).
   static const Color primaryBlue = Color(0xFF152A4D);
+
+  /// Semantic alias for elevated navy surfaces.
+  static const Color navySurface = primaryBlue;
 
   /// Primary action color (#0D1B2A).
   static const Color primary = Color(0xFF0D1B2A);
@@ -37,8 +43,14 @@ abstract class AppColors {
   /// Clean, crisp white background canvas (#FFFFFF).
   static const Color background = Color(0xFFFFFFFF);
 
+  /// Semantic alias for the primary light canvas.
+  static const Color whiteSurface = background;
+
   /// Pure white surface color for cards, panels, and container dialogs (#FFFFFF).
   static const Color surface = Color(0xFFFFFFFF);
+
+  /// Semantic alias for raised light surfaces.
+  static const Color elevatedSurface = surface;
 
   /// Soft Light Gray container fill for form inputs, table headers, and nested cards (#F8FAFC).
   static const Color surfaceVariant = Color(0xFFF8FAFC);
@@ -46,8 +58,17 @@ abstract class AppColors {
   /// Deep charcoal text color delivering 18.5:1 WCAG AAA text contrast (#111827).
   static const Color onSurface = Color(0xFF111827);
 
+  /// Semantic alias for primary readable text.
+  static const Color primaryText = onSurface;
+
   /// Muted secondary text, subheadings, and field labels (#6B7280).
   static const Color onSurfaceVariant = Color(0xFF6B7280);
+
+  /// Semantic alias for secondary readable text.
+  static const Color secondaryText = onSurfaceVariant;
+
+  /// Semantic alias for quiet metadata text.
+  static const Color mutedText = onSurfaceVariant;
 
   /// Light border stroke for card bounds and input fields (#E5E7EB).
   static const Color outline = Color(0xFFE5E7EB);

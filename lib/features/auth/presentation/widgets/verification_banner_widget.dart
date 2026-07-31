@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 /// Reusable email verification warning banner widget.
 class VerificationBannerWidget extends StatelessWidget {
   /// Creates a [VerificationBannerWidget].
-  const VerificationBannerWidget({
-    required this.onResendTap,
-    super.key,
-  });
+  const VerificationBannerWidget({required this.onResendTap, super.key});
 
   /// Resend verification email callback trigger.
   final VoidCallback onResendTap;

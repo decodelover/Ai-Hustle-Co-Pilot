@@ -1,135 +1,144 @@
-/// Active Projects Summary List — Master Design System V2.0.
+/// Active work preview backed by the dashboard project data.
 library;
 
+import 'package:ai_hustle_copilot/core/router/route_names.dart';
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/recent_project_model.dart';
+import 'package:ai_hustle_copilot/features/dashboard/presentation/widgets/dashboard_surface.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-/// Project progress and status card list for active workspace projects.
+/// Project progress and status preview.
 class RecentProjectsList extends StatelessWidget {
   /// Creates a [RecentProjectsList].
-  const RecentProjectsList({
-    required this.projects,
-    super.key,
-  });
+  const RecentProjectsList({required this.projects, super.key});
 
   /// Active project list.
   final List<RecentProjectModel> projects;
 
   @override
   Widget build(BuildContext context) {
+    return DashboardSurface(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DashboardSectionHeader(
+            title: 'Active work',
+            subtitle: 'Projects that need your attention next.',
+            actionLabel: projects.isEmpty ? null : 'View all',
+            onAction: projects.isEmpty
+                ? null
+                : () => context.go(RoutePaths.projects),
+          ),
+          const SizedBox(height: AppSpacing.space16),
+          if (projects.isEmpty)
+            const _ProjectsEmptyState()
+          else
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: projects.length,
+              separatorBuilder: (context, index) =>
+                  const SizedBox(height: AppSpacing.space12),
+              itemBuilder: (context, index) => _ProjectRow(projects[index]),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProjectRow extends StatelessWidget {
+  const _ProjectRow(this.project);
+
+  final RecentProjectModel project;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final statusColor = project.status == ProjectStatus.review
+        ? AppColors.warning
+        : AppColors.primary;
+    final percentage = (project.progress * 100).round();
     return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+      padding: const EdgeInsets.all(AppSpacing.space16),
+      decoration: const BoxDecoration(
+        color: AppColors.surfaceVariant,
+        borderRadius: AppRadius.borderMedium,
+        border: Border.fromBorderSide(BorderSide(color: AppColors.outline)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Active Projects',
-                style: TextStyle(
-                  color: Color(0xFF111827),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.3,
+              Expanded(
+                child: Text(
+                  project.title,
+                  style: theme.textTheme.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                'View All (${projects.length})',
-                style: const TextStyle(
-                  color: Color(0xFF3A5FA0),
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w700,
+              const SizedBox(width: AppSpacing.space8),
+              if (project.aiUsageScore > 0)
+                Text(
+                  '${project.aiUsageScore}% AI',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: AppColors.success,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
             ],
           ),
-          const SizedBox(height: 16.0),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: projects.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12.0),
-            itemBuilder: (context, index) {
-              final project = projects[index];
+          const SizedBox(height: AppSpacing.space4),
+          Text(
+            project.clientName,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.secondaryText,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.space12),
+          Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: AppRadius.borderPill,
+                  child: LinearProgressIndicator(
+                    value: project.progress,
+                    minHeight: 7,
+                    backgroundColor: AppColors.outline,
+                    valueColor: AlwaysStoppedAnimation<Color>(statusColor),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.space12),
+              Text('$percentage%', style: theme.textTheme.labelMedium),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-              return Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF8FAFC),
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            project.title,
-                            style: const TextStyle(
-                              color: Color(0xFF111827),
-                              fontSize: 14.5,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                            vertical: 3.0,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF10B981).withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Text(
-                            '${project.aiUsageScore}% AI Score',
-                            style: const TextStyle(
-                              color: Color(0xFF10B981),
-                              fontSize: 11.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      project.clientName,
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
-                        fontSize: 12.5,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 12.0),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4.0),
-                      child: LinearProgressIndicator(
-                        value: project.progress,
-                        minHeight: 6.0,
-                        backgroundColor: const Color(0xFFE5E7EB),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color(0xFF0D1B2A),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+class _ProjectsEmptyState extends StatelessWidget {
+  const _ProjectsEmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.space16),
+      child: Row(
+        children: [
+          Icon(Icons.folder_open_outlined, color: AppColors.secondary),
+          SizedBox(width: AppSpacing.space12),
+          Expanded(
+            child: Text(
+              'No active work yet. Start by exploring an opportunity or creating a project.',
+            ),
           ),
         ],
       ),

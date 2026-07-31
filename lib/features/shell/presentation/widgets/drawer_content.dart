@@ -88,36 +88,38 @@ class DrawerContent extends ConsumerWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.space8),
               children: [
-                ...ShellNavigationConfig.items.map(
-                  (item) {
-                    final isSelected = shellState.selectedRoute == item.route;
-                    return ListTile(
-                      leading: Icon(
-                        isSelected ? item.selectedIcon : item.icon,
+                ...ShellNavigationConfig.items.map((item) {
+                  final isSelected = shellState.selectedRoute == item.route;
+                  return ListTile(
+                    leading: Icon(
+                      isSelected ? item.selectedIcon : item.icon,
+                      color: isSelected
+                          ? (isDark ? AppColors.darkPrimary : AppColors.primary)
+                          : null,
+                    ),
+                    title: Text(
+                      item.title,
+                      style: TextStyle(
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         color: isSelected
-                            ? (isDark ? AppColors.darkPrimary : AppColors.primary)
+                            ? (isDark
+                                  ? AppColors.darkPrimary
+                                  : AppColors.primary)
                             : null,
                       ),
-                      title: Text(
-                        item.title,
-                        style: TextStyle(
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                          color: isSelected
-                              ? (isDark ? AppColors.darkPrimary : AppColors.primary)
-                              : null,
-                        ),
-                      ),
-                      selected: isSelected,
-                      onTap: () {
-                        ref
-                            .read(shellControllerProvider.notifier)
-                            .selectRoute(item.route);
-                        Navigator.of(context).pop();
-                        context.go(item.route);
-                      },
-                    );
-                  },
-                ),
+                    ),
+                    selected: isSelected,
+                    onTap: () {
+                      ref
+                          .read(shellControllerProvider.notifier)
+                          .selectRoute(item.route);
+                      Navigator.of(context).pop();
+                      context.go(item.route);
+                    },
+                  );
+                }),
                 const Divider(height: AppSpacing.space16),
 
                 // Subscription Badge Card

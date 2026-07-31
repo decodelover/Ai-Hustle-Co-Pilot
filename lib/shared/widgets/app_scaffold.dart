@@ -29,10 +29,7 @@ class AppScaffold extends StatelessWidget {
   ///
   /// [child] is the active tab's content, provided by GoRouter's
   /// [ShellRoute.builder].
-  const AppScaffold({
-    required this.child,
-    super.key,
-  });
+  const AppScaffold({required this.child, super.key});
 
   /// The currently active tab's widget subtree.
   final Widget child;
@@ -43,10 +40,8 @@ class AppScaffold extends StatelessWidget {
       body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _calculateSelectedIndex(context),
-        onDestinationSelected: (index) => _onDestinationSelected(
-          context,
-          index,
-        ),
+        onDestinationSelected: (index) =>
+            _onDestinationSelected(context, index),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),

@@ -3,6 +3,7 @@
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_breakpoints.dart';
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/core/theme/theme_extensions.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +28,11 @@ extension ContextDesignSystemX on BuildContext {
   AiColorsExtension get aiColors =>
       Theme.of(this).extension<AiColorsExtension>() ??
       const AiColorsExtension(
-        accent: Color(0xFFEC4899),
-        onAccent: Color(0xFFFFFFFF),
-        glowColor: Color(0x406D28D9),
+        accent: AppColors.accent,
+        onAccent: AppColors.onAccent,
+        glowColor: Color(0x403A5FA0),
         sparkGradient: LinearGradient(
-          colors: [Color(0xFF6D28D9), Color(0xFFEC4899)],
+          colors: [AppColors.primary, AppColors.accent],
         ),
       );
 
@@ -39,11 +40,11 @@ extension ContextDesignSystemX on BuildContext {
   ChartColorsExtension get chartColors =>
       Theme.of(this).extension<ChartColorsExtension>() ??
       const ChartColorsExtension(
-        chart1: Color(0xFF6D28D9),
-        chart2: Color(0xFF059669),
-        chart3: Color(0xFF2563EB),
-        chart4: Color(0xFFD97706),
-        chart5: Color(0xFFEC4899),
+        chart1: AppColors.chart1,
+        chart2: AppColors.chart2,
+        chart3: AppColors.chart5,
+        chart4: AppColors.chart4,
+        chart5: AppColors.chart3,
       );
 
   /// Returns the active [StatusColorsExtension].

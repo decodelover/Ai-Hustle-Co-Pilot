@@ -30,6 +30,12 @@
 
 Built strictly adhering to **Clean Architecture**, **Feature-First modularization**, **Riverpod state management**, and a custom **Material 3 Enterprise Design System**, AI Hustle Co-Pilot delivers a SaaS experience benchmarked against **Linear**, **Notion AI**, **Stripe Dashboard**, and **ChatGPT Canvas**.
 
+### Implementation status
+
+The application includes production Supabase authentication, private-by-default routing, a real Gemini streaming client, Hive-backed project/document/conversation recovery, and an idempotent database migration with row-level security. When signed out or offline, selected screens use deterministic demo data so the interface remains reviewable; authenticated dashboard data is read from Supabase.
+
+Before deploying, apply the migration under `supabase/migrations`, configure `.env`, regenerate `env.g.dart`, and run the analyzer and tests described below.
+
 ---
 
 ## 📱 Screenshots
@@ -85,7 +91,7 @@ Built strictly adhering to **Clean Architecture**, **Feature-First modularizatio
 |---------|-------------|
 | **AI Document Studio** | Block-based document engine (Notion & ChatGPT Canvas rival) with streaming token updates, Notion `/` slash menu, auto-versioning, and multi-format exporter (PDF, DOCX, MD, HTML, TXT) |
 | **AI Project Workspaces** | Grounded project workspaces with system prompt directives, target audience settings, tech stack rules, active RAG knowledge files, and autonomous AI agents |
-| **AI Chat & LLM Engine** | Real-time AI chat streaming with multi-provider fallback (Gemini, Claude, OpenAI), prompt library, code block actions, and conversation persistence |
+| **AI Chat & LLM Engine** | Real-time Gemini 3.6 Flash SSE streaming, prompt library, code block actions, and Hive conversation recovery |
 | **Opportunity Discovery** | Smart opportunity feed with real-time matching scores, domain categorization, and budget filters |
 | **Application Pipeline** | Kanban-style pipeline tracking opportunities from discovery to proposal submission and active contract |
 | **Executive Dashboard** | Real-time analytics, revenue metrics, active proposal trackers, and AI insight banners |
@@ -104,7 +110,7 @@ Built strictly adhering to **Clean Architecture**, **Feature-First modularizatio
 - **Enterprise Authentication** — Email/password with Supabase backend, Facebook, Google, and Apple OAuth
 - **Encrypted Credential Storage** — `flutter_secure_storage` for token and session security
 - **Row Level Security (RLS)** — Database access control rules
-- **Offline-First Strategy** — Cached reads, background sync queues, and network resilience
+- **Offline Resilience** — Hive-backed projects, documents, versions, and AI session recovery with deterministic signed-out states
 - **Strict Error Mapping** — Clean Domain Failure mapping eliminating raw exceptions in presentation code
 
 ---

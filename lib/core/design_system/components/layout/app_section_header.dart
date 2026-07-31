@@ -50,10 +50,7 @@ class AppSectionHeader extends StatelessWidget {
           ),
         ),
         if (actionLabel != null && onAction != null)
-          AppTextButton(
-            label: actionLabel!,
-            onPressed: onAction,
-          ),
+          AppTextButton(label: actionLabel!, onPressed: onAction),
       ],
     );
   }

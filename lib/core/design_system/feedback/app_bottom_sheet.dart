@@ -30,10 +30,7 @@ class AppBottomSheet extends StatelessWidget {
       context: context,
       isScrollControlled: isScrollControlled,
       backgroundColor: Colors.transparent,
-      builder: (context) => AppBottomSheet(
-        title: title,
-        child: child,
-      ),
+      builder: (context) => AppBottomSheet(title: title, child: child),
     );
   }
 

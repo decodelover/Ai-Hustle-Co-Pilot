@@ -12,11 +12,7 @@ enum InsightType {
 }
 
 /// Priority level of AI insight.
-enum InsightPriority {
-  high,
-  medium,
-  low,
-}
+enum InsightPriority { high, medium, low }
 
 /// Immutable domain model representing an AI recommendation card.
 @immutable
@@ -110,15 +106,15 @@ class InsightCardModel {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        description,
-        type,
-        priority,
-        actionLabel,
-        impactScore,
-        targetRoute,
-        isDismissed,
-        isFavorite,
-      );
+    id,
+    title,
+    description,
+    type,
+    priority,
+    actionLabel,
+    impactScore,
+    targetRoute,
+    isDismissed,
+    isFavorite,
+  );
 }

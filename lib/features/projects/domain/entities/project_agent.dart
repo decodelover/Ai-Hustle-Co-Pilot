@@ -54,10 +54,7 @@ final class ProjectAgent {
   final String? currentTaskDescription;
 
   /// Copies [ProjectAgent] with modified fields.
-  ProjectAgent copyWith({
-    bool? isExecuting,
-    String? currentTaskDescription,
-  }) {
+  ProjectAgent copyWith({bool? isExecuting, String? currentTaskDescription}) {
     return ProjectAgent(
       id: id,
       name: name,
@@ -91,15 +88,15 @@ final class ProjectAgent {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        name,
-        role,
-        systemInstructions,
-        avatarUrl,
-        Object.hashAll(supportedTools),
-        Object.hashAll(supportedFileTypes),
-        Object.hashAll(supportedModels),
-        isExecuting,
-        currentTaskDescription,
-      );
+    id,
+    name,
+    role,
+    systemInstructions,
+    avatarUrl,
+    Object.hashAll(supportedTools),
+    Object.hashAll(supportedFileTypes),
+    Object.hashAll(supportedModels),
+    isExecuting,
+    currentTaskDescription,
+  );
 }

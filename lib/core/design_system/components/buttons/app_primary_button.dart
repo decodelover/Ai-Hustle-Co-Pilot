@@ -103,7 +103,10 @@ class _AppPrimaryButtonState extends State<AppPrimaryButton> {
       foregroundColor: effectiveFg,
       disabledBackgroundColor: effectiveBg.withValues(alpha: 0.5),
       elevation: 0,
-      minimumSize: Size(widget.isFullWidth ? double.infinity : 0, widget.height),
+      minimumSize: Size(
+        widget.isFullWidth ? double.infinity : 0,
+        widget.height,
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.xxl,
         vertical: AppSpacing.md,

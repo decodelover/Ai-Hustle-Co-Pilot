@@ -30,7 +30,9 @@ final class TaskRepositoryImpl implements TaskRepository {
         if (list[i].id == taskId) {
           list[i] = list[i].copyWith(
             status: status,
-            completedAt: status == ProjectTaskStatus.completed ? DateTime.now() : null,
+            completedAt: status == ProjectTaskStatus.completed
+                ? DateTime.now()
+                : null,
           );
           return;
         }

@@ -7,14 +7,15 @@ import 'package:ai_hustle_copilot/core/errors/failures.dart';
 abstract base class AiStudioFailure extends Failure {
   /// Creates an [AiStudioFailure].
   const AiStudioFailure(String message, [int? code])
-      : super(message: message, code: code);
+    : super(message: message, code: code);
 }
 
 /// Network connectivity loss during streaming or payload dispatch.
 final class AiNetworkFailure extends AiStudioFailure {
   /// Creates an [AiNetworkFailure].
   const AiNetworkFailure([
-    String message = 'Network connection lost. Please check your internet connection.',
+    String message =
+        'Network connection lost. Please check your internet connection.',
   ]) : super(message, 1001);
 }
 
@@ -22,7 +23,8 @@ final class AiNetworkFailure extends AiStudioFailure {
 final class AiRateLimitFailure extends AiStudioFailure {
   /// Creates an [AiRateLimitFailure].
   const AiRateLimitFailure([
-    String message = 'Rate limit exceeded. Please wait a moment before sending another prompt.',
+    String message =
+        'Rate limit exceeded. Please wait a moment before sending another prompt.',
   ]) : super(message, 429);
 }
 
@@ -30,7 +32,8 @@ final class AiRateLimitFailure extends AiStudioFailure {
 final class AiQuotaExhaustedFailure extends AiStudioFailure {
   /// Creates an [AiQuotaExhaustedFailure].
   const AiQuotaExhaustedFailure([
-    String message = 'Monthly token quota exhausted. Upgrade your plan to continue.',
+    String message =
+        'Monthly token quota exhausted. Upgrade your plan to continue.',
   ]) : super(message, 402);
 }
 
@@ -38,7 +41,8 @@ final class AiQuotaExhaustedFailure extends AiStudioFailure {
 final class AiProviderUnavailableFailure extends AiStudioFailure {
   /// Creates an [AiProviderUnavailableFailure].
   const AiProviderUnavailableFailure([
-    String message = 'AI Provider service is temporarily unavailable. Please try again shortly.',
+    String message =
+        'AI Provider service is temporarily unavailable. Please try again shortly.',
   ]) : super(message, 503);
 }
 
@@ -54,6 +58,7 @@ final class AiStreamTimeoutFailure extends AiStudioFailure {
 final class AiInvalidPromptFailure extends AiStudioFailure {
   /// Creates an [AiInvalidPromptFailure].
   const AiInvalidPromptFailure([
-    String message = 'Prompt exceeds maximum context length for the selected model.',
+    String message =
+        'Prompt exceeds maximum context length for the selected model.',
   ]) : super(message, 400);
 }

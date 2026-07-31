@@ -2,24 +2,21 @@
 library;
 
 import 'package:ai_hustle_copilot/features/ai_studio/data/providers/ai_provider_service.dart';
-import 'package:ai_hustle_copilot/features/ai_studio/data/providers/anthropic_provider_service.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/providers/gemini_provider_service.dart';
-import 'package:ai_hustle_copilot/features/ai_studio/data/providers/local_llm_provider_service.dart';
-import 'package:ai_hustle_copilot/features/ai_studio/data/providers/openai_provider_service.dart';
 
-/// Factory class mapping model IDs to appropriate LLM Provider implementations with failover support.
+/// Factory for the production-supported Gemini provider.
 final class LlmProviderFactory {
   /// Resolves the provider service for a given model ID.
-  static AiProviderService getProviderForModel(String modelId, {String? apiKey}) {
+  static AiProviderService getProviderForModel(
+    String modelId, {
+    String? apiKey,
+  }) {
     final lower = modelId.toLowerCase();
-    if (lower.contains('openai') || lower.contains('gpt')) {
-      return OpenAiProviderService(apiKey: apiKey);
-    } else if (lower.contains('claude') || lower.contains('anthropic')) {
-      return AnthropicProviderService(apiKey: apiKey);
-    } else if (lower.contains('local') || lower.contains('llama')) {
-      return const LocalLlmProviderService();
+    if (!lower.startsWith('gemini-')) {
+      throw UnsupportedError(
+        'Model "$modelId" is not enabled. This build supports Gemini models.',
+      );
     }
-    // Default to Google Gemini AI
     return GeminiProviderService(apiKey: apiKey);
   }
 }

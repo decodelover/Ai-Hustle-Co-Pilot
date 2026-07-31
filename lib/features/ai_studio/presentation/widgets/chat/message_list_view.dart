@@ -12,10 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// High-performance virtualized message list with 8-state UI lifecycle handling and RepaintBoundary isolation.
 class MessageListView extends ConsumerStatefulWidget {
   /// Creates a [MessageListView].
-  const MessageListView({
-    required this.conversationId,
-    super.key,
-  });
+  const MessageListView({required this.conversationId, super.key});
 
   final String conversationId;
 
@@ -111,10 +108,7 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
             const SizedBox(height: 6.0),
             const Text(
               'Type a prompt below or pick a template from the library.',
-              style: TextStyle(
-                color: Color(0xFF777777),
-                fontSize: 13.0,
-              ),
+              style: TextStyle(color: Color(0xFF777777), fontSize: 13.0),
             ),
           ],
         ),
@@ -126,7 +120,8 @@ class _MessageListViewState extends ConsumerState<MessageListView> {
         ListView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
-          itemCount: streamState.messages.length +
+          itemCount:
+              streamState.messages.length +
               (streamState.streamingContent.isNotEmpty ? 1 : 0),
           itemBuilder: (context, index) {
             // Render active streaming response

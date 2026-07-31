@@ -49,7 +49,10 @@ class ProjectNavigationSidebar extends ConsumerWidget {
                     ),
                     IconButton(
                       onPressed: onNewProjectPressed,
-                      icon: const Icon(Icons.add_circle_outline_rounded, color: Color(0xFF0D1B2A)),
+                      icon: const Icon(
+                        Icons.add_circle_outline_rounded,
+                        color: Color(0xFF0D1B2A),
+                      ),
                       tooltip: 'New Project',
                     ),
                   ],
@@ -69,24 +72,35 @@ class ProjectNavigationSidebar extends ConsumerWidget {
                     return ListTile(
                       dense: true,
                       selected: isSelected,
-                      selectedTileColor: const Color(0xFF0D1B2A).withValues(alpha: 0.08),
+                      selectedTileColor: const Color(
+                        0xFF0D1B2A,
+                      ).withValues(alpha: 0.08),
                       leading: Icon(
                         Icons.folder_special_rounded,
-                        color: isSelected ? const Color(0xFF0D1B2A) : const Color(0xFF6B7280),
+                        color: isSelected
+                            ? const Color(0xFF0D1B2A)
+                            : const Color(0xFF6B7280),
                         size: 20,
                       ),
                       title: Text(
                         project.title,
                         style: TextStyle(
-                          color: isSelected ? const Color(0xFF0D1B2A) : const Color(0xFF374151),
+                          color: isSelected
+                              ? const Color(0xFF0D1B2A)
+                              : const Color(0xFF374151),
                           fontSize: 13.5,
-                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       trailing: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6.0,
+                          vertical: 2.0,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF10B981).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10.0),
@@ -101,7 +115,9 @@ class ProjectNavigationSidebar extends ConsumerWidget {
                         ),
                       ),
                       onTap: () {
-                        ref.read(projectWorkspaceControllerProvider.notifier).selectProject(project.id);
+                        ref
+                            .read(projectWorkspaceControllerProvider.notifier)
+                            .selectProject(project.id);
                       },
                     );
                   },
@@ -120,23 +136,31 @@ class ProjectNavigationSidebar extends ConsumerWidget {
                       dense: true,
                       selected: isTabSelected,
                       selectedTileColor: const Color(0xFF0D1B2A),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       leading: Icon(
                         _getTabIcon(tab),
-                        color: isTabSelected ? Colors.white : const Color(0xFF6B7280),
+                        color: isTabSelected
+                            ? Colors.white
+                            : const Color(0xFF6B7280),
                         size: 18,
                       ),
                       title: Text(
                         tab.name.toUpperCase(),
                         style: TextStyle(
-                          color: isTabSelected ? Colors.white : const Color(0xFF4B5563),
+                          color: isTabSelected
+                              ? Colors.white
+                              : const Color(0xFF4B5563),
                           fontSize: 11.5,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.5,
                         ),
                       ),
                       onTap: () {
-                        ref.read(projectWorkspaceControllerProvider.notifier).selectTab(tab);
+                        ref
+                            .read(projectWorkspaceControllerProvider.notifier)
+                            .selectTab(tab);
                       },
                     );
                   }).toList(),

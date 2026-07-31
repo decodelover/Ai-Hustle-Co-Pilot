@@ -16,7 +16,9 @@ sealed class ProjectFailure implements Exception {
 
 /// Project not found failure.
 final class ProjectNotFoundFailure extends ProjectFailure {
-  const ProjectNotFoundFailure([super.message = 'Requested project was not found.']);
+  const ProjectNotFoundFailure([
+    super.message = 'Requested project was not found.',
+  ]);
 }
 
 /// Agent execution failure.
@@ -26,10 +28,14 @@ final class AgentExecutionFailure extends ProjectFailure {
 
 /// Task creation or state failure.
 final class TaskOperationFailure extends ProjectFailure {
-  const TaskOperationFailure([super.message = 'Failed to process task operation.']);
+  const TaskOperationFailure([
+    super.message = 'Failed to process task operation.',
+  ]);
 }
 
 /// Knowledge file operation failure.
 final class ProjectFileFailure extends ProjectFailure {
-  const ProjectFileFailure([super.message = 'Knowledge file operation failed.']);
+  const ProjectFileFailure([
+    super.message = 'Knowledge file operation failed.',
+  ]);
 }

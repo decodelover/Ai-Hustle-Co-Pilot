@@ -10,6 +10,7 @@ import 'package:ai_hustle_copilot/features/shell/presentation/widgets/ai_floatin
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/app_top_bar.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/command_palette_widget.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/drawer_content.dart';
+import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +18,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// ShellScreen wrapping active child route subtree in adaptive navigation layout with Cmd+K listener.
 class ShellScreen extends ConsumerWidget {
   /// Creates a [ShellScreen].
-  const ShellScreen({
-    required this.child,
-    super.key,
-  });
+  const ShellScreen({required this.child, super.key});
 
   /// The active child route subtree managed by GoRouter.
   final Widget child;
@@ -30,7 +28,8 @@ class ShellScreen extends ConsumerWidget {
     final width = MediaQuery.sizeOf(context).width;
     final isCompact = AppBreakpoints.isCompactWidth(width);
     final isMediumOrExpanded =
-        AppBreakpoints.isMediumWidth(width) || AppBreakpoints.isExpandedWidth(width);
+        AppBreakpoints.isMediumWidth(width) ||
+        AppBreakpoints.isExpandedWidth(width);
     final isDesktop = AppBreakpoints.isDesktopWidth(width);
 
     return CallbackShortcuts(
@@ -46,38 +45,34 @@ class ShellScreen extends ConsumerWidget {
       },
       child: Focus(
         autofocus: true,
-        child: Scaffold(
-          appBar: AppTopBar(
-            showDrawerButton: isCompact,
-          ),
-          drawer: isCompact
-              ? const Drawer(
-                  child: DrawerContent(),
-                )
-              : null,
-          body: Row(
-            children: [
-              if (isDesktop) const AppSidebar(),
-              if (isMediumOrExpanded) const AppNavigationRail(),
-              Expanded(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: AppBreakpoints.ultraWide,
+        child: AppBrandBackground(
+          variant: AppBrandBackgroundVariant.shell,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppTopBar(showDrawerButton: isCompact),
+            drawer: isCompact ? const Drawer(child: DrawerContent()) : null,
+            body: Row(
+              children: [
+                if (isDesktop) const AppSidebar(),
+                if (isMediumOrExpanded) const AppNavigationRail(),
+                Expanded(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: AppBreakpoints.ultraWide,
+                      ),
+                      child: AnimatedPage(child: child),
                     ),
-                    child: AnimatedPage(child: child),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            bottomNavigationBar: isCompact ? const AppBottomNavigation() : null,
+            floatingActionButton: isCompact ? const AiFloatingButton() : null,
+            floatingActionButtonLocation: isCompact
+                ? FloatingActionButtonLocation.centerDocked
+                : null,
           ),
-          bottomNavigationBar:
-              isCompact ? const AppBottomNavigation() : null,
-          floatingActionButton:
-              isCompact ? const AiFloatingButton() : null,
-          floatingActionButtonLocation: isCompact
-              ? FloatingActionButtonLocation.centerDocked
-              : null,
         ),
       ),
     );

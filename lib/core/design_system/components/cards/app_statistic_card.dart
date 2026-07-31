@@ -39,11 +39,7 @@ class AppStatisticCard extends StatelessWidget {
               color: effectiveIconColor.withValues(alpha: 0.12),
               borderRadius: AppRadius.borderRadiusMd,
             ),
-            child: Icon(
-              icon,
-              color: effectiveIconColor,
-              size: 24,
-            ),
+            child: Icon(icon, color: effectiveIconColor, size: 24),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(

@@ -75,7 +75,10 @@ class _AppIconButtonState extends State<AppIconButton> {
     final theme = context.theme;
     final isDark = context.isDarkMode;
 
-    final (Color bg, Color fg, BorderSide border) = _resolveColors(theme, isDark);
+    final (Color bg, Color fg, BorderSide border) = _resolveColors(
+      theme,
+      isDark,
+    );
 
     Widget buttonWidget = AnimatedScale(
       scale: _isPressed ? AppMotion.pressScale : 1.0,
@@ -108,11 +111,7 @@ class _AppIconButtonState extends State<AppIconButton> {
                         valueColor: AlwaysStoppedAnimation<Color>(fg),
                       ),
                     )
-                  : Icon(
-                      widget.icon,
-                      size: widget.iconSize,
-                      color: fg,
-                    ),
+                  : Icon(widget.icon, size: widget.iconSize, color: fg),
             ),
           ),
         ),
@@ -121,10 +120,7 @@ class _AppIconButtonState extends State<AppIconButton> {
 
     final tooltip = widget.tooltip;
     if (tooltip != null && tooltip.isNotEmpty) {
-      buttonWidget = Tooltip(
-        message: tooltip,
-        child: buttonWidget,
-      );
+      buttonWidget = Tooltip(message: tooltip, child: buttonWidget);
     }
 
     return Semantics(
@@ -140,10 +136,12 @@ class _AppIconButtonState extends State<AppIconButton> {
     bool isDark,
   ) {
     if (_effectiveDisabled) {
-      final disabledBg =
-          isDark ? AppColors.darkDisabledSurface : AppColors.disabledSurface;
-      final disabledFg =
-          isDark ? AppColors.darkDisabledText : AppColors.disabledText;
+      final disabledBg = isDark
+          ? AppColors.darkDisabledSurface
+          : AppColors.disabledSurface;
+      final disabledFg = isDark
+          ? AppColors.darkDisabledText
+          : AppColors.disabledText;
       return (disabledBg, disabledFg, BorderSide.none);
     }
 
@@ -152,21 +150,19 @@ class _AppIconButtonState extends State<AppIconButton> {
         return (
           isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppIconButtonVariant.outlined:
         return (
           Colors.transparent,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide(
-            color: isDark ? AppColors.darkOutline : AppColors.outline,
-          )
+          BorderSide(color: isDark ? AppColors.darkOutline : AppColors.outline),
         );
       case AppIconButtonVariant.ghost:
         return (
           Colors.transparent,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide.none
+          BorderSide.none,
         );
     }
   }

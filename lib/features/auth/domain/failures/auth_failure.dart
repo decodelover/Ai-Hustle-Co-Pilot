@@ -10,10 +10,7 @@ import 'package:meta/meta.dart';
 @immutable
 sealed class AuthFailure implements Exception {
   /// Base constructor for [AuthFailure].
-  const AuthFailure({
-    required this.message,
-    this.code,
-  });
+  const AuthFailure({required this.message, this.code});
 
   /// User-facing error message describing the failure.
   final String message;
@@ -76,7 +73,8 @@ final class WeakPasswordFailure extends AuthFailure {
 final class NetworkFailure extends AuthFailure {
   /// Creates a [NetworkFailure].
   const NetworkFailure({
-    super.message = 'Network connection unavailable. Please check your connection.',
+    super.message =
+        'Network connection unavailable. Please check your connection.',
     super.code = 1001,
   });
 }

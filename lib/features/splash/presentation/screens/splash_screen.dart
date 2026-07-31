@@ -75,7 +75,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         end: Alignment.bottomRight,
                         colors: [
                           isDark ? AppColors.darkPrimary : AppColors.primary,
-                          isDark ? AppColors.darkSecondary : AppColors.secondary,
+                          isDark
+                              ? AppColors.darkSecondary
+                              : AppColors.secondary,
                         ],
                       ),
                       boxShadow: isDark
@@ -102,9 +104,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   Text(
                     'CO-PILOT',
                     style: theme.textTheme.labelLarge?.copyWith(
-                      color: isDark
-                          ? AppColors.darkPrimary
-                          : AppColors.primary,
+                      color: isDark ? AppColors.darkPrimary : AppColors.primary,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 3.0,
                     ),

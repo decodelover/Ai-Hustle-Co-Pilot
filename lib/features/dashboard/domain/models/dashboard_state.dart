@@ -9,11 +9,7 @@ import 'package:ai_hustle_copilot/features/dashboard/domain/models/recent_projec
 import 'package:flutter/foundation.dart';
 
 /// Chart timeframe selection enum.
-enum ChartTimeframe {
-  weekly,
-  monthly,
-  yearly,
-}
+enum ChartTimeframe { weekly, monthly, yearly }
 
 /// Unified, immutable state object containing all dashboard data,
 /// loading flags, error details, and selected filters.
@@ -21,18 +17,22 @@ enum ChartTimeframe {
 class DashboardState {
   /// Creates a [DashboardState].
   const DashboardState({
+    this.userName = 'there',
     this.metrics = const [],
     this.projects = const [],
     this.activities = const [],
     this.insights = const [],
     this.quickActions = const [],
     this.selectedTimeframe = ChartTimeframe.weekly,
-    this.productivityScore = 94,
-    this.storageUsedPercentage = 68,
-    this.creditsRemaining = 840,
+    this.productivityScore = 0,
+    this.storageUsedPercentage = 0,
+    this.creditsRemaining = 0,
     this.isRefreshing = false,
     this.lastUpdated,
   });
+
+  /// Preferred display name for the active user, when available.
+  final String userName;
 
   /// List of KPI metrics.
   final List<DashboardMetricCardModel> metrics;
@@ -69,6 +69,7 @@ class DashboardState {
 
   /// Returns a copy of [DashboardState] with updated properties.
   DashboardState copyWith({
+    String? userName,
     List<DashboardMetricCardModel>? metrics,
     List<RecentProjectModel>? projects,
     List<ActivityFeedModel>? activities,
@@ -82,6 +83,7 @@ class DashboardState {
     DateTime? lastUpdated,
   }) {
     return DashboardState(
+      userName: userName ?? this.userName,
       metrics: metrics ?? this.metrics,
       projects: projects ?? this.projects,
       activities: activities ?? this.activities,
@@ -102,6 +104,7 @@ class DashboardState {
       identical(this, other) ||
       other is DashboardState &&
           runtimeType == other.runtimeType &&
+          userName == other.userName &&
           listEquals(metrics, other.metrics) &&
           listEquals(projects, other.projects) &&
           listEquals(activities, other.activities) &&
@@ -116,16 +119,17 @@ class DashboardState {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAll(metrics),
-        Object.hashAll(projects),
-        Object.hashAll(activities),
-        Object.hashAll(insights),
-        Object.hashAll(quickActions),
-        selectedTimeframe,
-        productivityScore,
-        storageUsedPercentage,
-        creditsRemaining,
-        isRefreshing,
-        lastUpdated,
-      );
+    userName,
+    Object.hashAll(metrics),
+    Object.hashAll(projects),
+    Object.hashAll(activities),
+    Object.hashAll(insights),
+    Object.hashAll(quickActions),
+    selectedTimeframe,
+    productivityScore,
+    storageUsedPercentage,
+    creditsRemaining,
+    isRefreshing,
+    lastUpdated,
+  );
 }

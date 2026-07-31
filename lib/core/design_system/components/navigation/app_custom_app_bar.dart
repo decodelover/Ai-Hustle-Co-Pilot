@@ -30,9 +30,7 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: AppTypography.titleLarge.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
+        style: AppTypography.titleLarge.copyWith(fontWeight: FontWeight.bold),
       ),
       leading: leading,
       actions: actions,
@@ -45,7 +43,6 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(
-        kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
-      );
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0));
 }

@@ -6,12 +6,7 @@ import 'package:flutter/material.dart';
 
 /// Centered error view wrapping design system feedback component.
 class ErrorView extends StatelessWidget {
-  const ErrorView({
-    required this.message,
-    super.key,
-    this.onRetry,
-    this.icon,
-  });
+  const ErrorView({required this.message, super.key, this.onRetry, this.icon});
 
   final String message;
   final VoidCallback? onRetry;

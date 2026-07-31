@@ -10,7 +10,7 @@ final class Conversation {
     required this.createdAt,
     required this.updatedAt,
     this.folderId,
-    this.modelId = 'gpt-4o',
+    this.modelId = 'gemini-3.6-flash',
     this.isPinned = false,
     this.isArchived = false,
     this.systemPrompt,

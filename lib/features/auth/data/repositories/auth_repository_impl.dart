@@ -22,9 +22,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 /// - Ensures zero Supabase models leak into domain or presentation layers
 class AuthRepositoryImpl implements AuthRepository {
   /// Constructs an [AuthRepositoryImpl] with injected [AuthRemoteDataSource].
-  AuthRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  AuthRepositoryImpl({required this.remoteDataSource});
 
   /// The injected remote auth data source.
   final AuthRemoteDataSource remoteDataSource;
@@ -85,22 +83,23 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AuthUser?> observeAuthState() {
-    return remoteDataSource.authStateChanges().map((dto) {
-      if (dto == null) return null;
-      return AuthUserMapper.dtoToEntity(dto);
-    }).transform(
-      StreamTransformer<AuthUser?, AuthUser?>.fromHandlers(
-        handleError: (error, stackTrace, sink) {
-          sink.addError(_mapExceptionToAuthFailure(error, stackTrace));
-        },
-      ),
-    );
+    return remoteDataSource
+        .authStateChanges()
+        .map((dto) {
+          if (dto == null) return null;
+          return AuthUserMapper.dtoToEntity(dto);
+        })
+        .transform(
+          StreamTransformer<AuthUser?, AuthUser?>.fromHandlers(
+            handleError: (error, stackTrace, sink) {
+              sink.addError(_mapExceptionToAuthFailure(error, stackTrace));
+            },
+          ),
+        );
   }
 
   @override
-  Future<void> sendPasswordResetEmail({
-    required Email email,
-  }) async {
+  Future<void> sendPasswordResetEmail({required Email email}) async {
     try {
       await remoteDataSource.resetPassword(email: email.value);
     } catch (e, s) {
@@ -109,9 +108,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> resendVerificationEmail({
-    required Email email,
-  }) async {
+  Future<void> resendVerificationEmail({required Email email}) async {
     try {
       await remoteDataSource.resendVerification(email: email.value);
     } catch (e, s) {
@@ -181,8 +178,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return const EmailNotVerifiedFailure();
       }
 
-      if (msg.contains('weak password') ||
-          msg.contains('password should be')) {
+      if (msg.contains('weak password') || msg.contains('password should be')) {
         return const WeakPasswordFailure();
       }
 

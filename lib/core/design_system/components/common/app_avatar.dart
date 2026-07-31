@@ -77,28 +77,27 @@ class AppAvatar extends StatelessWidget {
       backgroundImage: imageUrl != null && imageUrl!.isNotEmpty
           ? NetworkImage(imageUrl!) as ImageProvider
           : (assetPath != null && assetPath!.isNotEmpty
-              ? AssetImage(assetPath!)
-              : null),
-      child: (imageUrl == null || imageUrl!.isEmpty) &&
+                ? AssetImage(assetPath!)
+                : null),
+      child:
+          (imageUrl == null || imageUrl!.isEmpty) &&
               (assetPath == null || assetPath!.isEmpty)
           ? (computedInitials.isNotEmpty
-              ? Text(
-                  computedInitials,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
+                ? Text(
+                    computedInitials,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.w600,
+                      color: isDark ? AppColors.darkPrimary : AppColors.primary,
+                    ),
+                  )
+                : Icon(
+                    Icons.person_rounded,
+                    size: dimension * 0.5,
                     color: isDark
-                        ? AppColors.darkPrimary
-                        : AppColors.primary,
-                  ),
-                )
-              : Icon(
-                  Icons.person_rounded,
-                  size: dimension * 0.5,
-                  color: isDark
-                      ? AppColors.darkOnSurfaceVariant
-                      : AppColors.onSurfaceVariant,
-                ))
+                        ? AppColors.darkOnSurfaceVariant
+                        : AppColors.onSurfaceVariant,
+                  ))
           : null,
     );
 
@@ -118,7 +117,9 @@ class AppAvatar extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: isOnline!
                     ? (isDark ? AppColors.darkSuccess : AppColors.success)
-                    : (isDark ? AppColors.darkOnSurfaceVariant : AppColors.onSurfaceVariant),
+                    : (isDark
+                          ? AppColors.darkOnSurfaceVariant
+                          : AppColors.onSurfaceVariant),
                 border: Border.all(
                   color: isDark ? AppColors.darkSurface : AppColors.surface,
                   width: 2.0,
@@ -131,16 +132,10 @@ class AppAvatar extends StatelessWidget {
     }
 
     if (onTap != null) {
-      avatarContent = GestureDetector(
-        onTap: onTap,
-        child: avatarContent,
-      );
+      avatarContent = GestureDetector(onTap: onTap, child: avatarContent);
     }
 
-    return Semantics(
-      label: name ?? 'User Avatar',
-      child: avatarContent,
-    );
+    return Semantics(label: name ?? 'User Avatar', child: avatarContent);
   }
 
   double _getDimension() {

@@ -13,8 +13,10 @@ import 'package:ai_hustle_copilot/features/documents/presentation/state/document
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Single instance local data source provider.
-final documentLocalDataSourceProvider = Provider<DocumentLocalDataSource>((ref) {
-  return DocumentLocalDataSource();
+final documentLocalDataSourceProvider = Provider<DocumentLocalDataSource>((
+  ref,
+) {
+  return DocumentLocalDataSource(enablePersistence: true);
 });
 
 /// Document repository provider.
@@ -30,25 +32,33 @@ final documentAiEngineProvider = Provider<DocumentAiGenerationEngine>((ref) {
 });
 
 /// Document List Future Provider.
-final documentListProvider = FutureProvider.family<List<Document>, String?>((ref, projectId) async {
+final documentListProvider = FutureProvider.family<List<Document>, String?>((
+  ref,
+  projectId,
+) async {
   final repo = ref.watch(documentRepositoryProvider);
   return repo.getDocuments(projectId: projectId);
 });
 
 /// Preset Templates Gallery Future Provider.
-final documentTemplatesProvider = FutureProvider<List<DocumentTemplate>>((ref) async {
+final documentTemplatesProvider = FutureProvider<List<DocumentTemplate>>((
+  ref,
+) async {
   final repo = ref.watch(documentRepositoryProvider);
   return repo.getTemplates();
 });
 
 /// Master Document Editor Controller Provider.
 final documentEditorControllerProvider =
-    StateNotifierProvider<DocumentEditorController, AsyncValue<DocumentEditorState>>((ref) {
-  return DocumentEditorController(
-    repository: ref.watch(documentRepositoryProvider),
-    aiEngine: ref.watch(documentAiEngineProvider),
-  );
-});
+    StateNotifierProvider<
+      DocumentEditorController,
+      AsyncValue<DocumentEditorState>
+    >((ref) {
+      return DocumentEditorController(
+        repository: ref.watch(documentRepositoryProvider),
+        aiEngine: ref.watch(documentAiEngineProvider),
+      );
+    });
 
 /// Derived Slice Provider: Active Document entity.
 final activeDocumentProvider = Provider<Document?>((ref) {

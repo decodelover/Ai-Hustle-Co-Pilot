@@ -65,18 +65,32 @@ class _BlockItemWidgetState extends State<BlockItemWidget> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.drag_indicator, size: 16, color: AppColors.onSurfaceVariant),
+                        icon: const Icon(
+                          Icons.drag_indicator,
+                          size: 16,
+                          color: AppColors.onSurfaceVariant,
+                        ),
                         onPressed: () {},
                         tooltip: 'Drag block',
                         padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                        constraints: const BoxConstraints(
+                          minWidth: 24,
+                          minHeight: 24,
+                        ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.auto_awesome, size: 14, color: AppColors.secondary),
+                        icon: const Icon(
+                          Icons.auto_awesome,
+                          size: 14,
+                          color: AppColors.secondary,
+                        ),
                         onPressed: widget.onTriggerSlash,
                         tooltip: 'AI Actions (Type "/")',
                         padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                        constraints: const BoxConstraints(
+                          minWidth: 24,
+                          minHeight: 24,
+                        ),
                       ),
                     ],
                   ),
@@ -84,18 +98,23 @@ class _BlockItemWidgetState extends State<BlockItemWidget> {
                 const SizedBox(width: 4),
 
                 // Main Block Content Renderer
-                Expanded(
-                  child: _buildBlockContent(widget.block),
-                ),
+                Expanded(child: _buildBlockContent(widget.block)),
 
                 // Delete handle on hover
                 if (_isHovered)
                   IconButton(
-                    icon: const Icon(Icons.close, size: 14, color: AppColors.danger),
+                    icon: const Icon(
+                      Icons.close,
+                      size: 14,
+                      color: AppColors.danger,
+                    ),
                     onPressed: widget.onDelete,
                     tooltip: 'Delete Block',
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                    constraints: const BoxConstraints(
+                      minWidth: 24,
+                      minHeight: 24,
+                    ),
                   ),
               ],
             ),

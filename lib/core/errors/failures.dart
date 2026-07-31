@@ -15,10 +15,7 @@ import 'package:flutter/foundation.dart';
 /// Base failure class for all domain-level errors.
 @immutable
 abstract base class Failure {
-  const Failure({
-    required this.message,
-    this.code,
-  });
+  const Failure({required this.message, this.code});
 
   /// User-facing error message suitable for display in UI components.
   final String message;
@@ -43,18 +40,12 @@ abstract base class Failure {
 
 /// Failure originating from a remote server or HTTP error.
 base class ServerFailure extends Failure {
-  const ServerFailure({
-    required super.message,
-    super.code,
-  });
+  const ServerFailure({required super.message, super.code});
 }
 
 /// Failure originating from a local cache or disk read/write error.
 base class CacheFailure extends Failure {
-  const CacheFailure({
-    required super.message,
-    super.code,
-  });
+  const CacheFailure({required super.message, super.code});
 }
 
 /// Failure originating from network disconnection or connection timeout.
@@ -67,10 +58,7 @@ base class NetworkFailure extends Failure {
 
 /// Failure originating from invalid user credentials or authentication error.
 base class AuthFailure extends Failure {
-  const AuthFailure({
-    required super.message,
-    super.code,
-  });
+  const AuthFailure({required super.message, super.code});
 }
 
 /// Failure originating from an expired session or unauthorized token (401).

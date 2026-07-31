@@ -10,21 +10,27 @@ void main() {
     });
 
     test('sanitizes Bearer authorization tokens', () {
-      const logInput = 'Request headers: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
+      const logInput =
+          'Request headers: Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
       final sanitized = logger.sanitize(logInput);
-      expect(sanitized, isNot(contains('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')));
+      expect(
+        sanitized,
+        isNot(contains('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')),
+      );
       expect(sanitized, contains('Bearer [REDACTED_TOKEN]'));
     });
 
     test('sanitizes password and secret fields', () {
-      const logInput = 'User login payload: password="SuperSecret123!", email="test@domain.com"';
+      const logInput =
+          'User login payload: password="SuperSecret123!", email="test@domain.com"';
       final sanitized = logger.sanitize(logInput);
       expect(sanitized, isNot(contains('SuperSecret123!')));
       expect(sanitized, contains('password=[REDACTED_SECRET]'));
     });
 
     test('sanitizes API keys and tokens in payload', () {
-      const logInput = 'Config payload: api_key=sbp_12345abcdef, token=secret_token_val';
+      const logInput =
+          'Config payload: api_key=sbp_12345abcdef, token=secret_token_val';
       final sanitized = logger.sanitize(logInput);
       expect(sanitized, isNot(contains('sbp_12345abcdef')));
       expect(sanitized, isNot(contains('secret_token_val')));

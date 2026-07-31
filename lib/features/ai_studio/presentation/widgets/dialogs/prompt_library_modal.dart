@@ -10,10 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Modal dialog for browsing and selecting prompt templates from the library.
 class PromptLibraryModal extends ConsumerWidget {
   /// Creates a [PromptLibraryModal].
-  const PromptLibraryModal({
-    required this.onSelectPrompt,
-    super.key,
-  });
+  const PromptLibraryModal({required this.onSelectPrompt, super.key});
 
   final ValueChanged<PromptTemplate> onSelectPrompt;
 

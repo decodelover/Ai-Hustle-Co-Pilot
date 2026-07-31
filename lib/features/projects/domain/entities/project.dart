@@ -10,7 +10,14 @@ import 'package:ai_hustle_copilot/features/projects/domain/entities/project_task
 import 'package:flutter/foundation.dart';
 
 /// Project classification category.
-enum ProjectCategory { mobileApp, website, research, marketing, software, content }
+enum ProjectCategory {
+  mobileApp,
+  website,
+  research,
+  marketing,
+  software,
+  content,
+}
 
 /// Immutable master domain model representing an AI Project.
 @immutable
@@ -128,19 +135,19 @@ final class Project {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        description,
-        category,
-        createdAt,
-        updatedAt,
-        progress,
-        healthScore,
-        Object.hashAll(activeAgents),
-        Object.hashAll(tasks),
-        Object.hashAll(knowledgeFiles),
-        Object.hashAll(activities),
-        Object.hashAll(members),
-        context,
-      );
+    id,
+    title,
+    description,
+    category,
+    createdAt,
+    updatedAt,
+    progress,
+    healthScore,
+    Object.hashAll(activeAgents),
+    Object.hashAll(tasks),
+    Object.hashAll(knowledgeFiles),
+    Object.hashAll(activities),
+    Object.hashAll(members),
+    context,
+  );
 }

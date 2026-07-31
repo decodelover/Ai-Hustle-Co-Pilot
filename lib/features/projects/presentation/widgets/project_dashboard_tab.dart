@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 /// Workspace main center dashboard tab displaying Health Ring, Active Agents, and Task Overview.
 class ProjectDashboardTab extends StatelessWidget {
   /// Creates a [ProjectDashboardTab].
-  const ProjectDashboardTab({
-    required this.project,
-    super.key,
-  });
+  const ProjectDashboardTab({required this.project, super.key});
 
   /// Active project.
   final Project project;
@@ -49,7 +46,10 @@ class ProjectDashboardTab extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 6.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14.0,
+                  vertical: 6.0,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF0D1B2A).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20.0),
@@ -91,7 +91,9 @@ class ProjectDashboardTab extends StatelessWidget {
                               value: project.healthScore / 100,
                               strokeWidth: 7,
                               backgroundColor: const Color(0xFFE5E7EB),
-                              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF10B981)),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Color(0xFF10B981),
+                              ),
                             ),
                           ),
                           Text(
@@ -191,7 +193,10 @@ class ProjectDashboardTab extends StatelessWidget {
                         color: const Color(0xFF0D1B2A).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: const Icon(Icons.smart_toy_rounded, color: Color(0xFF0D1B2A)),
+                      child: const Icon(
+                        Icons.smart_toy_rounded,
+                        color: Color(0xFF0D1B2A),
+                      ),
                     ),
                     const SizedBox(width: 12.0),
                     Expanded(

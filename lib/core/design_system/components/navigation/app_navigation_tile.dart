@@ -46,11 +46,7 @@ class AppNavigationTile extends StatelessWidget {
                   color: effectiveIconColor.withValues(alpha: 0.1),
                   borderRadius: AppRadius.borderRadiusSm,
                 ),
-                child: Icon(
-                  leadingIcon,
-                  color: effectiveIconColor,
-                  size: 20,
-                ),
+                child: Icon(leadingIcon, color: effectiveIconColor, size: 20),
               )
             : null,
         title: Text(
@@ -67,7 +63,8 @@ class AppNavigationTile extends StatelessWidget {
                 ),
               )
             : null,
-        trailing: trailing ??
+        trailing:
+            trailing ??
             Icon(
               Icons.chevron_right,
               size: 20,

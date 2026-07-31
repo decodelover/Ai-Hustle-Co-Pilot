@@ -74,10 +74,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = CurvedAnimation(parent: _controller, curve: widget.curve);
 
     if (widget.delay == Duration.zero) {
@@ -97,10 +94,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: widget.child,
-    );
+    return FadeTransition(opacity: _animation, child: widget.child);
   }
 }
 
@@ -142,10 +136,7 @@ class _SlideInState extends State<SlideIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = Tween<Offset>(
       begin: widget.beginOffset,
       end: Offset.zero,
@@ -168,10 +159,7 @@ class _SlideInState extends State<SlideIn> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _animation,
-      child: widget.child,
-    );
+    return SlideTransition(position: _animation, child: widget.child);
   }
 }
 
@@ -213,10 +201,7 @@ class _ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = Tween<double>(
       begin: widget.beginScale,
       end: 1.0,
@@ -239,10 +224,7 @@ class _ScaleInState extends State<ScaleIn> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _animation,
-      child: widget.child,
-    );
+    return ScaleTransition(scale: _animation, child: widget.child);
   }
 }
 

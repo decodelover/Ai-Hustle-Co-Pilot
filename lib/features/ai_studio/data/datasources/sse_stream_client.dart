@@ -20,15 +20,14 @@ final class SseStreamClient {
         subscription = sourceStream.listen(
           (chunk) {
             buffer.write(chunk);
-            frameTimer ??= Timer.periodic(
-              const Duration(milliseconds: 16),
-              (_) {
-                if (buffer.isNotEmpty) {
-                  controller.add(buffer.toString());
-                  buffer.clear();
-                }
-              },
-            );
+            frameTimer ??= Timer.periodic(const Duration(milliseconds: 16), (
+              _,
+            ) {
+              if (buffer.isNotEmpty) {
+                controller.add(buffer.toString());
+                buffer.clear();
+              }
+            });
           },
           onError: (Object error, StackTrace st) {
             controller.addError(error, st);

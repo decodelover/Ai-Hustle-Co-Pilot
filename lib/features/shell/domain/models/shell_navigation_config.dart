@@ -69,7 +69,6 @@ abstract final class ShellNavigationConfig {
       tooltip: 'User profile & settings',
       route: RoutePaths.profile,
       analyticsIdentifier: 'nav_profile',
-      isPrimaryTab: true,
     ),
   ];
 

@@ -39,8 +39,8 @@ import 'package:supabase_flutter/supabase_flutter.dart'
 /// - [Unauthenticated] when no session exists or after sign-out
 final authStateProvider =
     StreamNotifierProvider<AuthStateNotifier, AppAuthState>(
-  AuthStateNotifier.new,
-);
+      AuthStateNotifier.new,
+    );
 
 /// Notifier that bridges Supabase auth events to [AppAuthState].
 ///
@@ -109,13 +109,15 @@ class AuthStateNotifier extends StreamNotifier<AppAuthState> {
     return AuthUser(
       id: user.id,
       email: user.email ?? '',
-      displayName: (metadata['display_name'] as String?) ??
+      displayName:
+          (metadata['display_name'] as String?) ??
           (metadata['full_name'] as String?),
       avatarUrl: metadata['avatar_url'] as String?,
       emailVerified: user.emailConfirmedAt != null,
       createdAt: DateTime.tryParse(user.createdAt),
-      updatedAt:
-          user.updatedAt != null ? DateTime.tryParse(user.updatedAt!) : null,
+      updatedAt: user.updatedAt != null
+          ? DateTime.tryParse(user.updatedAt!)
+          : null,
     );
   }
 }

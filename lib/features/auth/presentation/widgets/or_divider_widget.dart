@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 /// Reusable section separator widget with centered label text.
 class OrDividerWidget extends StatelessWidget {
   /// Creates an [OrDividerWidget].
-  const OrDividerWidget({
-    super.key,
-    this.label = 'Or Sign in with',
-  });
+  const OrDividerWidget({super.key, this.label = 'Or Sign in with'});
 
   /// Custom divider text label.
   final String label;

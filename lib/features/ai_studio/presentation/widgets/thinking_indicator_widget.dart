@@ -10,7 +10,8 @@ class ThinkingIndicatorWidget extends StatefulWidget {
   const ThinkingIndicatorWidget({super.key});
 
   @override
-  State<ThinkingIndicatorWidget> createState() => _ThinkingIndicatorWidgetState();
+  State<ThinkingIndicatorWidget> createState() =>
+      _ThinkingIndicatorWidgetState();
 }
 
 class _ThinkingIndicatorWidgetState extends State<ThinkingIndicatorWidget>
@@ -54,7 +55,10 @@ class _ThinkingIndicatorWidgetState extends State<ThinkingIndicatorWidget>
         mainAxisSize: MainAxisSize.min,
         children: [
           FadeTransition(
-            opacity: Tween<double>(begin: 0.3, end: 1.0).animate(_pulseController),
+            opacity: Tween<double>(
+              begin: 0.3,
+              end: 1.0,
+            ).animate(_pulseController),
             child: Container(
               width: 24.0,
               height: 24.0,

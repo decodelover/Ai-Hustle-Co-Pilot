@@ -19,7 +19,9 @@ final class MemoryInjectionService {
       ..writeln('\n\n--- RELEVANT CONTEXT MEMORIES ---');
 
     for (final memory in memories) {
-      buffer.writeln('• [${memory.category.name.toUpperCase()}]: ${memory.content}');
+      buffer.writeln(
+        '• [${memory.category.name.toUpperCase()}]: ${memory.content}',
+      );
     }
 
     buffer.writeln('--- END CONTEXT MEMORIES ---');

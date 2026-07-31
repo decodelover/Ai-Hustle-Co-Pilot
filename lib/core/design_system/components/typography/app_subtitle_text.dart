@@ -31,9 +31,7 @@ class AppSubtitleText extends StatelessWidget {
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,
-      style: AppTypography.titleSmall.copyWith(
-        color: color ?? defaultColor,
-      ),
+      style: AppTypography.titleSmall.copyWith(color: color ?? defaultColor),
     );
   }
 }

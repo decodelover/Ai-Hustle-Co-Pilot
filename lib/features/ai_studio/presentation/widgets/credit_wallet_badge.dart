@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 /// Top bar badge displaying current user AI credit balance.
 class CreditWalletBadge extends StatelessWidget {
   /// Creates a [CreditWalletBadge].
-  const CreditWalletBadge({
-    super.key,
-    this.credits = 485.0,
-    this.onTap,
-  });
+  const CreditWalletBadge({super.key, this.credits = 485.0, this.onTap});
 
   /// Remaining credits.
   final double credits;
@@ -28,7 +24,9 @@ class CreditWalletBadge extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFF0D1B2A).withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(20.0),
-          border: Border.all(color: const Color(0xFF0D1B2A).withValues(alpha: 0.15)),
+          border: Border.all(
+            color: const Color(0xFF0D1B2A).withValues(alpha: 0.15),
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

@@ -13,10 +13,7 @@ import 'package:flutter/material.dart';
 /// Base Shimmer wrapper creating continuous pulse animations.
 class AppShimmer extends StatefulWidget {
   /// Creates an [AppShimmer].
-  const AppShimmer({
-    required this.child,
-    super.key,
-  });
+  const AppShimmer({required this.child, super.key});
 
   /// Child skeleton target.
   final Widget child;
@@ -51,10 +48,7 @@ class _AppShimmerState extends State<AppShimmer>
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: widget.child,
-    );
+    return FadeTransition(opacity: _animation, child: widget.child);
   }
 }
 
@@ -80,16 +74,15 @@ class AppSkeletonBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
-    final color = isDark ? AppColors.darkSkeletonStart : AppColors.skeletonStart;
+    final color = isDark
+        ? AppColors.darkSkeletonStart
+        : AppColors.skeletonStart;
 
     return AppShimmer(
       child: Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: borderRadius,
-        ),
+        decoration: BoxDecoration(color: color, borderRadius: borderRadius),
       ),
     );
   }
@@ -142,10 +135,7 @@ class SkeletonText extends StatelessWidget {
 /// Avatar circle skeleton loader.
 class SkeletonAvatar extends StatelessWidget {
   /// Creates a [SkeletonAvatar].
-  const SkeletonAvatar({
-    super.key,
-    this.size = 40.0,
-  });
+  const SkeletonAvatar({super.key, this.size = 40.0});
 
   /// Avatar circle dimension.
   final double size;
@@ -187,11 +177,7 @@ class SkeletonCard extends StatelessWidget {
 /// List view skeleton loader.
 class SkeletonList extends StatelessWidget {
   /// Creates a [SkeletonList].
-  const SkeletonList({
-    super.key,
-    this.itemCount = 5,
-    this.itemHeight = 72.0,
-  });
+  const SkeletonList({super.key, this.itemCount = 5, this.itemHeight = 72.0});
 
   /// Number of list items.
   final int itemCount;

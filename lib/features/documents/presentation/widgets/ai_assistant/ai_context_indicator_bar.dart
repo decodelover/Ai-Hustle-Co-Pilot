@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 /// Context bar showing Phase 3.3 project RAG binding and active knowledge files.
 class AiContextIndicatorBar extends StatelessWidget {
   /// Creates an [AiContextIndicatorBar].
-  const AiContextIndicatorBar({
-    this.project,
-    super.key,
-  });
+  const AiContextIndicatorBar({this.project, super.key});
 
   final Project? project;
 
@@ -32,7 +29,10 @@ class AiContextIndicatorBar extends StatelessWidget {
               child: Text(
                 'Standalone Document (No Project Context)',
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.onSurfaceVariant,
+                ),
               ),
             ),
           ],
@@ -70,7 +70,10 @@ class AiContextIndicatorBar extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'Includes ${project!.knowledgeFiles.length} Knowledge Files & ${project!.activeAgents.length} Agents',
-            style: const TextStyle(fontSize: 11, color: AppColors.onSurfaceVariant),
+            style: const TextStyle(
+              fontSize: 11,
+              color: AppColors.onSurfaceVariant,
+            ),
           ),
         ],
       ),

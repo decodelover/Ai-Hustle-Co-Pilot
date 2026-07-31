@@ -18,8 +18,10 @@ class FakeSignUpRepository implements AuthRepository {
   );
 
   @override
-  Future<AuthUser> signIn({required Email email, required Password password}) async =>
-      mockUser;
+  Future<AuthUser> signIn({
+    required Email email,
+    required Password password,
+  }) async => mockUser;
 
   @override
   Future<AuthUser> signUp({

@@ -11,15 +11,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Modal dialog for choosing document export format (PDF, DOCX, Markdown, HTML, TXT).
 class DocumentExportModal extends ConsumerStatefulWidget {
   /// Creates a [DocumentExportModal].
-  const DocumentExportModal({
-    required this.document,
-    super.key,
-  });
+  const DocumentExportModal({required this.document, super.key});
 
   final Document document;
 
   @override
-  ConsumerState<DocumentExportModal> createState() => _DocumentExportModalState();
+  ConsumerState<DocumentExportModal> createState() =>
+      _DocumentExportModalState();
 }
 
 class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
@@ -39,7 +37,11 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
           SizedBox(width: 10),
           Text(
             'Export Document',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.onSurface),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.onSurface,
+            ),
           ),
         ],
       ),
@@ -51,7 +53,10 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
           children: [
             Text(
               'Select export format for "${widget.document.title}"',
-              style: const TextStyle(fontSize: 13, color: AppColors.onSurfaceVariant),
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 16),
 
@@ -71,15 +76,21 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
                 child: ListTile(
                   dense: true,
                   leading: Icon(
-                    isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-                    color: isSelected ? AppColors.secondary : AppColors.onSurfaceVariant,
+                    isSelected
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_off,
+                    color: isSelected
+                        ? AppColors.secondary
+                        : AppColors.onSurfaceVariant,
                     size: 18,
                   ),
                   title: Text(
                     format.label,
                     style: TextStyle(
                       fontSize: 14,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                       color: AppColors.onSurface,
                     ),
                   ),
@@ -98,12 +109,19 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.check_circle, size: 16, color: AppColors.success),
+                    const Icon(
+                      Icons.check_circle,
+                      size: 16,
+                      color: AppColors.success,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         _successMessage!,
-                        style: const TextStyle(fontSize: 12, color: AppColors.success),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.success,
+                        ),
                       ),
                     ),
                   ],
@@ -123,7 +141,9 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
               ? null
               : () async {
                   setState(() => _isExporting = true);
-                  final bytes = await controller.exportDocument(_selectedFormat);
+                  final bytes = await controller.exportDocument(
+                    _selectedFormat,
+                  );
                   setState(() {
                     _isExporting = false;
                     _successMessage =
@@ -134,7 +154,10 @@ class _DocumentExportModalState extends ConsumerState<DocumentExportModal> {
               ? const SizedBox(
                   width: 14,
                   height: 14,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Icon(Icons.download, size: 16),
           label: Text(_isExporting ? 'Compiling...' : 'Export File'),

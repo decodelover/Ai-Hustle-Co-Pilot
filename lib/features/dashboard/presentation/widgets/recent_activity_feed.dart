@@ -1,108 +1,90 @@
-/// AI Activity Timeline Feed — Master Design System V2.0.
+/// Restrained activity timeline for recent workspace changes.
 library;
 
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/activity_feed_model.dart';
+import 'package:ai_hustle_copilot/features/dashboard/presentation/widgets/dashboard_surface.dart';
 import 'package:flutter/material.dart';
 
-/// Real-time activity timeline feed.
+/// Recent activity feed.
 class RecentActivityFeed extends StatelessWidget {
   /// Creates a [RecentActivityFeed].
-  const RecentActivityFeed({
-    required this.activities,
-    super.key,
-  });
+  const RecentActivityFeed({required this.activities, super.key});
 
-  /// Injected activity items.
+  /// Activity entries.
   final List<ActivityFeedModel> activities;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
+    return DashboardSurface(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const DashboardSectionHeader(
+            title: 'Recent activity',
+            subtitle: 'A quiet record of what changed.',
+          ),
+          const SizedBox(height: AppSpacing.space16),
+          if (activities.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.space16),
+              child: Text('Your latest activity will appear here.'),
+            )
+          else
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: activities.length,
+              separatorBuilder: (context, index) =>
+                  const Divider(height: AppSpacing.space24),
+              itemBuilder: (context, index) => _ActivityRow(activities[index]),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActivityRow extends StatelessWidget {
+  const _ActivityRow(this.activity);
+
+  final ActivityFeedModel activity;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            borderRadius: AppRadius.borderMedium,
+          ),
+          child: Icon(activity.icon, color: AppColors.primary, size: 19),
+        ),
+        const SizedBox(width: AppSpacing.space12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'AI Activity Timeline',
-                style: TextStyle(
-                  color: Color(0xFF111827),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.3,
-                ),
-              ),
+              Text(activity.title, style: theme.textTheme.titleSmall),
+              const SizedBox(height: AppSpacing.space4),
               Text(
-                '${activities.length} items',
-                style: const TextStyle(
-                  color: Color(0xFF6B7280),
-                  fontSize: 12.0,
+                activity.description,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: AppColors.secondaryText,
+                  height: 1.35,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16.0),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: activities.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 14.0),
-            itemBuilder: (context, index) {
-              final item = activities[index];
-
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0D1B2A).withValues(alpha: 0.08),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      item.icon,
-                      size: 18,
-                      color: const Color(0xFF0D1B2A),
-                    ),
-                  ),
-                  const SizedBox(width: 12.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.title,
-                          style: const TextStyle(
-                            color: Color(0xFF111827),
-                            fontSize: 13.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 2.0),
-                        Text(
-                          item.description,
-                          style: const TextStyle(
-                            color: Color(0xFF6B7280),
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

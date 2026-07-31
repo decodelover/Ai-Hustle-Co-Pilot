@@ -1,15 +1,15 @@
-/// Pixel-perfect Onboarding (Screen 1) matching Master Design System V2.0.
-///
-/// Features top ~45% dark blue section (#0D1B2A) with subtle topographic contour wave pattern
-/// and organic curve divider transitioning smoothly into a white section (#FFFFFF) below.
+/// Welcome surface introducing the product before authentication.
 library;
 
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
-import 'package:ai_hustle_copilot/shared/widgets/topographic_wave_header.dart';
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_motion.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
+import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Hero Onboarding & Welcome screen.
+/// Hero onboarding screen for new and returning users.
 class WelcomeScreen extends StatefulWidget {
   /// Creates a [WelcomeScreen].
   const WelcomeScreen({super.key});
@@ -20,204 +20,251 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animController;
-  late final Animation<double> _fadeAnim;
-  late final Animation<Offset> _slideAnim;
+  late final AnimationController _animationController;
+  late final Animation<double> _fadeAnimation;
+  late final Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
-    _animController = AnimationController(
+    _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 700),
+      duration: AppMotion.slow,
     );
-
-    _fadeAnim = CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: AppMotion.decelerateCurve,
     );
-
-    _slideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.05),
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.04),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: AppMotion.decelerateCurve,
+      ),
+    );
+  }
 
-    _animController.forward();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.of(context).disableAnimations) {
+      _animationController.value = 1;
+    } else if (!_animationController.isAnimating &&
+        _animationController.value == 0) {
+      _animationController.forward();
+    }
   }
 
   @override
   void dispose() {
-    _animController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
-  void _navigateToNext() {
-    context.pushNamed(RouteNames.login);
-  }
+  void _navigateToLogin() => context.pushNamed(RouteNames.login);
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final screenHeight = mediaQuery.size.height;
-    final headerHeight = screenHeight * 0.46;
+    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          // ── Top Section: 45% Topographic Wave Header (#0D1B2A) ───────────
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: WaveHeaderWidget(
-              height: headerHeight,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 16.0,
+      backgroundColor: Colors.transparent,
+      body: AppBrandBackground(
+        variant: AppBrandBackgroundVariant.welcome,
+        headerHeight: 334,
+        header: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.space24,
+            AppSpacing.space16,
+            AppSpacing.space24,
+            AppSpacing.space24,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const _BrandMark(),
+                  const SizedBox(width: AppSpacing.space12),
+                  Text(
+                    'AI Hustle Co-Pilot',
+                    style: textTheme.titleLarge?.copyWith(
+                      color: AppColors.onPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Top Brand Header Row
-                      Row(
-                        children: [
-                          Container(
-                            width: 36.0,
-                            height: 36.0,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.12),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.rocket_launch_rounded,
-                              color: Colors.white,
-                              size: 20.0,
-                            ),
-                          ),
-                          const SizedBox(width: 12.0),
-                          const Text(
-                            'AI Hustle Co-Pilot',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                'Turn your next opportunity\ninto forward motion.',
+                style: textTheme.displaySmall?.copyWith(
+                  color: AppColors.onPrimary,
+                  fontWeight: FontWeight.w700,
+                  height: 1.12,
                 ),
               ),
-            ),
+              const SizedBox(height: AppSpacing.space12),
+              Text(
+                'A calm workspace for finding work, creating stronger proposals, and staying on top of every client detail.',
+                style: textTheme.bodyLarge?.copyWith(
+                  color: AppColors.onPrimary.withValues(alpha: 0.76),
+                  height: 1.45,
+                ),
+              ),
+            ],
           ),
-
-          // ── Bottom Section: White Card (#FFFFFF) with Clean Content ────────
-          Positioned(
-            top: headerHeight - 32.0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+        ),
+        child: SafeArea(
+          top: false,
+          child: FadeTransition(
+            opacity: _fadeAnimation,
             child: SlideTransition(
-              position: _slideAnim,
-              child: FadeTransition(
-                opacity: _fadeAnim,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Spacer(),
-
-                      // Large Heading: Display 40 Bold
-                      const Text(
-                        'Welcome',
-                        style: TextStyle(
-                          color: Color(0xFF111827),
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.w700,
-                          height: 1.15,
-                          letterSpacing: -0.8,
+              position: _slideAnimation,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                  AppSpacing.space24,
+                  AppSpacing.space32,
+                  AppSpacing.space24,
+                  bottomInset + AppSpacing.space24,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome',
+                      style: textTheme.displayMedium?.copyWith(
+                        color: AppColors.primaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space12),
+                    Text(
+                      'Discover legitimate opportunities, use AI to move faster, and build a freelance practice you can be proud of.',
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: AppColors.secondaryText,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space24),
+                    const _ValueRow(
+                      icon: Icons.explore_outlined,
+                      title: 'Find the right work',
+                      description: 'See opportunities that fit your strengths.',
+                    ),
+                    const SizedBox(height: AppSpacing.space16),
+                    const _ValueRow(
+                      icon: Icons.edit_note_rounded,
+                      title: 'Create with confidence',
+                      description: 'Draft proposals, documents, and follow-ups with AI support.',
+                    ),
+                    const SizedBox(height: AppSpacing.space16),
+                    const _ValueRow(
+                      icon: Icons.track_changes_rounded,
+                      title: 'Keep momentum',
+                      description: 'Organize projects and know what to do next.',
+                    ),
+                    const SizedBox(height: AppSpacing.space32),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: Semantics(
+                        button: true,
+                        label: 'Get started with AI Hustle Co-Pilot',
+                        child: FilledButton.icon(
+                          onPressed: _navigateToLogin,
+                          icon: const Icon(Icons.arrow_forward_rounded),
+                          label: const Text('Get Started'),
                         ),
                       ),
-
-                      const SizedBox(height: 14.0),
-
-                      // Short Description: Body Medium 14 / 20 Regular
-                      const Text(
-                        'Supercharge your freelance business with AI co-pilots, automated proposals, client workflows, and intelligent assistants.',
-                        style: TextStyle(
-                          color: Color(0xFF6B7280),
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w400,
-                          height: 1.45,
-                        ),
+                    ),
+                    const SizedBox(height: AppSpacing.space12),
+                    Center(
+                      child: TextButton(
+                        onPressed: _navigateToLogin,
+                        child: const Text('Already have an account? Sign in'),
                       ),
-
-                      const Spacer(flex: 2),
-
-                      // Primary Continue Button Row
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          height: 56.0,
-                          child: ElevatedButton(
-                            onPressed: _navigateToNext,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0D1B2A),
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 28.0,
-                                vertical: 14.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(28.0),
-                              ),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: -0.1,
-                                  ),
-                                ),
-                                SizedBox(width: 10.0),
-                                Icon(
-                                  Icons.arrow_forward_rounded,
-                                  size: 20.0,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: mediaQuery.padding.bottom > 0
-                            ? mediaQuery.padding.bottom + 12.0
-                            : 32.0,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+class _BrandMark extends StatelessWidget {
+  const _BrandMark();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: AppColors.onPrimary.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.onPrimary.withValues(alpha: 0.18)),
+      ),
+      child: const Icon(
+        Icons.auto_awesome_rounded,
+        color: AppColors.onPrimary,
+        size: 20,
+      ),
+    );
+  }
+}
+
+class _ValueRow extends StatelessWidget {
+  const _ValueRow({
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  final IconData icon;
+  final String title;
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(icon, color: AppColors.primary, size: 22),
+        ),
+        const SizedBox(width: AppSpacing.space12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: textTheme.titleMedium),
+              const SizedBox(height: AppSpacing.space4),
+              Text(
+                description,
+                style: textTheme.bodyMedium?.copyWith(
+                  color: AppColors.secondaryText,
+                  height: 1.35,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

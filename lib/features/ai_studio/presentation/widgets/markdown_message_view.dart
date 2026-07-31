@@ -69,10 +69,15 @@ class MarkdownMessageView extends StatelessWidget {
               children: [
                 // Code block top header bar
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   decoration: const BoxDecoration(
                     color: Color(0xFF152A4D),
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16.0),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,11 +94,18 @@ class MarkdownMessageView extends StatelessWidget {
                         onTap: () => _copyToClipboard(context, codeBody),
                         child: const Row(
                           children: [
-                            Icon(Icons.copy_rounded, color: Colors.white, size: 14.0),
+                            Icon(
+                              Icons.copy_rounded,
+                              color: Colors.white,
+                              size: 14.0,
+                            ),
                             SizedBox(width: 4.0),
                             Text(
                               'Copy',
-                              style: TextStyle(color: Colors.white, fontSize: 12.0),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
                             ),
                           ],
                         ),
@@ -122,11 +134,7 @@ class MarkdownMessageView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: SelectableText(
             trimmed,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 14.5,
-              height: 1.5,
-            ),
+            style: TextStyle(color: textColor, fontSize: 14.5, height: 1.5),
           ),
         );
       }).toList(),

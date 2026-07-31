@@ -11,13 +11,12 @@ import 'package:logger/logger.dart';
 /// Concrete implementation of [LoggerService] with automatic data sanitization.
 class AppLoggerService implements LoggerService {
   AppLoggerService({Logger? logger})
-      : _logger = logger ??
-            Logger(
-              printer: PrettyPrinter(
-                methodCount: kReleaseMode ? 0 : 3,
-              ),
-              level: kReleaseMode ? Level.warning : Level.debug,
-            );
+    : _logger =
+          logger ??
+          Logger(
+            printer: PrettyPrinter(methodCount: kReleaseMode ? 0 : 3),
+            level: kReleaseMode ? Level.warning : Level.debug,
+          );
 
   final Logger _logger;
 
@@ -66,7 +65,10 @@ class AppLoggerService implements LoggerService {
     var sanitized = input;
 
     // 1. Mask Bearer authorization headers
-    sanitized = sanitized.replaceAll(_bearerTokenRegex, 'Bearer [REDACTED_TOKEN]');
+    sanitized = sanitized.replaceAll(
+      _bearerTokenRegex,
+      'Bearer [REDACTED_TOKEN]',
+    );
 
     // 2. Mask JSON/query key-value credentials
     sanitized = sanitized.replaceAllMapped(_passwordRegex, (match) {
@@ -80,9 +82,7 @@ class AppLoggerService implements LoggerService {
       final parts = email.split('@');
       final name = parts.first;
       final domain = parts.last;
-      final maskedName = name.length > 2
-          ? '${name.substring(0, 2)}***'
-          : '***';
+      final maskedName = name.length > 2 ? '${name.substring(0, 2)}***' : '***';
       return '$maskedName@$domain';
     });
 

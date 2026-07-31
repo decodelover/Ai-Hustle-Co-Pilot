@@ -21,7 +21,10 @@ final class CreditRepositoryImpl implements CreditRepository {
 
   @override
   Future<CreditWallet> deductCredits(double amount) async {
-    final updatedCredits = (_wallet.availableCredits - amount).clamp(0.0, _wallet.dailyLimit);
+    final updatedCredits = (_wallet.availableCredits - amount).clamp(
+      0.0,
+      _wallet.dailyLimit,
+    );
     _wallet = CreditWallet(
       userId: _wallet.userId,
       tier: _wallet.tier,

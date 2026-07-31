@@ -56,7 +56,9 @@ final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
 });
 
 /// Provider for [ObserveAuthStateUseCase].
-final observeAuthStateUseCaseProvider = Provider<ObserveAuthStateUseCase>((ref) {
+final observeAuthStateUseCaseProvider = Provider<ObserveAuthStateUseCase>((
+  ref,
+) {
   return ObserveAuthStateUseCase(ref.watch(authRepositoryProvider));
 });
 
@@ -68,8 +70,8 @@ final resetPasswordUseCaseProvider = Provider<ResetPasswordUseCase>((ref) {
 /// Provider for [ResendVerificationEmailUseCase].
 final resendVerificationEmailUseCaseProvider =
     Provider<ResendVerificationEmailUseCase>((ref) {
-  return ResendVerificationEmailUseCase(ref.watch(authRepositoryProvider));
-});
+      return ResendVerificationEmailUseCase(ref.watch(authRepositoryProvider));
+    });
 
 /// Provider for [RefreshSessionUseCase].
 final refreshSessionUseCaseProvider = Provider<RefreshSessionUseCase>((ref) {

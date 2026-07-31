@@ -31,7 +31,8 @@ class AppAiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final customExt = theme.extension<AppCustomThemeExtension>() ??
+    final customExt =
+        theme.extension<AppCustomThemeExtension>() ??
         AppCustomThemeExtension.light;
 
     return Container(
@@ -92,8 +93,10 @@ class AppAiCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: customExt.aiGradientStart.withValues(alpha: 0.12),
                     borderRadius: AppRadius.borderRadiusFull,

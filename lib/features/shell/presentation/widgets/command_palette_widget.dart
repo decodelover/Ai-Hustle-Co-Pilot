@@ -104,10 +104,10 @@ class _CommandPaletteWidgetState extends ConsumerState<CommandPaletteWidget> {
                           color: AppColors.primary,
                         ),
                         title: const Text('Launch AI Copilot Assistant'),
-                        subtitle: const Text('Ask AI to generate proposals & code'),
-                        trailing: const AppBadge(
-                          label: 'AI ACTION',
+                        subtitle: const Text(
+                          'Ask AI to generate proposals & code',
                         ),
+                        trailing: const AppBadge(label: 'AI ACTION'),
                         onTap: () {
                           Navigator.of(context).pop();
                           ref

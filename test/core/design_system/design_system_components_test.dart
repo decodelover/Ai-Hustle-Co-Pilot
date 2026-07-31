@@ -16,10 +16,7 @@ void main() {
       var pressed = false;
       await tester.pumpWidget(
         buildTestableWidget(
-          AppButton(
-            text: 'Submit Action',
-            onPressed: () => pressed = true,
-          ),
+          AppButton(text: 'Submit Action', onPressed: () => pressed = true),
         ),
       );
 
@@ -31,17 +28,16 @@ void main() {
     testWidgets('shows loading spinner when isLoading is true', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const AppButton(
-            text: 'Loading Action',
-            isLoading: true,
-          ),
+          const AppButton(text: 'Loading Action', isLoading: true),
         ),
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('does not trigger callback when isDisabled is true', (tester) async {
+    testWidgets('does not trigger callback when isDisabled is true', (
+      tester,
+    ) async {
       var pressed = false;
       await tester.pumpWidget(
         buildTestableWidget(
@@ -138,13 +134,11 @@ void main() {
   });
 
   group('AppAvatar Widget Tests', () {
-    testWidgets('computes initials correctly when image is null', (tester) async {
+    testWidgets('computes initials correctly when image is null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const AppAvatar(
-            name: 'Jane Doe',
-          ),
-        ),
+        buildTestableWidget(const AppAvatar(name: 'Jane Doe')),
       );
 
       expect(find.text('JD'), findsOneWidget);
@@ -159,10 +153,7 @@ void main() {
           Column(
             children: [
               const AppBadge(label: 'Active', variant: AppBadgeVariant.success),
-              AppChip(
-                label: 'Filter Tag',
-                onTap: () => chipSelected = true,
-              ),
+              AppChip(label: 'Filter Tag', onTap: () => chipSelected = true),
             ],
           ),
         ),
@@ -204,7 +195,9 @@ void main() {
   });
 
   group('Feedback & Lifecycle State Widget Tests', () {
-    testWidgets('renders EmptyState with primary action trigger', (tester) async {
+    testWidgets('renders EmptyState with primary action trigger', (
+      tester,
+    ) async {
       var actionTriggered = false;
       await tester.pumpWidget(
         buildTestableWidget(
@@ -258,7 +251,9 @@ void main() {
   });
 
   group('Loading & Animation Widget Tests', () {
-    testWidgets('renders skeleton blocks and loading indicators', (tester) async {
+    testWidgets('renders skeleton blocks and loading indicators', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestableWidget(
           const Column(
@@ -278,12 +273,12 @@ void main() {
       expect(find.byType(SkeletonText), findsOneWidget);
     });
 
-    testWidgets('renders responsive page container within max width', (tester) async {
+    testWidgets('renders responsive page container within max width', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const ResponsivePageContainer(
-            child: Text('Responsive Content'),
-          ),
+          const ResponsivePageContainer(child: Text('Responsive Content')),
         ),
       );
 

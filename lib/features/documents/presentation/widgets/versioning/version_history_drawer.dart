@@ -60,7 +60,10 @@ class VersionHistoryDrawer extends ConsumerWidget {
                 ? const Center(
                     child: Text(
                       'No version snapshots recorded yet.',
-                      style: TextStyle(fontSize: 13, color: AppColors.onSurfaceVariant),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: AppColors.onSurfaceVariant,
+                      ),
                     ),
                   )
                 : ListView.builder(
@@ -80,13 +83,19 @@ class VersionHistoryDrawer extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: ver.isAiGenerated
-                                          ? AppColors.secondary.withValues(alpha: 0.1)
+                                          ? AppColors.secondary.withValues(
+                                              alpha: 0.1,
+                                            )
                                           : AppColors.surfaceVariant,
                                       borderRadius: BorderRadius.circular(4),
                                     ),
@@ -103,7 +112,10 @@ class VersionHistoryDrawer extends ConsumerWidget {
                                   ),
                                   Text(
                                     '${ver.createdAt.hour}:${ver.createdAt.minute.toString().padLeft(2, '0')}',
-                                    style: const TextStyle(fontSize: 11, color: AppColors.onSurfaceVariant),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: AppColors.onSurfaceVariant,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -119,19 +131,30 @@ class VersionHistoryDrawer extends ConsumerWidget {
                               const SizedBox(height: 4),
                               Text(
                                 '${ver.snapshotBlocks.length} blocks • ${ver.isAiGenerated ? "AI Snapshot" : "Manual Commit"}',
-                                style: const TextStyle(fontSize: 11, color: AppColors.onSurfaceVariant),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: AppColors.onSurfaceVariant,
+                                ),
                               ),
                               const SizedBox(height: 8),
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton.icon(
-                                  onPressed: () => controller.restoreVersion(ver),
+                                  onPressed: () =>
+                                      controller.restoreVersion(ver),
                                   icon: const Icon(Icons.restore, size: 14),
-                                  label: const Text('Restore Version', style: TextStyle(fontSize: 11)),
+                                  label: const Text(
+                                    'Restore Version',
+                                    style: TextStyle(fontSize: 11),
+                                  ),
                                   style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
                                     minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                   ),
                                 ),
                               ),

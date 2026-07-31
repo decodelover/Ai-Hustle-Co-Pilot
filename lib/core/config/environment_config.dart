@@ -150,17 +150,18 @@ class EnvironmentConfig {
 
   @override
   int get hashCode => Object.hash(
-        environment,
-        apiBaseUrl,
-        supabaseUrl,
-        supabasePublishableKey,
-        geminiApiKey,
-        enableHttpLogging,
-        enableVerboseErrors,
-      );
+    environment,
+    apiBaseUrl,
+    supabaseUrl,
+    supabasePublishableKey,
+    geminiApiKey,
+    enableHttpLogging,
+    enableVerboseErrors,
+  );
 
   @override
-  String toString() => 'EnvironmentConfig('
+  String toString() =>
+      'EnvironmentConfig('
       'environment: ${environment.name}, '
       'apiBaseUrl: $apiBaseUrl, '
       'enableHttpLogging: $enableHttpLogging'

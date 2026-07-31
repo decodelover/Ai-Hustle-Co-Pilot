@@ -37,8 +37,7 @@ class DioClient {
 
     _dio.interceptors.addAll([
       AuthInterceptor(secureStorage: secureStorage),
-      if (config.enableHttpLogging)
-        NetworkLoggingInterceptor(logger: logger),
+      if (config.enableHttpLogging) NetworkLoggingInterceptor(logger: logger),
       const NetworkErrorInterceptor(),
     ]);
   }

@@ -112,3 +112,83 @@ $$\text{Spacing Tokens}: [4, 8, 12, 16, 20, 24, 32, 40, 48, 64]$$
 - **Breakpoints**: Compact (<600dp), Medium (600–840dp), Expanded (840–1200dp), Desktop (>1200dp).
 - **Touch Targets**: Minimum `48x48dp` touch area for interactive icons & buttons.
 - **Keyboard Safety**: Wrapped in `SingleChildScrollView` to eliminate vertical pixel overflow when soft keyboard opens.
+
+---
+
+## 9. Onboarding and Authenticated Dashboard Redesign (v2.1)
+
+This section is the implementation reference for the pre-Phase-3.6 interface redesign.
+
+### 9.1 Shared background
+
+`lib/shared/widgets/app_brand_background.dart` is the only product background
+composition. It owns the navy gradient, topographic contour treatment, restrained
+ambient motion, and reduced-motion fallback. It supports three contexts:
+
+- `welcome`: larger hero header with the onboarding value proposition.
+- `authentication`: compact hero header for sign-in and account creation.
+- `shell`: persistent navy depth behind the authenticated application shell.
+
+`AppAuthBackground` remains as a compatibility wrapper and delegates to this
+component. `WaveHeaderWidget` is the shared painter used internally; public and
+authenticated screens must not create another background painter.
+
+### 9.2 Semantic tokens
+
+The primary light theme remains the source of truth in `lib/core/theme`:
+
+- Navy: `primaryDarkBlue` / `deepNavy` (`#0D1B2A`), `primaryBlue` / `navySurface` (`#152A4D`), and `secondary` (`#3A5FA0`).
+- Surfaces: `background` / `whiteSurface` (`#FFFFFF`), `surfaceVariant` (`#F8FAFC`), and `outline` (`#E5E7EB`).
+- Text: `primaryText` (`#111827`), `secondaryText` / `mutedText` (`#6B7280`).
+- Status: `success`, `warning`, `danger`, and `info`; status is always paired with text or an icon.
+
+Inter remains the single typeface. Spacing follows the existing 4dp micro-token
+and 8dp rhythm. Cards use the existing radius and elevation tokens; the redesign
+uses a small number of surfaces with clear roles instead of nested decoration.
+
+### 9.3 Dashboard information architecture
+
+The authenticated dashboard answers the user's next question in this order:
+
+1. Personalized greeting and workspace context.
+2. Next Best Action derived from available insight/project state.
+3. AI Co-Pilot entry point for contextual work.
+4. Quick actions connected to valid existing routes.
+5. Compact KPI metrics from `DashboardState`.
+6. Data-backed progress signal, active work, AI guidance, and recent activity.
+
+The dashboard does not add a fabricated opportunity model or decorative chart
+values. When project, insight, or activity collections are empty, the relevant
+section presents a helpful empty state and a valid next action.
+
+### 9.4 Responsive and navigation rules
+
+- Phone (`<600dp`): single-column content, two-column metric/quick-action grids,
+  and five labeled bottom-navigation destinations.
+- Tablet (`600–839dp`): constrained content with an expanded navigation rail and
+  two-column focus/content composition.
+- Expanded (`≥840dp`): persistent rail/sidebar behavior and readable multi-column
+  content with a maximum width of `1920dp`.
+- All interactive controls retain at least 48dp touch area. The bottom bar always
+  reserves scroll space above the system gesture area and navigation surface.
+
+### 9.5 Motion and accessibility
+
+Entrance motion uses the shared `AppMotion` durations (150ms fast, 250ms medium,
+350ms slow) and transform/opacity only. `MediaQuery.disableAnimations` produces a
+complete static state for users who prefer reduced motion. Buttons, icon buttons,
+navigation destinations, cards, loading states, errors, and empty states expose
+descriptive semantics or visible text. Focus/pressed/selected/disabled states do
+not rely on color alone.
+
+### 9.6 Approved reusable components
+
+- `AppBrandBackground`
+- `DashboardSurface` and `DashboardSectionHeader`
+- `PrimaryFocusCard` and `AiCopilotCard`
+- `DashboardHeaderWidget`
+- `DashboardMetricCard`
+- `QuickActionsGrid`
+- `AnalyticsChartsSection`
+- `RecentProjectsList`, `RecentActivityFeed`, and `AiInsightsPanel`
+- `DashboardSkeletonLoader` and existing shared error/feedback components

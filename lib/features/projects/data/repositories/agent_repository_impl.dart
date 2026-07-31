@@ -14,13 +14,15 @@ import 'package:ai_hustle_copilot/features/projects/domain/services/agent_capabi
 final class AgentRepositoryImpl implements AgentRepository {
   /// Constructs [AgentRepositoryImpl].
   AgentRepositoryImpl({AiGatewayClient? gatewayClient})
-      : _gatewayClient = gatewayClient ?? AiGatewayClient();
+    : _gatewayClient = gatewayClient ?? AiGatewayClient();
 
   final AiGatewayClient _gatewayClient;
 
   @override
   Future<List<ProjectAgent>> getAvailableAgents() async {
-    return AgentRole.values.map(AgentCapabilityRegistry.getAgentForRole).toList();
+    return AgentRole.values
+        .map(AgentCapabilityRegistry.getAgentForRole)
+        .toList();
   }
 
   @override
@@ -42,11 +44,15 @@ final class AgentRepositoryImpl implements AgentRepository {
     yield '[4/11 KNOWLEDGE RETRIEVAL]: Scanned RAG knowledge index\n';
     await Future<void>.delayed(const Duration(milliseconds: 40));
 
-    final selectedTool = agent.supportedTools.isNotEmpty ? agent.supportedTools.first : 'default_executor';
+    final selectedTool = agent.supportedTools.isNotEmpty
+        ? agent.supportedTools.first
+        : 'default_executor';
     yield '[5/11 TOOL SELECTION]: Bound tool [$selectedTool] for agent ${agent.name}\n';
     await Future<void>.delayed(const Duration(milliseconds: 40));
 
-    final modelId = agent.supportedModels.isNotEmpty ? agent.supportedModels.first : 'gemini-1.5-pro';
+    final modelId = agent.supportedModels.isNotEmpty
+        ? agent.supportedModels.first
+        : 'gemini-1.5-pro';
     yield '[6/11 LLM PROVIDER]: Routing prompt stream via $modelId...\n\n';
 
     final promptHistory = [
@@ -62,7 +68,8 @@ final class AgentRepositoryImpl implements AgentRepository {
     yield* _gatewayClient.streamPrompt(
       modelId: modelId,
       history: promptHistory,
-      systemPrompt: '${agent.systemInstructions}\n${context?.systemInstructions ?? ""}',
+      systemPrompt:
+          '${agent.systemInstructions}\n${context?.systemInstructions ?? ""}',
     );
 
     yield '\n\n[8/11 OUTPUT VALIDATOR]: Verified output against WCAG AA & SOLID constraints.\n';

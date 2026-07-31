@@ -12,7 +12,8 @@ final class SessionRecoveryService {
   final AiStudioLocalDataSource localDataSource;
 
   /// Restores last active conversation ID.
-  String? get lastActiveConversationId => localDataSource.lastActiveConversationId;
+  String? get lastActiveConversationId =>
+      localDataSource.lastActiveConversationId;
 
   /// Restores draft prompt text.
   String? get draftPromptText => localDataSource.draftPromptText;
@@ -43,5 +44,6 @@ final class SessionRecoveryService {
     if (sidebarExpanded != null) {
       localDataSource.isSidebarExpanded = sidebarExpanded;
     }
+    localDataSource.persistSession();
   }
 }

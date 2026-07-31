@@ -4,7 +4,7 @@ library;
 import 'package:ai_hustle_copilot/features/ai_studio/data/datasources/ai_studio_local_data_source.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/datasources/sse_stream_client.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/providers/ai_provider_service.dart';
-import 'package:ai_hustle_copilot/features/ai_studio/data/providers/openai_provider_service.dart';
+import 'package:ai_hustle_copilot/features/ai_studio/data/providers/gemini_provider_service.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/domain/entities/ai_model.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/domain/entities/chat_message.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/domain/entities/prompt_template.dart';
@@ -16,8 +16,8 @@ final class AiStudioRepositoryImpl implements AiStudioRepository {
   AiStudioRepositoryImpl({
     AiStudioLocalDataSource? localDataSource,
     AiProviderService? aiProviderService,
-  })  : localDataSource = localDataSource ?? AiStudioLocalDataSource(),
-        aiProviderService = aiProviderService ?? const OpenAiProviderService();
+  }) : localDataSource = localDataSource ?? AiStudioLocalDataSource(),
+       aiProviderService = aiProviderService ?? GeminiProviderService();
 
   /// Injected local data source.
   final AiStudioLocalDataSource localDataSource;

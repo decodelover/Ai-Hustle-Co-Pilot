@@ -61,19 +61,21 @@ class AppListTile extends StatelessWidget {
 
     final tileColor = isSelected
         ? (isDark
-            ? AppColors.darkPrimary.withValues(alpha: 0.15)
-            : AppColors.primary.withValues(alpha: 0.1))
+              ? AppColors.darkPrimary.withValues(alpha: 0.15)
+              : AppColors.primary.withValues(alpha: 0.1))
         : Colors.transparent;
 
     final titleColor = isDisabled
         ? (isDark ? AppColors.darkDisabledText : AppColors.disabledText)
         : (isSelected
-            ? (isDark ? AppColors.darkPrimary : AppColors.primary)
-            : (isDark ? AppColors.darkOnSurface : AppColors.onSurface));
+              ? (isDark ? AppColors.darkPrimary : AppColors.primary)
+              : (isDark ? AppColors.darkOnSurface : AppColors.onSurface));
 
     final subtitleColor = isDisabled
         ? (isDark ? AppColors.darkDisabledText : AppColors.disabledText)
-        : (isDark ? AppColors.darkOnSurfaceVariant : AppColors.onSurfaceVariant);
+        : (isDark
+              ? AppColors.darkOnSurfaceVariant
+              : AppColors.onSurfaceVariant);
 
     return Material(
       color: tileColor,
@@ -100,8 +102,9 @@ class AppListTile extends StatelessWidget {
                       title,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: titleColor,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
                       ),
                     ),
                     if (subtitle != null) ...[

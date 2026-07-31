@@ -92,15 +92,15 @@ final class ProjectTask {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        projectId,
-        title,
-        description,
-        createdAt,
-        status,
-        assignedAgentId,
-        progress,
-        Object.hashAll(executionLogs),
-        completedAt,
-      );
+    id,
+    projectId,
+    title,
+    description,
+    createdAt,
+    status,
+    assignedAgentId,
+    progress,
+    Object.hashAll(executionLogs),
+    completedAt,
+  );
 }

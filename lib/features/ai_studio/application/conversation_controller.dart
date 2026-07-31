@@ -53,8 +53,7 @@ final class ConversationState {
     return ConversationState(
       conversations: conversations ?? this.conversations,
       folders: folders ?? this.folders,
-      activeConversationId:
-          activeConversationId ?? this.activeConversationId,
+      activeConversationId: activeConversationId ?? this.activeConversationId,
       searchQuery: searchQuery ?? this.searchQuery,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage,
@@ -65,7 +64,7 @@ final class ConversationState {
 /// Controller managing conversation list, selection, creation, folders, and search.
 final class ConversationController extends StateNotifier<ConversationState> {
   ConversationController({required this.repository})
-      : super(const ConversationState()) {
+    : super(const ConversationState()) {
     loadConversations();
   }
 
@@ -78,7 +77,8 @@ final class ConversationController extends StateNotifier<ConversationState> {
       final convs = await repository.getConversations();
       final folders = await repository.getFolders();
       final activeId =
-          state.activeConversationId ?? (convs.isNotEmpty ? convs.first.id : null);
+          state.activeConversationId ??
+          (convs.isNotEmpty ? convs.first.id : null);
       state = state.copyWith(
         conversations: convs,
         folders: folders,
@@ -163,6 +163,6 @@ final class ConversationController extends StateNotifier<ConversationState> {
 /// Provider for [ConversationController].
 final conversationControllerProvider =
     StateNotifierProvider<ConversationController, ConversationState>((ref) {
-  final repo = ref.watch(conversationRepositoryProvider);
-  return ConversationController(repository: repo);
-});
+      final repo = ref.watch(conversationRepositoryProvider);
+      return ConversationController(repository: repo);
+    });

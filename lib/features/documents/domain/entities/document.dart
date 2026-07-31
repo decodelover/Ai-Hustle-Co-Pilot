@@ -114,18 +114,18 @@ final class Document {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        projectId,
-        title,
-        emojiIcon,
-        coverImageUrl,
-        Object.hashAll(blocks),
-        status,
-        templateId,
-        createdAt,
-        updatedAt,
-        createdByUserId,
-        currentVersionNumber,
-        Object.hashAll(metadata.entries),
-      );
+    id,
+    projectId,
+    title,
+    emojiIcon,
+    coverImageUrl,
+    Object.hashAll(blocks),
+    status,
+    templateId,
+    createdAt,
+    updatedAt,
+    createdByUserId,
+    currentVersionNumber,
+    Object.hashAll(metadata.entries),
+  );
 }

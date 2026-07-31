@@ -4,11 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('App renders successfully', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: AiHustleCoPilotApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: AiHustleCoPilotApp()));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
 

@@ -25,7 +25,8 @@ class DocumentEditorScreen extends ConsumerStatefulWidget {
   final Project? projectContext;
 
   @override
-  ConsumerState<DocumentEditorScreen> createState() => _DocumentEditorScreenState();
+  ConsumerState<DocumentEditorScreen> createState() =>
+      _DocumentEditorScreenState();
 }
 
 class _DocumentEditorScreenState extends ConsumerState<DocumentEditorScreen> {
@@ -33,7 +34,9 @@ class _DocumentEditorScreenState extends ConsumerState<DocumentEditorScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(documentEditorControllerProvider.notifier).loadDocument(widget.documentId);
+      ref
+          .read(documentEditorControllerProvider.notifier)
+          .loadDocument(widget.documentId);
     });
   }
 
@@ -55,7 +58,11 @@ class _DocumentEditorScreenState extends ConsumerState<DocumentEditorScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, size: 48, color: AppColors.danger),
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+                color: AppColors.danger,
+              ),
               const SizedBox(height: 12),
               Text(
                 'Error loading document: $err',
@@ -87,16 +94,16 @@ class _DocumentEditorScreenState extends ConsumerState<DocumentEditorScreen> {
                 child: Row(
                   children: [
                     // Center Document Canvas
-                    Expanded(
-                      child: DocumentBlockCanvas(document: doc),
-                    ),
+                    Expanded(child: DocumentBlockCanvas(document: doc)),
 
                     // Version History Drawer (if open)
                     if (isVersionOpen) const VersionHistoryDrawer(),
 
                     // Desktop / Tablet Right AI Assistant Sidebar
                     if (!isMobile && isAiPanelOpen)
-                      AiWritingAssistantPanel(projectContext: widget.projectContext),
+                      AiWritingAssistantPanel(
+                        projectContext: widget.projectContext,
+                      ),
                   ],
                 ),
               ),
@@ -114,13 +121,18 @@ class _DocumentEditorScreenState extends ConsumerState<DocumentEditorScreen> {
                   isScrollControlled: true,
                   builder: (_) => SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.85,
-                    child: AiWritingAssistantPanel(projectContext: widget.projectContext),
+                    child: AiWritingAssistantPanel(
+                      projectContext: widget.projectContext,
+                    ),
                   ),
                 );
               },
               backgroundColor: AppColors.primaryDarkBlue,
               icon: const Icon(Icons.auto_awesome, color: Colors.white),
-              label: const Text('AI Assistant', style: TextStyle(color: Colors.white)),
+              label: const Text(
+                'AI Assistant',
+                style: TextStyle(color: Colors.white),
+              ),
             )
           : null,
     );

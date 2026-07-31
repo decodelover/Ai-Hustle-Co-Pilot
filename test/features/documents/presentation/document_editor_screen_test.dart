@@ -7,12 +7,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DocumentEditorScreen Widget Tests', () {
-    testWidgets('renders EditorHeaderBar and DocumentBlockCanvas', (tester) async {
+    testWidgets('renders EditorHeaderBar and DocumentBlockCanvas', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: DocumentEditorScreen(documentId: 'doc_101'),
-          ),
+          child: MaterialApp(home: DocumentEditorScreen(documentId: 'doc_101')),
         ),
       );
 

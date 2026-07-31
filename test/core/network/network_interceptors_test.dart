@@ -18,19 +18,25 @@ void main() {
       interceptor = AuthInterceptor(secureStorage: mockStorage);
     });
 
-    test('attaches Authorization header when token is present in storage', () async {
-      await mockStorage.write(
-        key: AuthInterceptor.tokenStorageKey,
-        value: 'test_token_123',
-      );
+    test(
+      'attaches Authorization header when token is present in storage',
+      () async {
+        await mockStorage.write(
+          key: AuthInterceptor.tokenStorageKey,
+          value: 'test_token_123',
+        );
 
-      final options = RequestOptions(path: '/user');
-      final handler = _MockRequestInterceptorHandler();
+        final options = RequestOptions(path: '/user');
+        final handler = _MockRequestInterceptorHandler();
 
-      await interceptor.onRequest(options, handler);
+        await interceptor.onRequest(options, handler);
 
-      expect(options.headers['Authorization'], equals('Bearer test_token_123'));
-    });
+        expect(
+          options.headers['Authorization'],
+          equals('Bearer test_token_123'),
+        );
+      },
+    );
 
     test('does not overwrite existing Authorization header', () async {
       await mockStorage.write(

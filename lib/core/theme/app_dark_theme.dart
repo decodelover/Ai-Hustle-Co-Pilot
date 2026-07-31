@@ -90,10 +90,7 @@ ThemeData getAppDarkTheme() {
           borderRadius: AppRadius.borderMedium,
         ),
         elevation: AppElevation.level1,
-        textStyle: const TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w500,
-        ),
+        textStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
@@ -104,28 +101,20 @@ ThemeData getAppDarkTheme() {
         shape: const RoundedRectangleBorder(
           borderRadius: AppRadius.borderMedium,
         ),
-        textStyle: const TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w500,
-        ),
+        textStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AppColors.darkPrimary,
         minimumSize: const Size(0, AppSpacing.space48),
-        textStyle: const TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w500,
-        ),
+        textStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
       ),
     ),
     dialogTheme: const DialogThemeData(
       backgroundColor: AppColors.darkSurface,
       elevation: AppElevation.level4,
-      shape: RoundedRectangleBorder(
-        borderRadius: AppRadius.borderXLarge,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: AppRadius.borderXLarge),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: AppColors.darkSurface,
@@ -140,7 +129,7 @@ ThemeData getAppDarkTheme() {
       AiColorsExtension(
         accent: AppColors.darkAccent,
         onAccent: AppColors.darkOnAccent,
-        glowColor: Color(0x599333EA),
+        glowColor: Color(0x5960A5FA),
         sparkGradient: LinearGradient(
           colors: [AppColors.darkPrimary, AppColors.darkAccent],
         ),

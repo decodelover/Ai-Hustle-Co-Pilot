@@ -6,20 +6,14 @@ import 'package:flutter/material.dart';
 /// Pixel-perfect, authentic Google multi-color brand icon.
 class GoogleBrandIcon extends StatelessWidget {
   /// Creates a [GoogleBrandIcon].
-  const GoogleBrandIcon({
-    super.key,
-    this.size = 22.0,
-  });
+  const GoogleBrandIcon({super.key, this.size = 22.0});
 
   /// Icon dimensions.
   final double size;
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(size, size),
-      painter: _GoogleLogoPainter(),
-    );
+    return CustomPaint(size: Size(size, size), painter: _GoogleLogoPainter());
   }
 }
 
@@ -29,7 +23,10 @@ class _GoogleLogoPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
     final strokeWidth = size.width * 0.22;
-    final rect = Rect.fromCircle(center: center, radius: radius - strokeWidth / 2);
+    final rect = Rect.fromCircle(
+      center: center,
+      radius: radius - strokeWidth / 2,
+    );
 
     final paint = Paint()
       ..style = PaintingStyle.stroke
@@ -72,10 +69,7 @@ class _GoogleLogoPainter extends CustomPainter {
 /// Official Facebook brand icon widget.
 class FacebookBrandIcon extends StatelessWidget {
   /// Creates a [FacebookBrandIcon].
-  const FacebookBrandIcon({
-    super.key,
-    this.size = 22.0,
-  });
+  const FacebookBrandIcon({super.key, this.size = 22.0});
 
   /// Icon dimensions.
   final double size;
@@ -108,11 +102,7 @@ class FacebookBrandIcon extends StatelessWidget {
 /// Official Apple brand icon widget.
 class AppleBrandIcon extends StatelessWidget {
   /// Creates an [AppleBrandIcon].
-  const AppleBrandIcon({
-    super.key,
-    this.size = 22.0,
-    this.color,
-  });
+  const AppleBrandIcon({super.key, this.size = 22.0, this.color});
 
   /// Icon dimensions.
   final double size;
@@ -122,8 +112,7 @@ class AppleBrandIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor =
-        color ?? Theme.of(context).colorScheme.onSurface;
+    final effectiveColor = color ?? Theme.of(context).colorScheme.onSurface;
 
     return CustomPaint(
       size: Size(size, size),
@@ -174,11 +163,7 @@ class _AppleLogoPainter extends CustomPainter {
 /// Official GitHub Octocat brand icon widget.
 class GitHubBrandIcon extends StatelessWidget {
   /// Creates a [GitHubBrandIcon].
-  const GitHubBrandIcon({
-    super.key,
-    this.size = 22.0,
-    this.color,
-  });
+  const GitHubBrandIcon({super.key, this.size = 22.0, this.color});
 
   /// Icon dimensions.
   final double size;
@@ -188,8 +173,7 @@ class GitHubBrandIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveColor =
-        color ?? Theme.of(context).colorScheme.onSurface;
+    final effectiveColor = color ?? Theme.of(context).colorScheme.onSurface;
 
     return CustomPaint(
       size: Size(size, size),

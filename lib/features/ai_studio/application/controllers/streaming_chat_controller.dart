@@ -20,13 +20,14 @@ class StreamingChatController extends StateNotifier<AsyncValue<String?>> {
   StreamingChatController({
     ConversationRepository? repository,
     StreamChatResponseUseCase? streamChatResponseUseCase,
-  })  : _repository = repository ?? ConversationRepositoryImpl(),
-        _streamChatResponseUseCase = streamChatResponseUseCase ??
-            StreamChatResponseUseCase(
-              gatewayRepository: AiGatewayRepositoryImpl(),
-              retrievalService: MemoryRetrievalService(MemoryRepositoryImpl()),
-            ),
-        super(const AsyncData(null));
+  }) : _repository = repository ?? ConversationRepositoryImpl(),
+       _streamChatResponseUseCase =
+           streamChatResponseUseCase ??
+           StreamChatResponseUseCase(
+             gatewayRepository: AiGatewayRepositoryImpl(),
+             retrievalService: MemoryRetrievalService(MemoryRepositoryImpl()),
+           ),
+       super(const AsyncData(null));
 
   final ConversationRepository _repository;
   final StreamChatResponseUseCase _streamChatResponseUseCase;
@@ -76,7 +77,9 @@ class StreamingChatController extends StateNotifier<AsyncValue<String?>> {
               state = AsyncError(error, st);
             },
             onDone: () {
-              unawaited(_saveFinalMessage(conversationId, buffer.toString(), modelId));
+              unawaited(
+                _saveFinalMessage(conversationId, buffer.toString(), modelId),
+              );
             },
           );
     } catch (e, st) {
@@ -84,7 +87,11 @@ class StreamingChatController extends StateNotifier<AsyncValue<String?>> {
     }
   }
 
-  Future<void> _saveFinalMessage(String conversationId, String content, String modelId) async {
+  Future<void> _saveFinalMessage(
+    String conversationId,
+    String content,
+    String modelId,
+  ) async {
     final aiMsg = ChatMessage(
       id: 'msg_${DateTime.now().millisecondsSinceEpoch}',
       conversationId: conversationId,

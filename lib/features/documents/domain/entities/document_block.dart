@@ -82,13 +82,13 @@ final class DocumentBlock {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        documentId,
-        type,
-        textContent,
-        Object.hashAll(attributes.entries),
-        sortOrder,
-        parentBlockId,
-        isAiGenerating,
-      );
+    id,
+    documentId,
+    type,
+    textContent,
+    Object.hashAll(attributes.entries),
+    sortOrder,
+    parentBlockId,
+    isAiGenerating,
+  );
 }

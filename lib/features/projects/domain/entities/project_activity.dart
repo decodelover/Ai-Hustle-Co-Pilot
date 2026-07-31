@@ -75,14 +75,14 @@ final class ProjectActivity {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        projectId,
-        title,
-        description,
-        timestamp,
-        type,
-        icon,
-        actorName,
-        statusColor,
-      );
+    id,
+    projectId,
+    title,
+    description,
+    timestamp,
+    type,
+    icon,
+    actorName,
+    statusColor,
+  );
 }

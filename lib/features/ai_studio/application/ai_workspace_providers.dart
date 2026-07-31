@@ -3,7 +3,7 @@ library;
 
 import 'package:ai_hustle_copilot/features/ai_studio/data/datasources/ai_studio_local_data_source.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/providers/ai_provider_service.dart';
-import 'package:ai_hustle_copilot/features/ai_studio/data/providers/mock_ai_provider_service.dart';
+import 'package:ai_hustle_copilot/features/ai_studio/data/providers/gemini_provider_service.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/repositories/agent_repository_impl.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/repositories/ai_studio_repository_impl.dart';
 import 'package:ai_hustle_copilot/features/ai_studio/data/repositories/conversation_repository_impl.dart';
@@ -13,13 +13,15 @@ import 'package:ai_hustle_copilot/features/ai_studio/domain/repositories/convers
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Singleton provider for local Hive/memory storage & session recovery.
-final aiStudioLocalDataSourceProvider = Provider<AiStudioLocalDataSource>((ref) {
+final aiStudioLocalDataSourceProvider = Provider<AiStudioLocalDataSource>((
+  ref,
+) {
   return AiStudioLocalDataSource();
 });
 
-/// Singleton provider for AI provider service (Mock/OpenAI/Gemini/Claude).
+/// Production Gemini provider. Tests can override this provider with a fake.
 final aiProviderServiceProvider = Provider<AiProviderService>((ref) {
-  return MockAiProviderService();
+  return GeminiProviderService();
 });
 
 /// Provider for [ConversationRepository].

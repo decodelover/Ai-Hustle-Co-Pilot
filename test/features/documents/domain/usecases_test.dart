@@ -22,7 +22,8 @@ void main() {
     });
 
     test('GenerateDocumentUseCase parses markdown string into blocks', () {
-      const markdown = '# Main Heading\n\nParagraph text here.\n\n- Item 1\n- Item 2\n\n> Quote block';
+      const markdown =
+          '# Main Heading\n\nParagraph text here.\n\n- Item 1\n- Item 2\n\n> Quote block';
       final blocks = generateUseCase.parseMarkdownToBlocks(
         documentId: 'd1',
         markdownContent: markdown,

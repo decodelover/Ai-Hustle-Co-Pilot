@@ -13,16 +13,17 @@ class FakeResetPasswordRepository implements AuthRepository {
   bool shouldFail = false;
 
   @override
-  Future<AuthUser> signIn({required Email email, required Password password}) async =>
-      const AuthUser(id: '1', email: 'a@b.com');
+  Future<AuthUser> signIn({
+    required Email email,
+    required Password password,
+  }) async => const AuthUser(id: '1', email: 'a@b.com');
 
   @override
   Future<AuthUser> signUp({
     required Email email,
     required Password password,
     String? displayName,
-  }) async =>
-      const AuthUser(id: '1', email: 'a@b.com');
+  }) async => const AuthUser(id: '1', email: 'a@b.com');
 
   @override
   Future<void> signOut() async {}
@@ -50,8 +51,7 @@ class FakeResetPasswordRepository implements AuthRepository {
   Future<AuthUser> verifyOtp({
     required Email email,
     required String token,
-  }) async =>
-      const AuthUser(id: 'usr_reset_1', email: 'reset@example.com');
+  }) async => const AuthUser(id: 'usr_reset_1', email: 'reset@example.com');
 }
 
 void main() {
@@ -76,8 +76,9 @@ void main() {
 
   group('ResetPasswordController Unit Tests', () {
     test('resetPassword succeeds and emits AsyncData(null)', () async {
-      final controller =
-          container.read(resetPasswordControllerProvider.notifier);
+      final controller = container.read(
+        resetPasswordControllerProvider.notifier,
+      );
 
       final result = await controller.resetPassword(email: 'reset@example.com');
 
@@ -86,20 +87,26 @@ void main() {
       expect(state, isA<AsyncData<void>>());
     });
 
-    test('resetPassword fails on network failure and emits AsyncError', () async {
-      fakeRepository.shouldFail = true;
-      final controller =
-          container.read(resetPasswordControllerProvider.notifier);
+    test(
+      'resetPassword fails on network failure and emits AsyncError',
+      () async {
+        fakeRepository.shouldFail = true;
+        final controller = container.read(
+          resetPasswordControllerProvider.notifier,
+        );
 
-      final result = await controller.resetPassword(email: 'reset@example.com');
+        final result = await controller.resetPassword(
+          email: 'reset@example.com',
+        );
 
-      expect(result, isFalse);
-      final state = container.read(resetPasswordControllerProvider);
-      expect(state, isA<AsyncError<void>>());
-      expect(
-        state.error.toString(),
-        contains('Network connection unavailable'),
-      );
-    });
+        expect(result, isFalse);
+        final state = container.read(resetPasswordControllerProvider);
+        expect(state, isA<AsyncError<void>>());
+        expect(
+          state.error.toString(),
+          contains('Network connection unavailable'),
+        );
+      },
+    );
   });
 }

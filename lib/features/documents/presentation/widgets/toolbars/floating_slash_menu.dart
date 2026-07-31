@@ -21,16 +21,56 @@ class FloatingSlashMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       (BlockType.heading1, 'Heading 1', 'Large section heading', Icons.title),
-      (BlockType.heading2, 'Heading 2', 'Medium subsection heading', Icons.format_size),
-      (BlockType.heading3, 'Heading 3', 'Small subsection heading', Icons.text_fields),
+      (
+        BlockType.heading2,
+        'Heading 2',
+        'Medium subsection heading',
+        Icons.format_size,
+      ),
+      (
+        BlockType.heading3,
+        'Heading 3',
+        'Small subsection heading',
+        Icons.text_fields,
+      ),
       (BlockType.paragraph, 'Paragraph', 'Plain text block', Icons.short_text),
-      (BlockType.bulletList, 'Bullet List', 'Unordered bullet points', Icons.format_list_bulleted),
-      (BlockType.numberedList, 'Numbered List', 'Sequential ordered list', Icons.format_list_numbered),
-      (BlockType.todoList, 'To-Do Checkbox', 'Task list with checkboxes', Icons.check_box_outlined),
-      (BlockType.callout, 'Callout Box', 'Highlighted callout container', Icons.lightbulb_outline),
+      (
+        BlockType.bulletList,
+        'Bullet List',
+        'Unordered bullet points',
+        Icons.format_list_bulleted,
+      ),
+      (
+        BlockType.numberedList,
+        'Numbered List',
+        'Sequential ordered list',
+        Icons.format_list_numbered,
+      ),
+      (
+        BlockType.todoList,
+        'To-Do Checkbox',
+        'Task list with checkboxes',
+        Icons.check_box_outlined,
+      ),
+      (
+        BlockType.callout,
+        'Callout Box',
+        'Highlighted callout container',
+        Icons.lightbulb_outline,
+      ),
       (BlockType.quote, 'Quote', 'Stylized blockquote', Icons.format_quote),
-      (BlockType.code, 'Code Snippet', 'Formatted code snippet block', Icons.code),
-      (BlockType.divider, 'Divider Line', 'Visual horizontal line', Icons.horizontal_rule),
+      (
+        BlockType.code,
+        'Code Snippet',
+        'Formatted code snippet block',
+        Icons.code,
+      ),
+      (
+        BlockType.divider,
+        'Divider Line',
+        'Visual horizontal line',
+        Icons.horizontal_rule,
+      ),
     ];
 
     return Container(
@@ -70,7 +110,10 @@ class FloatingSlashMenu extends StatelessWidget {
                   icon: const Icon(Icons.close, size: 16),
                   onPressed: onClose,
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 20, minHeight: 20),
+                  constraints: const BoxConstraints(
+                    minWidth: 20,
+                    minHeight: 20,
+                  ),
                 ),
               ],
             ),

@@ -25,7 +25,10 @@ void main() {
       final doc = await repository.getDocumentById('doc_101');
 
       expect(doc, isNotNull);
-      expect(doc!.title, contains('AI Co-Pilot Enterprise SaaS Architecture Specification'));
+      expect(
+        doc!.title,
+        contains('AI Co-Pilot Enterprise SaaS Architecture Specification'),
+      );
     });
 
     test('saveDocument creates or updates document', () async {

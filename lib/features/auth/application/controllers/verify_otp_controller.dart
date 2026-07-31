@@ -15,17 +15,11 @@ class VerifyOtpController extends BaseAuthController<void> {
   }
 
   /// Verifies an OTP code for [email] with [token].
-  Future<bool> verifyOtp({
-    required String email,
-    required String token,
-  }) {
+  Future<bool> verifyOtp({required String email, required String token}) {
     return executeOperation(() async {
       final emailVo = Email(email);
       final repository = ref.read(authRepositoryProvider);
-      await repository.verifyOtp(
-        email: emailVo,
-        token: token.trim(),
-      );
+      await repository.verifyOtp(email: emailVo, token: token.trim());
     });
   }
 }

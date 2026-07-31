@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 /// ShellScaffold wrapping active tab's widget tree in adaptive [ShellScreen].
 class ShellScaffold extends StatelessWidget {
   /// Creates a [ShellScaffold].
-  const ShellScaffold({
-    required this.child,
-    super.key,
-  });
+  const ShellScaffold({required this.child, super.key});
 
   /// Active tab content provided by GoRouter.
   final Widget child;

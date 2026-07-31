@@ -96,7 +96,9 @@ class _AppCardState extends State<AppCard> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.header != null) widget.header!,
-        if (widget.title != null || widget.leading != null || widget.trailing != null) ...[
+        if (widget.title != null ||
+            widget.leading != null ||
+            widget.trailing != null) ...[
           Row(
             children: [
               if (widget.leading != null) ...[
@@ -152,7 +154,9 @@ class _AppCardState extends State<AppCard> {
       decoration: BoxDecoration(
         color: bg,
         borderRadius: AppRadius.borderLarge,
-        border: border != BorderSide.none ? Border.fromBorderSide(border) : null,
+        border: border != BorderSide.none
+            ? Border.fromBorderSide(border)
+            : null,
         boxShadow: shadows,
       ),
       clipBehavior: Clip.antiAlias,
@@ -163,15 +167,9 @@ class _AppCardState extends State<AppCard> {
                 setState(() => _isPressed = pressed);
               },
               borderRadius: AppRadius.borderLarge,
-              child: Padding(
-                padding: widget.padding,
-                child: content,
-              ),
+              child: Padding(padding: widget.padding, child: content),
             )
-          : Padding(
-              padding: widget.padding,
-              child: content,
-            ),
+          : Padding(padding: widget.padding, child: content),
     );
 
     if (widget.onTap != null) {
@@ -196,21 +194,19 @@ class _AppCardState extends State<AppCard> {
         return (
           isDark ? AppColors.darkSurface : AppColors.surface,
           isDark ? AppShadows.darkSm : AppShadows.lightSm,
-          BorderSide(
-            color: isDark ? AppColors.darkOutline : AppColors.outline,
-          )
+          BorderSide(color: isDark ? AppColors.darkOutline : AppColors.outline),
         );
       case AppCardVariant.elevated:
         return (
           isDark ? AppColors.darkSurface : AppColors.surface,
           isDark ? AppShadows.darkLg : AppShadows.lightLg,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppCardVariant.filled:
         return (
           isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
           const [],
-          BorderSide.none
+          BorderSide.none,
         );
       case AppCardVariant.outlined:
         return (
@@ -219,7 +215,7 @@ class _AppCardState extends State<AppCard> {
           BorderSide(
             color: isDark ? AppColors.darkOutline : AppColors.outline,
             width: 1.5,
-          )
+          ),
         );
     }
   }

@@ -54,7 +54,9 @@ class AppSidebar extends ConsumerWidget {
                         end: Alignment.bottomRight,
                         colors: [
                           isDark ? AppColors.darkPrimary : AppColors.primary,
-                          isDark ? AppColors.darkSecondary : AppColors.secondary,
+                          isDark
+                              ? AppColors.darkSecondary
+                              : AppColors.secondary,
                         ],
                       ),
                     ),
@@ -76,14 +78,18 @@ class AppSidebar extends ConsumerWidget {
                     ),
                   ],
                   IconButton(
-                    tooltip: isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar',
+                    tooltip: isCollapsed
+                        ? 'Expand Sidebar'
+                        : 'Collapse Sidebar',
                     icon: Icon(
                       isCollapsed
                           ? Icons.chevron_right_rounded
                           : Icons.chevron_left_rounded,
                     ),
                     onPressed: () {
-                      ref.read(shellControllerProvider.notifier).toggleSidebar();
+                      ref
+                          .read(shellControllerProvider.notifier)
+                          .toggleSidebar();
                     },
                   ),
                 ],
@@ -98,7 +104,9 @@ class AppSidebar extends ConsumerWidget {
             // ── Main Navigation List ──────────────────────────────────
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.space8),
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppSpacing.space8,
+                ),
                 children: [
                   ...ShellNavigationConfig.items.map((item) {
                     final isSelected = shellState.selectedRoute == item.route;
@@ -109,8 +117,8 @@ class AppSidebar extends ConsumerWidget {
                           isSelected ? item.selectedIcon : item.icon,
                           color: isSelected
                               ? (isDark
-                                  ? AppColors.darkPrimary
-                                  : AppColors.primary)
+                                    ? AppColors.darkPrimary
+                                    : AppColors.primary)
                               : null,
                         ),
                         title: isCollapsed
@@ -123,8 +131,8 @@ class AppSidebar extends ConsumerWidget {
                                       : FontWeight.normal,
                                   color: isSelected
                                       ? (isDark
-                                          ? AppColors.darkPrimary
-                                          : AppColors.primary)
+                                            ? AppColors.darkPrimary
+                                            : AppColors.primary)
                                       : null,
                                 ),
                               ),
@@ -159,10 +167,7 @@ class AppSidebar extends ConsumerWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            '42%',
-                            style: theme.textTheme.labelSmall,
-                          ),
+                          Text('42%', style: theme.textTheme.labelSmall),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.space8),
@@ -185,10 +190,7 @@ class AppSidebar extends ConsumerWidget {
               padding: const EdgeInsets.all(AppSpacing.space8),
               child: Row(
                 children: [
-                  const AppAvatar(
-                    name: 'Alex Johnson',
-                    size: AppAvatarSize.sm,
-                  ),
+                  const AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.sm),
                   if (!isCollapsed) ...[
                     const SizedBox(width: AppSpacing.space12),
                     Expanded(

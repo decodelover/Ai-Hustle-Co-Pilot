@@ -95,7 +95,10 @@ class _AppButtonState extends State<AppButton> {
     final theme = context.theme;
     final isDark = context.isDarkMode;
 
-    final (Color bg, Color fg, BorderSide border) = _resolveColors(theme, isDark);
+    final (Color bg, Color fg, BorderSide border) = _resolveColors(
+      theme,
+      isDark,
+    );
 
     final content = Row(
       mainAxisSize: widget.fullWidth ? MainAxisSize.max : MainAxisSize.min,
@@ -175,14 +178,18 @@ class _AppButtonState extends State<AppButton> {
     bool isDark,
   ) {
     if (_effectiveDisabled) {
-      final disabledBg =
-          isDark ? AppColors.darkDisabledSurface : AppColors.disabledSurface;
-      final disabledFg =
-          isDark ? AppColors.darkDisabledText : AppColors.disabledText;
+      final disabledBg = isDark
+          ? AppColors.darkDisabledSurface
+          : AppColors.disabledSurface;
+      final disabledFg = isDark
+          ? AppColors.darkDisabledText
+          : AppColors.disabledText;
       return (disabledBg, disabledFg, BorderSide.none);
     }
 
-    final variant = widget.isLoading ? AppButtonVariant.loading : widget.variant;
+    final variant = widget.isLoading
+        ? AppButtonVariant.loading
+        : widget.variant;
 
     switch (variant) {
       case AppButtonVariant.primary:
@@ -190,39 +197,37 @@ class _AppButtonState extends State<AppButton> {
         return (
           isDark ? AppColors.darkPrimary : AppColors.primary,
           AppColors.onPrimary,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppButtonVariant.secondary:
         return (
           isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppButtonVariant.outlined:
         return (
           Colors.transparent,
           isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-          BorderSide(
-            color: isDark ? AppColors.darkOutline : AppColors.outline,
-          )
+          BorderSide(color: isDark ? AppColors.darkOutline : AppColors.outline),
         );
       case AppButtonVariant.ghost:
         return (
           Colors.transparent,
           isDark ? AppColors.darkPrimary : AppColors.primary,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppButtonVariant.destructive:
         return (
           isDark ? AppColors.darkDanger : AppColors.danger,
           AppColors.onDanger,
-          BorderSide.none
+          BorderSide.none,
         );
       case AppButtonVariant.success:
         return (
           isDark ? AppColors.darkSuccess : AppColors.success,
           AppColors.onSuccess,
-          BorderSide.none
+          BorderSide.none,
         );
     }
   }

@@ -84,7 +84,8 @@ class _AuthInputFieldState extends State<AuthInputField> {
             controller: widget.controller,
             enabled: !widget.isDisabled,
             obscureText: widget.isPassword && _obscureText,
-            keyboardType: widget.keyboardType ??
+            keyboardType:
+                widget.keyboardType ??
                 (widget.isPassword
                     ? TextInputType.visiblePassword
                     : TextInputType.text),

@@ -13,13 +13,10 @@ class AuthActionState with _$AuthActionState {
   const factory AuthActionState.idle() = _Idle;
 
   /// Action completed successfully with optional user payload and toast message.
-  const factory AuthActionState.success({
-    String? message,
-    AuthUser? user,
-  }) = _Success;
+  const factory AuthActionState.success({String? message, AuthUser? user}) =
+      _Success;
 
   /// Action failed with presentation-friendly error message.
-  const factory AuthActionState.failure({
-    required String errorMessage,
-  }) = _Failure;
+  const factory AuthActionState.failure({required String errorMessage}) =
+      _Failure;
 }

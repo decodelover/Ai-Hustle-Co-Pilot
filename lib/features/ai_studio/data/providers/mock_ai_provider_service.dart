@@ -18,7 +18,8 @@ final class MockAiProviderService implements AiProviderService {
   }) async* {
     final lastUserMsg = history.isEmpty ? 'Hello' : history.last.content;
 
-    final mockResponseText = '''
+    final mockResponseText =
+        '''
 Here is a comprehensive breakdown for **${lastUserMsg.length > 30 ? '${lastUserMsg.substring(0, 30)}...' : lastUserMsg}**:
 
 ### 🎯 Key Strategic Insights

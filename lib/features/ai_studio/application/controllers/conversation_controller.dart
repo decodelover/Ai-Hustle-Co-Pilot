@@ -11,8 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ConversationController extends StateNotifier<AsyncValue<void>> {
   /// Creates a [ConversationController].
   ConversationController({ConversationRepository? repository})
-      : _repository = repository ?? ConversationRepositoryImpl(),
-        super(const AsyncData(null));
+    : _repository = repository ?? ConversationRepositoryImpl(),
+      super(const AsyncData(null));
 
   final ConversationRepository _repository;
 

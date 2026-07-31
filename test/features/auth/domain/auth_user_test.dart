@@ -25,10 +25,7 @@ void main() {
         updatedAt: now,
       );
 
-      const user3 = AuthUser(
-        id: 'usr_456',
-        email: 'alex@example.com',
-      );
+      const user3 = AuthUser(id: 'usr_456', email: 'alex@example.com');
 
       expect(user1, equals(user2));
       expect(user1.hashCode, equals(user2.hashCode));

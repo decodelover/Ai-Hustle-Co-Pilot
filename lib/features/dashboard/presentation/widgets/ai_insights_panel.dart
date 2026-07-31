@@ -1,10 +1,16 @@
-/// Interactive AI Recommendation Cards Panel — Master Design System V2.0.
+/// AI recommendations panel with accessible feedback controls.
 library;
 
+import 'package:ai_hustle_copilot/core/router/route_names.dart';
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/insight_card_model.dart';
+import 'package:ai_hustle_copilot/features/dashboard/presentation/widgets/dashboard_surface.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-/// Reusable AI insights panel offering recommendations and productivity suggestions.
+/// Recommendation cards based on available dashboard insight data.
 class AiInsightsPanel extends StatelessWidget {
   /// Creates an [AiInsightsPanel].
   const AiInsightsPanel({
@@ -14,170 +20,132 @@ class AiInsightsPanel extends StatelessWidget {
     super.key,
   });
 
-  /// Injected insights models.
+  /// Insight models.
   final List<InsightCardModel> insights;
 
   /// Dismiss callback.
   final ValueChanged<String> onDismiss;
 
-  /// Toggle favorite callback.
+  /// Favorite callback.
   final ValueChanged<String> onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
+    return DashboardSurface(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
-            children: [
-              Icon(
-                Icons.auto_awesome_rounded,
-                size: 20,
-                color: Color(0xFFFF6B6B),
-              ),
-              SizedBox(width: 8.0),
-              Expanded(
-                child: Text(
-                  'AI Recommendations & Tips',
-                  style: TextStyle(
-                    color: Color(0xFF111827),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.3,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+          const DashboardSectionHeader(
+            title: 'AI guidance',
+            subtitle: 'Suggestions grounded in your workspace activity.',
           ),
-          const SizedBox(height: 16.0),
-
+          const SizedBox(height: AppSpacing.space16),
           if (insights.isEmpty)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'No new recommendations at this time.',
-                  style: TextStyle(
-                    color: Color(0xFF6B7280),
-                    fontSize: 13.5,
-                  ),
-                ),
-              ),
-            )
+            const _InsightsEmptyState()
           else
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: insights.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 12.0),
+              separatorBuilder: (context, index) =>
+                  const SizedBox(height: AppSpacing.space12),
               itemBuilder: (context, index) {
                 final insight = insights[index];
-
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: const Color(0xFFE5E7EB)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              insight.title,
-                              style: const TextStyle(
-                                color: Color(0xFF111827),
-                                fontSize: 14.5,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                iconSize: 18,
-                                constraints: const BoxConstraints(),
-                                padding: EdgeInsets.zero,
-                                onPressed: () => onToggleFavorite(insight.id),
-                                icon: Icon(
-                                  insight.isFavorite
-                                      ? Icons.bookmark_rounded
-                                      : Icons.bookmark_border_rounded,
-                                  color: insight.isFavorite
-                                      ? const Color(0xFF0D1B2A)
-                                      : const Color(0xFF6B7280),
-                                ),
-                              ),
-                              const SizedBox(width: 8.0),
-                              IconButton(
-                                iconSize: 18,
-                                constraints: const BoxConstraints(),
-                                padding: EdgeInsets.zero,
-                                onPressed: () => onDismiss(insight.id),
-                                icon: const Icon(
-                                  Icons.close_rounded,
-                                  color: Color(0xFF6B7280),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6.0),
-                      Text(
-                        insight.description,
-                        style: const TextStyle(
-                          color: Color(0xFF6B7280),
-                          fontSize: 13.0,
-                          height: 1.4,
-                        ),
-                      ),
-                      const SizedBox(height: 14.0),
-                      SizedBox(
-                        height: 40.0,
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: const Color(0xFF0D1B2A),
-                            side: const BorderSide(color: Color(0xFFE5E7EB)),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                          ),
-                          icon: const Icon(
-                            Icons.bolt_rounded,
-                            size: 16.0,
-                            color: Color(0xFF0D1B2A),
-                          ),
-                          label: Text(
-                            insight.actionLabel,
-                            style: const TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                    ],
+                return _InsightRow(
+                  insight: insight,
+                  onDismiss: () => onDismiss(insight.id),
+                  onToggleFavorite: () => onToggleFavorite(insight.id),
+                  onAction: () => context.go(
+                    insight.targetRoute ?? RoutePaths.aiStudio,
                   ),
                 );
               },
             ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InsightRow extends StatelessWidget {
+  const _InsightRow({
+    required this.insight,
+    required this.onDismiss,
+    required this.onToggleFavorite,
+    required this.onAction,
+  });
+
+  final InsightCardModel insight;
+  final VoidCallback onDismiss;
+  final VoidCallback onToggleFavorite;
+  final VoidCallback onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.space16),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceVariant,
+        borderRadius: AppRadius.borderMedium,
+        border: Border.all(color: AppColors.outline),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.auto_awesome_rounded, color: AppColors.primary),
+              const SizedBox(width: AppSpacing.space8),
+              Expanded(child: Text(insight.title, style: theme.textTheme.titleSmall)),
+              IconButton(
+                tooltip: insight.isFavorite ? 'Remove saved insight' : 'Save insight',
+                onPressed: onToggleFavorite,
+                icon: Icon(
+                  insight.isFavorite
+                      ? Icons.bookmark_rounded
+                      : Icons.bookmark_border_rounded,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Dismiss insight',
+                onPressed: onDismiss,
+                icon: const Icon(Icons.close_rounded),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.space8),
+          Text(
+            insight.description,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.secondaryText,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.space12),
+          OutlinedButton.icon(
+            onPressed: onAction,
+            icon: const Icon(Icons.arrow_forward_rounded, size: 17),
+            label: Text(insight.actionLabel),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InsightsEmptyState extends StatelessWidget {
+  const _InsightsEmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSpacing.space16),
+      child: Row(
+        children: [
+          Icon(Icons.lightbulb_outline_rounded, color: AppColors.secondary),
+          SizedBox(width: AppSpacing.space12),
+          Expanded(child: Text('No new guidance right now. Keep working and we’ll surface the next useful step.')),
         ],
       ),
     );

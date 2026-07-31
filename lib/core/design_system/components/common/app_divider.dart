@@ -49,7 +49,8 @@ class AppDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
-    final dividerColor = color ?? (isDark ? AppColors.darkOutline : AppColors.outline);
+    final dividerColor =
+        color ?? (isDark ? AppColors.darkOutline : AppColors.outline);
 
     if (isVertical) {
       return VerticalDivider(

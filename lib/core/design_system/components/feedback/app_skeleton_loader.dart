@@ -73,8 +73,9 @@ class _AppSkeletonLoaderState extends State<AppSkeletonLoader>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor =
-        isDark ? AppColors.shimmerBaseDark : AppColors.shimmerBaseLight;
+    final baseColor = isDark
+        ? AppColors.shimmerBaseDark
+        : AppColors.shimmerBaseLight;
     final highlightColor = isDark
         ? AppColors.shimmerHighlightDark
         : AppColors.shimmerHighlightLight;
@@ -89,12 +90,10 @@ class _AppSkeletonLoaderState extends State<AppSkeletonLoader>
             borderRadius: widget.borderRadius,
             gradient: LinearGradient(
               stops: const [0.0, 0.5, 1.0],
-              colors: [
-                baseColor,
-                highlightColor,
-                baseColor,
-              ],
-              transform: _SlidingGradientTransform(slidePercent: _animation.value),
+              colors: [baseColor, highlightColor, baseColor],
+              transform: _SlidingGradientTransform(
+                slidePercent: _animation.value,
+              ),
             ),
           ),
         );

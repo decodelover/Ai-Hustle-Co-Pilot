@@ -4,10 +4,7 @@ library;
 /// Moderation scan result.
 final class ModerationResult {
   /// Creates a [ModerationResult].
-  const ModerationResult({
-    required this.isFlagged,
-    this.reason,
-  });
+  const ModerationResult({required this.isFlagged, this.reason});
 
   /// Whether prompt or file content was flagged as unsafe.
   final bool isFlagged;

@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 
 /// Centered loading indicator wrapping design system feedback component.
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({
-    super.key,
-    this.message,
-  });
+  const LoadingIndicator({super.key, this.message});
 
   final String? message;
 

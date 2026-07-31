@@ -35,14 +35,14 @@ enum AiPromptIntent {
 extension AiPromptIntentX on AiPromptIntent {
   /// Human-readable label for UI buttons and chips.
   String get label => switch (this) {
-        AiPromptIntent.rewrite => 'Rewrite',
-        AiPromptIntent.expand => 'Expand',
-        AiPromptIntent.summarize => 'Summarize',
-        AiPromptIntent.fixGrammar => 'Fix Grammar',
-        AiPromptIntent.changeTone => 'Change Tone',
-        AiPromptIntent.translate => 'Translate',
-        AiPromptIntent.continueWriting => 'Continue Writing',
-        AiPromptIntent.generateSection => 'Generate Section',
-        AiPromptIntent.generateDocument => 'Generate Document',
-      };
+    AiPromptIntent.rewrite => 'Rewrite',
+    AiPromptIntent.expand => 'Expand',
+    AiPromptIntent.summarize => 'Summarize',
+    AiPromptIntent.fixGrammar => 'Fix Grammar',
+    AiPromptIntent.changeTone => 'Change Tone',
+    AiPromptIntent.translate => 'Translate',
+    AiPromptIntent.continueWriting => 'Continue Writing',
+    AiPromptIntent.generateSection => 'Generate Section',
+    AiPromptIntent.generateDocument => 'Generate Document',
+  };
 }

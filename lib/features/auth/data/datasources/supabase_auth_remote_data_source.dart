@@ -8,9 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// Concrete [AuthRemoteDataSource] implementation communicating directly with Supabase GoTrue API.
 class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
   /// Constructs a [SupabaseAuthRemoteDataSource] with injected [SupabaseClient].
-  SupabaseAuthRemoteDataSource({
-    required this.supabaseClient,
-  });
+  SupabaseAuthRemoteDataSource({required this.supabaseClient});
 
   /// The injected Supabase client instance.
   final SupabaseClient supabaseClient;
@@ -87,10 +85,7 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
 
   @override
   Future<void> resendVerification({required String email}) async {
-    await _auth.resend(
-      type: OtpType.signup,
-      email: email,
-    );
+    await _auth.resend(type: OtpType.signup, email: email);
   }
 
   @override
@@ -114,7 +109,9 @@ class SupabaseAuthRemoteDataSource implements AuthRemoteDataSource {
 
     final user = response.user;
     if (user == null) {
-      throw const AuthException('OTP verification failed: Invalid or expired code.');
+      throw const AuthException(
+        'OTP verification failed: Invalid or expired code.',
+      );
     }
 
     return AuthUserDto.fromSupabaseUser(user);

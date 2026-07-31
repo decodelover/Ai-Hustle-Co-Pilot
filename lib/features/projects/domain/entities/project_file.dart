@@ -81,17 +81,17 @@ final class ProjectFile {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        projectId,
-        name,
-        extension,
-        sizeBytes,
-        folderPath,
-        createdAt,
-        Object.hashAll(tags),
-        summary,
-        indexingStatus,
-        downloadUrl,
-        version,
-      );
+    id,
+    projectId,
+    name,
+    extension,
+    sizeBytes,
+    folderPath,
+    createdAt,
+    Object.hashAll(tags),
+    summary,
+    indexingStatus,
+    downloadUrl,
+    version,
+  );
 }

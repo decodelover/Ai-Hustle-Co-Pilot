@@ -118,7 +118,8 @@ final class ProjectWorkspaceState {
       projectContext: projectContext ?? this.projectContext,
       executionLogs: executionLogs ?? this.executionLogs,
       isExecutingAgent: isExecutingAgent ?? this.isExecutingAgent,
-      realtimeConnectionStatus: realtimeConnectionStatus ?? this.realtimeConnectionStatus,
+      realtimeConnectionStatus:
+          realtimeConnectionStatus ?? this.realtimeConnectionStatus,
       isLoading: isLoading ?? this.isLoading,
       isRefreshing: isRefreshing ?? this.isRefreshing,
       hasUnsavedChanges: hasUnsavedChanges ?? this.hasUnsavedChanges,
@@ -150,21 +151,21 @@ final class ProjectWorkspaceState {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAll(projects),
-        activeProject,
-        selectedTab,
-        activeAgent,
-        selectedTask,
-        selectedFile,
-        Object.hashAll(projectActivities),
-        Object.hashAll(projectMembers),
-        projectContext,
-        Object.hashAll(executionLogs),
-        isExecutingAgent,
-        realtimeConnectionStatus,
-        isLoading,
-        isRefreshing,
-        hasUnsavedChanges,
-        errorMessage,
-      );
+    Object.hashAll(projects),
+    activeProject,
+    selectedTab,
+    activeAgent,
+    selectedTask,
+    selectedFile,
+    Object.hashAll(projectActivities),
+    Object.hashAll(projectMembers),
+    projectContext,
+    Object.hashAll(executionLogs),
+    isExecutingAgent,
+    realtimeConnectionStatus,
+    isLoading,
+    isRefreshing,
+    hasUnsavedChanges,
+    errorMessage,
+  );
 }

@@ -32,8 +32,7 @@ class FakeSignInRepository implements AuthRepository {
     required Email email,
     required Password password,
     String? displayName,
-  }) async =>
-      mockUser;
+  }) async => mockUser;
 
   @override
   Future<void> signOut() async {}
@@ -106,27 +105,27 @@ void main() {
       expect(result, isFalse);
       final state = container.read(signInControllerProvider);
       expect(state, isA<AsyncError<void>>());
-      expect(
-        state.error.toString(),
-        contains('Invalid email or password.'),
-      );
+      expect(state.error.toString(), contains('Invalid email or password.'));
     });
 
-    test('signIn fails on invalid email format and emits validation error', () async {
-      final controller = container.read(signInControllerProvider.notifier);
+    test(
+      'signIn fails on invalid email format and emits validation error',
+      () async {
+        final controller = container.read(signInControllerProvider.notifier);
 
-      final result = await controller.signIn(
-        email: 'invalid-email-format',
-        password: 'Password123!',
-      );
+        final result = await controller.signIn(
+          email: 'invalid-email-format',
+          password: 'Password123!',
+        );
 
-      expect(result, isFalse);
-      final state = container.read(signInControllerProvider);
-      expect(state, isA<AsyncError<void>>());
-      expect(
-        state.error.toString(),
-        contains('Please enter a valid email address.'),
-      );
-    });
+        expect(result, isFalse);
+        final state = container.read(signInControllerProvider);
+        expect(state, isA<AsyncError<void>>());
+        expect(
+          state.error.toString(),
+          contains('Please enter a valid email address.'),
+        );
+      },
+    );
   });
 }

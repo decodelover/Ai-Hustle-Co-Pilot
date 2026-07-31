@@ -59,13 +59,13 @@ final class DocumentTemplate {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        name,
-        category,
-        description,
-        iconName,
-        Object.hashAll(defaultBlocks),
-        aiSystemPrompt,
-        Object.hashAll(tags),
-      );
+    id,
+    name,
+    category,
+    description,
+    iconName,
+    Object.hashAll(defaultBlocks),
+    aiSystemPrompt,
+    Object.hashAll(tags),
+  );
 }

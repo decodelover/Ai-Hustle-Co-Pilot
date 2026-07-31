@@ -59,13 +59,13 @@ final class DocumentVersion {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        documentId,
-        versionNumber,
-        commitMessage,
-        Object.hashAll(snapshotBlocks),
-        createdByUserId,
-        isAiGenerated,
-        createdAt,
-      );
+    id,
+    documentId,
+    versionNumber,
+    commitMessage,
+    Object.hashAll(snapshotBlocks),
+    createdByUserId,
+    isAiGenerated,
+    createdAt,
+  );
 }

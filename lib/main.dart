@@ -21,12 +21,48 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// Ensures all initialization completes before the first frame
 /// renders, then launches the Riverpod-wrapped widget tree.
-void main() async {
-  await AppInitializer.initialize();
+Future<void> main() async {
+  try {
+    await AppInitializer.initialize();
+    runApp(const ProviderScope(child: AiHustleCoPilotApp()));
+  } catch (_) {
+    runApp(const _StartupFailureApp());
+  }
+}
 
-  runApp(
-    const ProviderScope(
-      child: AiHustleCoPilotApp(),
+class _StartupFailureApp extends StatelessWidget {
+  const _StartupFailureApp();
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: AppTheme.light,
+    home: Scaffold(
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: const Padding(
+            padding: EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.cloud_off_outlined, size: 56),
+                SizedBox(height: 16),
+                Text(
+                  'Unable to start AI Hustle Co-Pilot',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Check the Supabase environment configuration and restart the app.',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     ),
   );
 }

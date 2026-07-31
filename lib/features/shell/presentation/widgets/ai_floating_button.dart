@@ -32,9 +32,7 @@ class AiFloatingButton extends ConsumerWidget {
                 isDark ? AppColors.darkSecondary : AppColors.secondary,
               ],
             ),
-            boxShadow: isDark
-                ? AppShadows.darkAiGlow
-                : AppShadows.lightAiGlow,
+            boxShadow: isDark ? AppShadows.darkAiGlow : AppShadows.lightAiGlow,
           ),
           child: Material(
             color: Colors.transparent,

@@ -22,23 +22,28 @@ enum PasswordStrength {
 /// Reusable password strength indicator widget with animated segment progress bars.
 class PasswordStrengthWidget extends StatelessWidget {
   /// Creates a [PasswordStrengthWidget].
-  const PasswordStrengthWidget({
-    required this.password,
-    super.key,
-  });
+  const PasswordStrengthWidget({required this.password, super.key});
 
   /// Password string to evaluate.
   final String password;
 
   /// Evaluates current password strength score (0 to 4).
   PasswordStrength get strength {
-    if (password.isEmpty) return PasswordStrength.weak;
+    if (password.isEmpty) {
+      return PasswordStrength.weak;
+    }
 
     var score = 0;
     if (password.length >= 8) score++;
     if (password.length >= 12) score++;
-    if (RegExp('[A-Z]').hasMatch(password) && RegExp('[a-z]').hasMatch(password)) score++;
-    if (RegExp('[0-9]').hasMatch(password) && RegExp(r'[@$!%*?&]').hasMatch(password)) score++;
+    if (RegExp('[A-Z]').hasMatch(password) &&
+        RegExp('[a-z]').hasMatch(password)) {
+      score++;
+    }
+    if (RegExp('[0-9]').hasMatch(password) &&
+        RegExp(r'[@$!%*?&]').hasMatch(password)) {
+      score++;
+    }
 
     switch (score) {
       case 0:
@@ -63,25 +68,25 @@ class PasswordStrengthWidget extends StatelessWidget {
 
     final (label, color, fillCount) = switch (strength) {
       PasswordStrength.weak => (
-          'Weak password',
-          isDark ? AppColors.darkDanger : AppColors.danger,
-          1
-        ),
+        'Weak password',
+        isDark ? AppColors.darkDanger : AppColors.danger,
+        1,
+      ),
       PasswordStrength.fair => (
-          'Fair password',
-          isDark ? AppColors.darkWarning : AppColors.warning,
-          2
-        ),
+        'Fair password',
+        isDark ? AppColors.darkWarning : AppColors.warning,
+        2,
+      ),
       PasswordStrength.good => (
-          'Good password',
-          isDark ? AppColors.darkPrimary : AppColors.primary,
-          3
-        ),
+        'Good password',
+        isDark ? AppColors.darkPrimary : AppColors.primary,
+        3,
+      ),
       PasswordStrength.strong => (
-          'Strong password',
-          isDark ? AppColors.darkSuccess : AppColors.success,
-          4
-        ),
+        'Strong password',
+        isDark ? AppColors.darkSuccess : AppColors.success,
+        4,
+      ),
     };
 
     return Column(
@@ -101,8 +106,8 @@ class PasswordStrengthWidget extends StatelessWidget {
                   color: index < fillCount
                       ? color
                       : (isDark
-                          ? AppColors.darkOutlineVariant
-                          : AppColors.outlineVariant),
+                            ? AppColors.darkOutlineVariant
+                            : AppColors.outlineVariant),
                   borderRadius: AppRadius.borderPill,
                 ),
               ),

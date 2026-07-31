@@ -77,17 +77,18 @@ class AuthUser {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        email,
-        displayName,
-        avatarUrl,
-        emailVerified,
-        createdAt,
-        updatedAt,
-      );
+    id,
+    email,
+    displayName,
+    avatarUrl,
+    emailVerified,
+    createdAt,
+    updatedAt,
+  );
 
   @override
-  String toString() => 'AuthUser('
+  String toString() =>
+      'AuthUser('
       'id: $id, '
       'email: $email, '
       'displayName: $displayName, '

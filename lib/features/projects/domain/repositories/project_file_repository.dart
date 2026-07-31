@@ -9,7 +9,11 @@ abstract interface class ProjectFileRepository {
   Future<List<ProjectFile>> getProjectFiles(String projectId);
 
   /// Uploads and registers a new knowledge file.
-  Future<ProjectFile> uploadFile(String projectId, String name, List<int> bytes);
+  Future<ProjectFile> uploadFile(
+    String projectId,
+    String name,
+    List<int> bytes,
+  );
 
   /// Deletes a file from the project index.
   Future<void> deleteFile(String fileId);

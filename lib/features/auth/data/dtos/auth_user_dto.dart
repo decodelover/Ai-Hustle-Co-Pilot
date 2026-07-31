@@ -34,13 +34,15 @@ class AuthUserDto with _$AuthUserDto {
     return AuthUserDto(
       id: user.id,
       email: user.email ?? '',
-      displayName: (metadata['display_name'] as String?) ??
+      displayName:
+          (metadata['display_name'] as String?) ??
           (metadata['full_name'] as String?),
       avatarUrl: metadata['avatar_url'] as String?,
       emailVerified: user.emailConfirmedAt != null,
       createdAt: DateTime.tryParse(user.createdAt),
-      updatedAt:
-          user.updatedAt != null ? DateTime.tryParse(user.updatedAt!) : null,
+      updatedAt: user.updatedAt != null
+          ? DateTime.tryParse(user.updatedAt!)
+          : null,
     );
   }
 

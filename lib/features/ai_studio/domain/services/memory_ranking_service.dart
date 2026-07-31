@@ -12,8 +12,12 @@ final class MemoryRankingService {
   List<AiMemory> rankMemories(List<AiMemory> candidates, {int topK = 5}) {
     final sorted = List<AiMemory>.from(candidates)
       ..sort((a, b) {
-        final scoreA = a.relevanceWeight * (a.category == MemoryCategory.project ? 1.2 : 1.0);
-        final scoreB = b.relevanceWeight * (b.category == MemoryCategory.project ? 1.2 : 1.0);
+        final scoreA =
+            a.relevanceWeight *
+            (a.category == MemoryCategory.project ? 1.2 : 1.0);
+        final scoreB =
+            b.relevanceWeight *
+            (b.category == MemoryCategory.project ? 1.2 : 1.0);
         return scoreB.compareTo(scoreA);
       });
 

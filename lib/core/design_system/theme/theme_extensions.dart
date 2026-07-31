@@ -100,7 +100,11 @@ class AppCustomThemeExtension extends ThemeExtension<AppCustomThemeExtension> {
     if (other is! AppCustomThemeExtension) return this;
     return AppCustomThemeExtension(
       statusPending: Color.lerp(statusPending, other.statusPending, t)!,
-      statusInProgress: Color.lerp(statusInProgress, other.statusInProgress, t)!,
+      statusInProgress: Color.lerp(
+        statusInProgress,
+        other.statusInProgress,
+        t,
+      )!,
       statusCompleted: Color.lerp(statusCompleted, other.statusCompleted, t)!,
       statusRejected: Color.lerp(statusRejected, other.statusRejected, t)!,
       aiGradientStart: Color.lerp(aiGradientStart, other.aiGradientStart, t)!,

@@ -13,41 +13,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Provider for [SignInController].
 final signInControllerProvider =
     AsyncNotifierProvider.autoDispose<SignInController, void>(
-  SignInController.new,
-);
+      SignInController.new,
+    );
 
 /// Provider for [SignUpController].
 final signUpControllerProvider =
     AsyncNotifierProvider.autoDispose<SignUpController, void>(
-  SignUpController.new,
-);
+      SignUpController.new,
+    );
 
 /// Provider for [SignOutController].
 final signOutControllerProvider =
     AsyncNotifierProvider.autoDispose<SignOutController, void>(
-  SignOutController.new,
-);
+      SignOutController.new,
+    );
 
 /// Provider for [ResetPasswordController].
 final resetPasswordControllerProvider =
     AsyncNotifierProvider.autoDispose<ResetPasswordController, void>(
-  ResetPasswordController.new,
-);
+      ResetPasswordController.new,
+    );
 
 /// Provider for [ResendVerificationController].
 final resendVerificationControllerProvider =
     AsyncNotifierProvider.autoDispose<ResendVerificationController, void>(
-  ResendVerificationController.new,
-);
+      ResendVerificationController.new,
+    );
 
 /// Provider for [RefreshSessionController].
 final refreshSessionControllerProvider =
     AsyncNotifierProvider.autoDispose<RefreshSessionController, void>(
-  RefreshSessionController.new,
-);
+      RefreshSessionController.new,
+    );
 
 /// Provider for [VerifyOtpController].
 final verifyOtpControllerProvider =
     AsyncNotifierProvider.autoDispose<VerifyOtpController, void>(
-  VerifyOtpController.new,
-);
+      VerifyOtpController.new,
+    );

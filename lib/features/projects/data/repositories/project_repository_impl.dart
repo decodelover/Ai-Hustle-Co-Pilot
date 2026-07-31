@@ -10,7 +10,7 @@ import 'package:ai_hustle_copilot/features/projects/domain/repositories/project_
 final class ProjectRepositoryImpl implements ProjectRepository {
   /// Constructs [ProjectRepositoryImpl].
   ProjectRepositoryImpl({ProjectLocalDataSource? localDataSource})
-      : _localDataSource = localDataSource ?? ProjectLocalDataSource();
+    : _localDataSource = localDataSource ?? ProjectLocalDataSource();
 
   final ProjectLocalDataSource _localDataSource;
 

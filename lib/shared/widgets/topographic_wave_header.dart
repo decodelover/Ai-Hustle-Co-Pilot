@@ -4,13 +4,14 @@
 /// gradient (#0D1B2A -> #152A4D) with an organic curved bezier divider.
 library;
 
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// Topographic contour line painter drawing elegant brand wave patterns.
 class TopographicWavePainter extends CustomPainter {
   /// Creates a [TopographicWavePainter].
   const TopographicWavePainter({
-    this.lineColor = const Color(0xFF3A5FA0),
+    this.lineColor = AppColors.secondary,
     this.bottomCurveColor = Colors.white,
     this.showBottomCurve = true,
   });
@@ -33,9 +34,9 @@ class TopographicWavePainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFF0D1B2A),
-          Color(0xFF152A4D),
-          Color(0xFF0A1624),
+          AppColors.primaryDarkBlue,
+          AppColors.primaryBlue,
+          AppColors.deepNavy,
         ],
         stops: [0.0, 0.65, 1.0],
       ).createShader(rect);
@@ -153,7 +154,7 @@ class WaveHeaderWidget extends StatelessWidget {
   const WaveHeaderWidget({
     super.key,
     this.height = 280.0,
-    this.bottomCurveColor = const Color(0xFFFAFAFA),
+    this.bottomCurveColor = AppColors.background,
     this.showBottomCurve = true,
     this.child,
   });

@@ -66,9 +66,13 @@ class MessageActionsBar extends StatelessWidget {
         // Bookmark Action
         if (onBookmarkToggle != null)
           _ActionButton(
-            icon: isBookmarked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+            icon: isBookmarked
+                ? Icons.bookmark_rounded
+                : Icons.bookmark_border_rounded,
             tooltip: 'Bookmark',
-            iconColor: isBookmarked ? const Color(0xFFF59E0B) : const Color(0xFF777777),
+            iconColor: isBookmarked
+                ? const Color(0xFFF59E0B)
+                : const Color(0xFF777777),
             onTap: onBookmarkToggle!,
           ),
 

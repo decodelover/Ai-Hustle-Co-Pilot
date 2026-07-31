@@ -14,10 +14,7 @@ class SignInUseCase {
   final AuthRepository _repository;
 
   /// Executes user sign-in using [email] and [password].
-  Future<AuthUser> call({
-    required Email email,
-    required Password password,
-  }) {
+  Future<AuthUser> call({required Email email, required Password password}) {
     return _repository.signIn(email: email, password: password);
   }
 }

@@ -36,14 +36,12 @@ class AppEmptyState extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppSpacing.xxl),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer.withValues(alpha: 0.4),
+                color: theme.colorScheme.primaryContainer.withValues(
+                  alpha: 0.4,
+                ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                size: 56,
-                color: theme.colorScheme.primary,
-              ),
+              child: Icon(icon, size: 56, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: AppSpacing.xl),
             Text(

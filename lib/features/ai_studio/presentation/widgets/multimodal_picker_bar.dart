@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 /// Multimodal attachment picker bar for images, PDFs, DOCX, CSV, and code.
 class MultimodalPickerBar extends StatelessWidget {
   /// Creates a [MultimodalPickerBar].
-  const MultimodalPickerBar({
-    super.key,
-    this.onAttachmentSelected,
-  });
+  const MultimodalPickerBar({super.key, this.onAttachmentSelected});
 
   /// Attachment select callback.
   final ValueChanged<String>? onAttachmentSelected;

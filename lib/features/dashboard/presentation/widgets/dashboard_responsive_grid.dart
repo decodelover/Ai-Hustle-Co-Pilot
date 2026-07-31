@@ -1,23 +1,20 @@
-/// Reusable responsive dashboard layout container.
+/// Responsive dashboard composition for phone and tablet layouts.
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_breakpoints.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
-/// Layout mode for the dashboard grid.
-enum DashboardLayoutMode {
-  phone,
-  tablet,
-  desktop,
-  ultraWide,
-}
+/// Supported dashboard layout modes.
+enum DashboardLayoutMode { phone, tablet, desktop, ultraWide }
 
-/// Reusable responsive grid widget adapting children based on [AppBreakpoints].
+/// Bento-inspired dashboard layout that preserves readable measure.
 class DashboardResponsiveGrid extends StatelessWidget {
   /// Creates a [DashboardResponsiveGrid].
   const DashboardResponsiveGrid({
     required this.header,
+    required this.primaryFocus,
+    required this.aiCopilot,
     required this.quickActions,
     required this.metricsGrid,
     required this.chartsSection,
@@ -27,114 +24,145 @@ class DashboardResponsiveGrid extends StatelessWidget {
     super.key,
   });
 
+  /// Personalized header.
   final Widget header;
+
+  /// Contextual primary action.
+  final Widget primaryFocus;
+
+  /// AI workspace entry point.
+  final Widget aiCopilot;
+
+  /// Shortcut grid.
   final Widget quickActions;
+
+  /// KPI metric grid.
   final Widget metricsGrid;
+
+  /// Data-backed progress signal.
   final Widget chartsSection;
+
+  /// Active work preview.
   final Widget recentProjects;
+
+  /// Activity feed.
   final Widget recentActivity;
+
+  /// AI guidance panel.
   final Widget aiInsights;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
+    final mode = _modeFor(width);
+    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final horizontalPadding = switch (mode) {
+      DashboardLayoutMode.phone => AppSpacing.space16,
+      DashboardLayoutMode.tablet => AppSpacing.space24,
+      DashboardLayoutMode.desktop => AppSpacing.space32,
+      DashboardLayoutMode.ultraWide => AppSpacing.space48,
+    };
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: AppBreakpoints.ultraWide,
-        ),
+        constraints: const BoxConstraints(maxWidth: AppBreakpoints.ultraWide),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(
-            horizontal: width < AppBreakpoints.compact
-                ? AppSpacing.lg
-                : width < AppBreakpoints.expanded
-                    ? AppSpacing.xl
-                    : AppSpacing.xxl,
-            vertical: AppSpacing.lg,
+          padding: EdgeInsets.fromLTRB(
+            horizontalPadding,
+            AppSpacing.space24,
+            horizontalPadding,
+            bottomInset + AppSpacing.space96,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               header,
-              const SizedBox(height: AppSpacing.xl),
+              const SizedBox(height: AppSpacing.space20),
+              _focusRow(mode),
+              const SizedBox(height: AppSpacing.space24),
               quickActions,
-              const SizedBox(height: AppSpacing.xl),
+              const SizedBox(height: AppSpacing.space24),
               metricsGrid,
-              const SizedBox(height: AppSpacing.xxl),
-
-              // Layout adaptative content based on breakpoint
-              if (width < AppBreakpoints.compact) ...[
-                // Phone Layout: Single Column Stack
-                chartsSection,
-                const SizedBox(height: AppSpacing.xxl),
-                aiInsights,
-                const SizedBox(height: AppSpacing.xxl),
-                recentProjects,
-                const SizedBox(height: AppSpacing.xxl),
-                recentActivity,
-              ] else if (width < AppBreakpoints.expanded) ...[
-                // Tablet Layout: 2-Column Split
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Column(
-                        children: [
-                          chartsSection,
-                          const SizedBox(height: AppSpacing.xxl),
-                          recentProjects,
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.xl),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          aiInsights,
-                          const SizedBox(height: AppSpacing.xxl),
-                          recentActivity,
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ] else ...[
-                // Desktop & UltraWide Layout: 3-Column Split
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        children: [
-                          chartsSection,
-                          const SizedBox(height: AppSpacing.xxl),
-                          recentProjects,
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: AppSpacing.xxl),
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          aiInsights,
-                          const SizedBox(height: AppSpacing.xxl),
-                          recentActivity,
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              const SizedBox(height: AppSpacing.space24),
+              _contentRow(mode),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _focusRow(DashboardLayoutMode mode) {
+    if (mode == DashboardLayoutMode.phone) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          primaryFocus,
+          const SizedBox(height: AppSpacing.space16),
+          aiCopilot,
+        ],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex: 6, child: primaryFocus),
+        const SizedBox(width: AppSpacing.space16),
+        Expanded(flex: 4, child: aiCopilot),
+      ],
+    );
+  }
+
+  Widget _contentRow(DashboardLayoutMode mode) {
+    if (mode == DashboardLayoutMode.phone) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          chartsSection,
+          const SizedBox(height: AppSpacing.space24),
+          recentProjects,
+          const SizedBox(height: AppSpacing.space24),
+          aiInsights,
+          const SizedBox(height: AppSpacing.space24),
+          recentActivity,
+        ],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              chartsSection,
+              const SizedBox(height: AppSpacing.space24),
+              recentProjects,
+            ],
+          ),
+        ),
+        const SizedBox(width: AppSpacing.space16),
+        Expanded(
+          flex: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              aiInsights,
+              const SizedBox(height: AppSpacing.space24),
+              recentActivity,
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  DashboardLayoutMode _modeFor(double width) {
+    if (width < AppBreakpoints.compact) return DashboardLayoutMode.phone;
+    if (width < AppBreakpoints.medium) return DashboardLayoutMode.tablet;
+    if (width < AppBreakpoints.expanded) return DashboardLayoutMode.desktop;
+    return DashboardLayoutMode.ultraWide;
   }
 }

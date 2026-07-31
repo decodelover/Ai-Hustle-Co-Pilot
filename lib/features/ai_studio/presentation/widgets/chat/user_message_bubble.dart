@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 /// Presentation bubble for user-authored prompts.
 class UserMessageBubble extends StatelessWidget {
   /// Creates a [UserMessageBubble].
-  const UserMessageBubble({
-    required this.message,
-    super.key,
-  });
+  const UserMessageBubble({required this.message, super.key});
 
   final ChatMessage message;
 
@@ -26,7 +23,10 @@ class UserMessageBubble extends StatelessWidget {
           const SizedBox(width: 48.0),
           Flexible(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 12.0,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.primary,
                 borderRadius: const BorderRadius.only(

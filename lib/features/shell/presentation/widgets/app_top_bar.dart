@@ -14,11 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// AppTopBar component featuring search, workspace, AI, theme toggle, and profile.
 class AppTopBar extends ConsumerWidget implements PreferredSizeWidget {
   /// Creates an [AppTopBar].
-  const AppTopBar({
-    this.title,
-    this.showDrawerButton = false,
-    super.key,
-  });
+  const AppTopBar({this.title, this.showDrawerButton = false, super.key});
 
   /// Optional page title.
   final String? title;

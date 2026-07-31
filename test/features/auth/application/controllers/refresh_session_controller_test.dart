@@ -17,16 +17,17 @@ class FakeRefreshSessionRepository implements AuthRepository {
   );
 
   @override
-  Future<AuthUser> signIn({required Email email, required Password password}) async =>
-      mockUser;
+  Future<AuthUser> signIn({
+    required Email email,
+    required Password password,
+  }) async => mockUser;
 
   @override
   Future<AuthUser> signUp({
     required Email email,
     required Password password,
     String? displayName,
-  }) async =>
-      mockUser;
+  }) async => mockUser;
 
   @override
   Future<void> signOut() async {}
@@ -80,8 +81,9 @@ void main() {
 
   group('RefreshSessionController Unit Tests', () {
     test('refreshSession succeeds and emits AsyncData(null)', () async {
-      final controller =
-          container.read(refreshSessionControllerProvider.notifier);
+      final controller = container.read(
+        refreshSessionControllerProvider.notifier,
+      );
 
       final result = await controller.refreshSession();
 
@@ -90,20 +92,21 @@ void main() {
       expect(state, isA<AsyncData<void>>());
     });
 
-    test('refreshSession fails on session expiration and emits AsyncError', () async {
-      fakeRepository.shouldFail = true;
-      final controller =
-          container.read(refreshSessionControllerProvider.notifier);
+    test(
+      'refreshSession fails on session expiration and emits AsyncError',
+      () async {
+        fakeRepository.shouldFail = true;
+        final controller = container.read(
+          refreshSessionControllerProvider.notifier,
+        );
 
-      final result = await controller.refreshSession();
+        final result = await controller.refreshSession();
 
-      expect(result, isFalse);
-      final state = container.read(refreshSessionControllerProvider);
-      expect(state, isA<AsyncError<void>>());
-      expect(
-        state.error.toString(),
-        contains('Your session has expired.'),
-      );
-    });
+        expect(result, isFalse);
+        final state = container.read(refreshSessionControllerProvider);
+        expect(state, isA<AsyncError<void>>());
+        expect(state.error.toString(), contains('Your session has expired.'));
+      },
+    );
   });
 }

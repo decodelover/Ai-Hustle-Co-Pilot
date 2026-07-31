@@ -24,10 +24,7 @@ class ProfileMenu extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const AppAvatar(
-                name: 'Alex Johnson',
-                size: AppAvatarSize.lg,
-              ),
+              const AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.lg),
               const SizedBox(width: AppSpacing.space16),
               Expanded(
                 child: Column(
@@ -107,10 +104,7 @@ class ProfileMenu extends ConsumerWidget {
       label: 'Open User Profile Menu',
       button: true,
       child: IconButton(
-        icon: const AppAvatar(
-          name: 'Alex Johnson',
-          size: AppAvatarSize.sm,
-        ),
+        icon: const AppAvatar(name: 'Alex Johnson', size: AppAvatarSize.sm),
         onPressed: () => _showProfileModal(context, ref),
       ),
     );

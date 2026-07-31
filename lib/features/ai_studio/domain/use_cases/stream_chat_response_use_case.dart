@@ -15,8 +15,8 @@ final class StreamChatResponseUseCase {
     required this.retrievalService,
     MemoryRankingService? rankingService,
     MemoryInjectionService? injectionService,
-  })  : rankingService = rankingService ?? const MemoryRankingService(),
-        injectionService = injectionService ?? const MemoryInjectionService();
+  }) : rankingService = rankingService ?? const MemoryRankingService(),
+       injectionService = injectionService ?? const MemoryInjectionService();
 
   /// Gateway repository.
   final AiGatewayRepository gatewayRepository;
@@ -37,11 +37,15 @@ final class StreamChatResponseUseCase {
     required String modelId,
     String? baseSystemPrompt,
   }) async* {
-    var finalSystemPrompt = baseSystemPrompt ?? 'You are AI Hustle Co-Pilot, an enterprise AI assistant.';
+    var finalSystemPrompt =
+        baseSystemPrompt ??
+        'You are AI Hustle Co-Pilot, an enterprise AI assistant.';
 
     if (history.isNotEmpty) {
       final userPrompt = history.last.content;
-      final candidateMemories = await retrievalService.fetchRelevantMemories(userPrompt);
+      final candidateMemories = await retrievalService.fetchRelevantMemories(
+        userPrompt,
+      );
       final rankedMemories = rankingService.rankMemories(candidateMemories);
       finalSystemPrompt = injectionService.injectMemories(
         baseSystemPrompt: finalSystemPrompt,

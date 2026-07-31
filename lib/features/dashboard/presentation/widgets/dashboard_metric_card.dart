@@ -1,19 +1,18 @@
-/// Unified reusable KPI Metric Card — Master Design System V2.0.
+/// Compact, accessible metric card for the dashboard overview.
 library;
 
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_metric_card_model.dart';
 import 'package:flutter/material.dart';
 
-/// Reusable KPI card displaying metrics, trend badge, icon, and accent highlights.
+/// Reusable KPI card displaying a metric and its change indicator.
 class DashboardMetricCard extends StatelessWidget {
   /// Creates a [DashboardMetricCard].
-  const DashboardMetricCard({
-    required this.model,
-    this.onTap,
-    super.key,
-  });
+  const DashboardMetricCard({required this.model, this.onTap, super.key});
 
-  /// Injected domain model.
+  /// Injected metric model.
   final DashboardMetricCardModel model;
 
   /// Optional tap handler.
@@ -21,117 +20,129 @@ class DashboardMetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final trendColor = model.isPositiveTrend
-        ? const Color(0xFF10B981)
-        : const Color(0xFFEF4444);
+        ? AppColors.success
+        : AppColors.danger;
+    final iconColor = model.accentColor ?? AppColors.primary;
 
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(24.0),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(24.0),
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24.0),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: (model.accentColor ?? const Color(0xFF0D1B2A))
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Icon(
-                      model.icon,
-                      size: 20,
-                      color: model.accentColor ?? const Color(0xFF0D1B2A),
-                    ),
-                  ),
-                  Flexible(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
+    return Semantics(
+      label: '${model.title}: ${model.value}',
+      button: onTap != null,
+      child: Material(
+        color: AppColors.surface,
+        elevation: 1,
+        shape: const RoundedRectangleBorder(
+          borderRadius: AppRadius.borderLarge,
+          side: BorderSide(color: AppColors.outline),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: AppRadius.borderLarge,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.space16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
-                        color: trendColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20.0),
+                        color: iconColor.withValues(alpha: 0.10),
+                        borderRadius: AppRadius.borderMedium,
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            model.isPositiveTrend
-                                ? Icons.arrow_upward_rounded
-                                : Icons.arrow_downward_rounded,
-                            size: 12,
-                            color: trendColor,
-                          ),
-                          const SizedBox(width: 2),
-                          Flexible(
-                            child: Text(
-                              '${model.trendPercentage.abs().toStringAsFixed(1)}%',
-                              style: TextStyle(
-                                color: trendColor,
-                                fontSize: 11.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                      child: Icon(model.icon, color: iconColor, size: 20),
+                    ),
+                    if (model.trendPercentage != 0)
+                      _TrendPill(
+                        value: model.trendPercentage,
+                        color: trendColor,
+                        positive: model.isPositiveTrend,
                       ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.space12),
+                Text(
+                  model.title,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: AppColors.secondaryText,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: AppSpacing.space4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    model.value,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      color: AppColors.primaryText,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 8.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                ),
+                if (model.subtitle != null) ...[
+                  const SizedBox(height: AppSpacing.space4),
                   Text(
-                    model.title,
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w600,
+                    model.subtitle!,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.secondaryText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2.0),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      model.value,
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                      ),
-                      maxLines: 1,
-                    ),
-                  ),
                 ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TrendPill extends StatelessWidget {
+  const _TrendPill({
+    required this.value,
+    required this.color,
+    required this.positive,
+  });
+
+  final double value;
+  final Color color;
+  final bool positive;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.10),
+        borderRadius: AppRadius.borderPill,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            positive ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
+            size: 12,
+            color: color,
+          ),
+          const SizedBox(width: 2),
+          Text(
+            '${value.abs().toStringAsFixed(1)}%',
+            style: TextStyle(
+              color: color,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }

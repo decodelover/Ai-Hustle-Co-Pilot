@@ -46,7 +46,11 @@ class AiColorsExtension extends ThemeExtension<AiColorsExtension> {
       accent: Color.lerp(accent, other.accent, t)!,
       onAccent: Color.lerp(onAccent, other.onAccent, t)!,
       glowColor: Color.lerp(glowColor, other.glowColor, t)!,
-      sparkGradient: LinearGradient.lerp(sparkGradient, other.sparkGradient, t)!,
+      sparkGradient: LinearGradient.lerp(
+        sparkGradient,
+        other.sparkGradient,
+        t,
+      )!,
     );
   }
 }

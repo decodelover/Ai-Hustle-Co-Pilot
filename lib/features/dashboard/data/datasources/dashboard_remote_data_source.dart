@@ -1,230 +1,158 @@
-/// Remote data source providing dashboard metrics, projects, activity, and AI insights.
+/// Supabase data source for the dashboard command center.
 library;
 
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
-import 'package:ai_hustle_copilot/features/dashboard/domain/models/activity_feed_model.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_metric_card_model.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_state.dart';
-import 'package:ai_hustle_copilot/features/dashboard/domain/models/insight_card_model.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/quick_action_model.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/recent_project_model.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Data source interface for dashboard network APIs.
 abstract class DashboardRemoteDataSource {
-  /// Fetches raw initial dashboard state dataset.
+  /// Fetches dashboard state from the authenticated data boundary.
   Future<DashboardState> fetchDashboardData();
 }
 
-/// Mock/Production-ready implementation of [DashboardRemoteDataSource].
+/// Supabase-backed implementation with an honest no-cache fallback.
 class DashboardRemoteDataSourceImpl implements DashboardRemoteDataSource {
+  /// Creates a dashboard source. A null client is useful for isolated tests.
+  DashboardRemoteDataSourceImpl({this.supabaseClient});
+
+  /// Authenticated production data client.
+  final SupabaseClient? supabaseClient;
+
   @override
   Future<DashboardState> fetchDashboardData() async {
-    // Simulate brief network latency for authentic UI state verification.
-    await Future<void>.delayed(const Duration(milliseconds: 600));
+    final client = supabaseClient;
+    if (client != null && client.auth.currentUser != null) {
+      try {
+        return await _fetchLiveState(client);
+      } catch (_) {
+        // The UI remains usable and explains that no cached data is available.
+      }
+    }
+    return _emptyState();
+  }
 
-    final metrics = <DashboardMetricCardModel>[
-      const DashboardMetricCardModel(
-        id: 'active_projects',
-        title: 'Active Projects',
-        value: '18',
-        trendPercentage: 12.5,
-        isPositiveTrend: true,
-        icon: Icons.folder_open_outlined,
-        subtitle: '+2 this week',
-      ),
-      const DashboardMetricCardModel(
-        id: 'ai_generations',
-        title: 'AI Generations',
-        value: '1,420',
-        trendPercentage: 24.8,
-        isPositiveTrend: true,
-        icon: Icons.auto_awesome_outlined,
-        subtitle: '180 prompts today',
-      ),
-      const DashboardMetricCardModel(
-        id: 'documents_created',
-        title: 'Documents',
-        value: '42',
-        trendPercentage: 8.4,
-        isPositiveTrend: true,
-        icon: Icons.description_outlined,
-        subtitle: '5 pending review',
-      ),
-      const DashboardMetricCardModel(
-        id: 'automations_run',
-        title: 'Automations',
-        value: '89',
-        trendPercentage: 5.2,
-        isPositiveTrend: true,
-        icon: Icons.bolt_outlined,
-        subtitle: '99.8% uptime',
-      ),
-      const DashboardMetricCardModel(
-        id: 'storage_used',
-        title: 'Storage Used',
-        value: '3.4 GB',
-        trendPercentage: -2.1,
-        isPositiveTrend: false,
-        icon: Icons.cloud_queue_outlined,
-        subtitle: '68% of 5 GB plan',
-      ),
-      const DashboardMetricCardModel(
-        id: 'ai_credits',
-        title: 'AI Credits',
-        value: '840',
-        trendPercentage: 0.0,
-        isPositiveTrend: true,
-        icon: Icons.token_outlined,
-        subtitle: 'Resets in 12 days',
-      ),
-    ];
+  Future<DashboardState> _fetchLiveState(SupabaseClient client) async {
+    final results = await Future.wait<dynamic>([
+      client
+          .from('projects')
+          .select('id,title,progress,updated_at')
+          .order('updated_at', ascending: false)
+          .limit(5),
+      client.from('documents').select('id'),
+      client.from('applications').select('id,status'),
+    ]);
+    final projectRows = results[0] as List<dynamic>;
+    final documentRows = results[1] as List<dynamic>;
+    final applicationRows = results[2] as List<dynamic>;
+    final activeApplications = applicationRows.where((row) {
+      final status = (row as Map<String, dynamic>)['status'] as String?;
+      return status != 'archived' && status != 'rejected';
+    }).length;
 
-    final quickActions = <QuickActionModel>[
-      const QuickActionModel(
-        id: 'new_project',
-        label: 'New Project',
-        icon: Icons.add_circle_outline,
-        route: RouteNames.dashboard,
+    final metadata =
+        client.auth.currentUser?.userMetadata ?? <String, dynamic>{};
+    final displayName = (metadata['display_name'] ??
+            metadata['full_name'] ??
+            metadata['name'] ??
+            '')
+        .toString()
+        .trim();
+    final projects = projectRows.map(_mapProject).toList();
+
+    return DashboardState(
+      userName: displayName.isEmpty ? 'there' : displayName,
+      metrics: [
+        DashboardMetricCardModel(
+          id: 'active_projects',
+          title: 'Active projects',
+          value: '${projectRows.length}',
+          trendPercentage: 0,
+          isPositiveTrend: true,
+          icon: Icons.folder_open_outlined,
+        ),
+        DashboardMetricCardModel(
+          id: 'documents',
+          title: 'Documents',
+          value: '${documentRows.length}',
+          trendPercentage: 0,
+          isPositiveTrend: true,
+          icon: Icons.description_outlined,
+        ),
+        DashboardMetricCardModel(
+          id: 'applications',
+          title: 'Active applications',
+          value: '$activeApplications',
+          trendPercentage: 0,
+          isPositiveTrend: true,
+          icon: Icons.track_changes_outlined,
+        ),
+      ],
+      projects: projects,
+      quickActions: _quickActions(),
+      lastUpdated: DateTime.now(),
+    );
+  }
+
+  DashboardState _emptyState() {
+    return DashboardState(quickActions: _quickActions());
+  }
+
+  RecentProjectModel _mapProject(dynamic row) {
+    final json = row as Map<String, dynamic>;
+    final progress = (json['progress'] as num?)?.toDouble() ?? 0;
+    return RecentProjectModel(
+      id: json['id'].toString(),
+      title: json['title'] as String? ?? 'Untitled project',
+      clientName: 'Personal workspace',
+      progress: progress.clamp(0, 1).toDouble(),
+      status: progress >= 1
+          ? ProjectStatus.completed
+          : ProjectStatus.inProgress,
+      lastUpdated:
+          DateTime.tryParse(json['updated_at'] as String? ?? '') ??
+          DateTime.now(),
+      tags: const [],
+      aiUsageScore: 0,
+    );
+  }
+
+  List<QuickActionModel> _quickActions() {
+    return const [
+      QuickActionModel(
+        id: 'find_opportunities',
+        label: 'Find work',
+        icon: Icons.explore_outlined,
+        route: RoutePaths.discover,
         isFeatured: true,
-        analyticsEvent: 'dashboard_quick_action_new_project',
+        analyticsEvent: 'dashboard_quick_action_find_opportunities',
       ),
-      const QuickActionModel(
+      QuickActionModel(
         id: 'ai_workspace',
         label: 'AI Studio',
         icon: Icons.auto_awesome_outlined,
-        route: RouteNames.aiStudio,
+        route: RoutePaths.aiStudio,
         isFeatured: true,
         analyticsEvent: 'dashboard_quick_action_ai_studio',
       ),
-      const QuickActionModel(
-        id: 'generate_doc',
-        label: 'New Doc',
+      QuickActionModel(
+        id: 'create_document',
+        label: 'New document',
         icon: Icons.note_add_outlined,
-        route: RouteNames.documents,
-        analyticsEvent: 'dashboard_quick_action_generate_doc',
+        route: RoutePaths.documents,
+        analyticsEvent: 'dashboard_quick_action_create_document',
       ),
-      const QuickActionModel(
-        id: 'ai_chat',
-        label: 'AI Chat',
-        icon: Icons.chat_bubble_outline,
-        route: RouteNames.aiStudio,
-        analyticsEvent: 'dashboard_quick_action_ai_chat',
-      ),
-      const QuickActionModel(
-        id: 'automation',
-        label: 'Automation',
-        icon: Icons.bolt_outlined,
-        route: RouteNames.automation,
-        analyticsEvent: 'dashboard_quick_action_automation',
-      ),
-      const QuickActionModel(
-        id: 'marketplace',
-        label: 'Marketplace',
-        icon: Icons.storefront_outlined,
-        route: RouteNames.marketplace,
-        analyticsEvent: 'dashboard_quick_action_marketplace',
+      QuickActionModel(
+        id: 'projects',
+        label: 'Projects',
+        icon: Icons.folder_open_outlined,
+        route: RoutePaths.projects,
+        analyticsEvent: 'dashboard_quick_action_projects',
       ),
     ];
-
-    final activities = <ActivityFeedModel>[
-      ActivityFeedModel(
-        id: 'act_1',
-        title: 'AI Proposal Generated',
-        description: 'Drafted response for Apex Tech redesign RFP',
-        timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
-        category: ActivityCategory.aiAction,
-        icon: Icons.auto_awesome_outlined,
-      ),
-      ActivityFeedModel(
-        id: 'act_2',
-        title: 'Project Milestone Achieved',
-        description: 'Completed UI kit handoff for Starlight App',
-        timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-        category: ActivityCategory.project,
-        icon: Icons.check_circle_outline,
-      ),
-      ActivityFeedModel(
-        id: 'act_3',
-        title: 'Automation Executed',
-        description: 'Synced 14 client invoices to accounting ledger',
-        timestamp: DateTime.now().subtract(const Duration(hours: 5)),
-        category: ActivityCategory.automation,
-        icon: Icons.bolt_outlined,
-      ),
-      ActivityFeedModel(
-        id: 'act_4',
-        title: 'Contract Exported',
-        description: 'Downloaded PDF NDA for CloudScale Corp',
-        timestamp: DateTime.now().subtract(const Duration(hours: 18)),
-        category: ActivityCategory.document,
-        icon: Icons.picture_as_pdf_outlined,
-      ),
-    ];
-
-    final projects = <RecentProjectModel>[
-      RecentProjectModel(
-        id: 'proj_1',
-        title: 'Linear Design System Integration',
-        clientName: 'Acme SaaS Corp',
-        progress: 0.85,
-        status: ProjectStatus.inProgress,
-        lastUpdated: DateTime.now().subtract(const Duration(hours: 1)),
-        tags: const ['Flutter', 'Design System', 'M3'],
-        aiUsageScore: 96,
-      ),
-      RecentProjectModel(
-        id: 'proj_2',
-        title: 'Supabase Realtime Sync Engine',
-        clientName: 'Apex Logistics',
-        progress: 0.60,
-        status: ProjectStatus.review,
-        lastUpdated: DateTime.now().subtract(const Duration(hours: 4)),
-        tags: const ['Supabase', 'Dart', 'Riverpod'],
-        aiUsageScore: 91,
-      ),
-      RecentProjectModel(
-        id: 'proj_3',
-        title: 'AI Copywriting Assistant Module',
-        clientName: 'Internal Product',
-        progress: 0.40,
-        status: ProjectStatus.inProgress,
-        lastUpdated: DateTime.now().subtract(const Duration(days: 1)),
-        tags: const ['OpenAI', 'Copilot', 'AI'],
-        aiUsageScore: 98,
-      ),
-    ];
-
-    final insights = <InsightCardModel>[
-      const InsightCardModel(
-        id: 'ins_1',
-        title: 'Optimize AI Proposal Generation',
-        description:
-            'You have 4 un-responded client RFPs. Enable auto-drafting to boost response speed by 35%.',
-        type: InsightType.recommendation,
-        priority: InsightPriority.high,
-        actionLabel: 'Enable Auto-Draft',
-        impactScore: 35,
-      ),
-      const InsightCardModel(
-        id: 'ins_2',
-        title: 'Automate Invoice Reminders',
-        description:
-            'Connecting your billing automation workflow will save approximately 4.5 hours per week.',
-        type: InsightType.automationSuggestion,
-        priority: InsightPriority.medium,
-        actionLabel: 'Setup Workflow',
-        impactScore: 28,
-      ),
-    ];
-
-    return DashboardState(
-      metrics: metrics,
-      quickActions: quickActions,
-      activities: activities,
-      projects: projects,
-      insights: insights,
-      lastUpdated: DateTime.now(),
-    );
   }
 }

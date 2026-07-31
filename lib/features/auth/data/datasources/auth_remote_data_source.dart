@@ -15,10 +15,7 @@ abstract interface class AuthRemoteDataSource {
   /// Authenticates a user with [email] and [password].
   ///
   /// Returns the authenticated [AuthUserDto] on success.
-  Future<AuthUserDto> signIn({
-    required String email,
-    required String password,
-  });
+  Future<AuthUserDto> signIn({required String email, required String password});
 
   /// Registers a new user with [email], [password], and optional [displayName].
   ///
@@ -39,21 +36,14 @@ abstract interface class AuthRemoteDataSource {
   Stream<AuthUserDto?> authStateChanges();
 
   /// Initiates a password reset email for [email].
-  Future<void> resetPassword({
-    required String email,
-  });
+  Future<void> resetPassword({required String email});
 
   /// Resends the signup verification email for [email].
-  Future<void> resendVerification({
-    required String email,
-  });
+  Future<void> resendVerification({required String email});
 
   /// Refreshes the active session token and returns the updated [AuthUserDto].
   Future<AuthUserDto?> refreshSession();
 
   /// Verifies an OTP code for [email] with [token].
-  Future<AuthUserDto> verifyOtp({
-    required String email,
-    required String token,
-  });
+  Future<AuthUserDto> verifyOtp({required String email, required String token});
 }

@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 /// Workspace tab for attaching files, reviewing RAG indexing status, and vector context.
 class ProjectFileContextTab extends StatelessWidget {
   /// Creates a [ProjectFileContextTab].
-  const ProjectFileContextTab({
-    required this.project,
-    super.key,
-  });
+  const ProjectFileContextTab({required this.project, super.key});
 
   /// Active project.
   final Project project;
@@ -36,7 +33,9 @@ class ProjectFileContextTab extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF0D1B2A),
                 side: const BorderSide(color: Color(0xFFE5E7EB)),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
               ),
               icon: const Icon(Icons.upload_file_rounded, size: 18),
               label: const Text('Attach File'),
@@ -55,7 +54,11 @@ class ProjectFileContextTab extends StatelessWidget {
             ),
             child: const Column(
               children: [
-                Icon(Icons.folder_open_rounded, size: 48, color: Color(0xFF9CA3AF)),
+                Icon(
+                  Icons.folder_open_rounded,
+                  size: 48,
+                  color: Color(0xFF9CA3AF),
+                ),
                 SizedBox(height: 12.0),
                 Text(
                   'No Knowledge Files Uploaded',
@@ -98,7 +101,10 @@ class ProjectFileContextTab extends StatelessWidget {
                         color: const Color(0xFF0D1B2A).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: const Icon(Icons.insert_drive_file_rounded, color: Color(0xFF0D1B2A)),
+                      child: const Icon(
+                        Icons.insert_drive_file_rounded,
+                        color: Color(0xFF0D1B2A),
+                      ),
                     ),
                     const SizedBox(width: 14.0),
                     Expanded(
@@ -116,13 +122,19 @@ class ProjectFileContextTab extends StatelessWidget {
                           const SizedBox(height: 2.0),
                           Text(
                             '${(file.sizeBytes / 1024).toStringAsFixed(1)} KB • ${file.folderPath}',
-                            style: const TextStyle(color: Color(0xFF6B7280), fontSize: 12.0),
+                            style: const TextStyle(
+                              color: Color(0xFF6B7280),
+                              fontSize: 12.0,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 4.0,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF10B981).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12.0),

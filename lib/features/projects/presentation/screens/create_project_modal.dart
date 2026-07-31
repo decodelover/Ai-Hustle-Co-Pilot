@@ -45,7 +45,9 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
     final desc = _descController.text.trim();
     if (title.isEmpty) return;
 
-    ref.read(projectWorkspaceControllerProvider.notifier).createProject(
+    ref
+        .read(projectWorkspaceControllerProvider.notifier)
+        .createProject(
           title: title,
           description: desc.isNotEmpty ? desc : 'AI Productivity Project',
           category: _selectedCategory,
@@ -87,7 +89,9 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
             decoration: InputDecoration(
               labelText: 'Project Title',
               hintText: 'e.g. Mobile Banking App',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
             ),
           ),
           const SizedBox(height: 12.0),
@@ -97,7 +101,9 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
             decoration: InputDecoration(
               labelText: 'Description',
               hintText: 'Describe key goals and scope...',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
             ),
           ),
           const SizedBox(height: 16.0),
@@ -138,7 +144,9 @@ class _CreateProjectModalState extends ConsumerState<CreateProjectModal> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF0D1B2A),
                 foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
               ),
               child: const Text(
                 'Generate AI Workspace',

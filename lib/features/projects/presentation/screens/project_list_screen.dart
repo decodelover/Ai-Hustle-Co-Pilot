@@ -21,7 +21,10 @@ class ProjectListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           'AI Projects Command Center',
-          style: TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF111827)),
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF111827),
+          ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -58,7 +61,9 @@ class ProjectListScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20.0),
                 child: InkWell(
                   onTap: () {
-                    ref.read(projectWorkspaceControllerProvider.notifier).selectProject(project.id);
+                    ref
+                        .read(projectWorkspaceControllerProvider.notifier)
+                        .selectProject(project.id);
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => const ProjectWorkspaceScreen(),
@@ -81,9 +86,14 @@ class ProjectListScreen extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                                vertical: 4.0,
+                              ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF0D1B2A).withValues(alpha: 0.1),
+                                color: const Color(
+                                  0xFF0D1B2A,
+                                ).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Text(

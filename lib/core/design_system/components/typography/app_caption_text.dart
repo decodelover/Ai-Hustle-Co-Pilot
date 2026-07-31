@@ -31,9 +31,7 @@ class AppCaptionText extends StatelessWidget {
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,
-      style: AppTypography.labelSmall.copyWith(
-        color: color ?? defaultColor,
-      ),
+      style: AppTypography.labelSmall.copyWith(color: color ?? defaultColor),
     );
   }
 }

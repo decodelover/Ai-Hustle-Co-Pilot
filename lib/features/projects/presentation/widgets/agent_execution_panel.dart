@@ -34,11 +34,17 @@ class AgentExecutionPanel extends ConsumerWidget {
                 color: const Color(0xFF0D1B2A),
                 child: Row(
                   children: [
-                    const Icon(Icons.smart_toy_rounded, color: Colors.white, size: 20),
+                    const Icon(
+                      Icons.smart_toy_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8.0),
                     Expanded(
                       child: Text(
-                        activeAgent != null ? activeAgent.name : 'AI Agent Monitor',
+                        activeAgent != null
+                            ? activeAgent.name
+                            : 'AI Agent Monitor',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14.5,
@@ -53,7 +59,9 @@ class AgentExecutionPanel extends ConsumerWidget {
                         height: 14,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B6B)),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Color(0xFFFF6B6B),
+                          ),
                         ),
                       ),
                   ],
@@ -134,7 +142,9 @@ class AgentExecutionPanel extends ConsumerWidget {
                                 style: TextStyle(
                                   color: log.contains('[ERROR]')
                                       ? const Color(0xFFEF4444)
-                                      : (log.startsWith('[') ? const Color(0xFF10B981) : Colors.white),
+                                      : (log.startsWith('[')
+                                            ? const Color(0xFF10B981)
+                                            : Colors.white),
                                   fontSize: 11.5,
                                   fontFamily: 'monospace',
                                 ),

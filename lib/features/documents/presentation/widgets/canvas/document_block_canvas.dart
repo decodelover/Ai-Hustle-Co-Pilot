@@ -13,10 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Central virtualized canvas rendering document cover, title, and block tree.
 class DocumentBlockCanvas extends ConsumerWidget {
   /// Creates a [DocumentBlockCanvas].
-  const DocumentBlockCanvas({
-    required this.document,
-    super.key,
-  });
+  const DocumentBlockCanvas({required this.document, super.key});
 
   final Document document;
 
@@ -91,7 +88,9 @@ class DocumentBlockCanvas extends ConsumerWidget {
                 label: const Text('Add Block (or type "/")'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.onSurfaceVariant,
-                  side: BorderSide(color: AppColors.outline.withValues(alpha: 0.5)),
+                  side: BorderSide(
+                    color: AppColors.outline.withValues(alpha: 0.5),
+                  ),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
               ),

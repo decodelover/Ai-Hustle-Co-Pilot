@@ -74,14 +74,14 @@ class ActivityFeedModel {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        description,
-        timestamp,
-        category,
-        icon,
-        avatarUrl,
-        statusColor,
-        targetRoute,
-      );
+    id,
+    title,
+    description,
+    timestamp,
+    category,
+    icon,
+    avatarUrl,
+    statusColor,
+    targetRoute,
+  );
 }

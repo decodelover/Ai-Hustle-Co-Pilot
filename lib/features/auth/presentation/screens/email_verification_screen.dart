@@ -46,10 +46,9 @@ class _EmailVerificationScreenState
       return;
     }
 
-    ref.read(verifyOtpControllerProvider.notifier).verifyOtp(
-          email: widget.email,
-          token: code,
-        );
+    ref
+        .read(verifyOtpControllerProvider.notifier)
+        .verifyOtp(email: widget.email, token: code);
   }
 
   @override
@@ -58,54 +57,53 @@ class _EmailVerificationScreenState
     final isDark = context.isDarkMode;
 
     ref
-      ..listen<AsyncValue<void>>(
-        verifyOtpControllerProvider,
-        (previous, next) {
-          next.whenOrNull(
-            error: (error, stackTrace) {
-              AppSnackBar.showError(
+      ..listen<AsyncValue<void>>(verifyOtpControllerProvider, (previous, next) {
+        next.whenOrNull(
+          error: (error, stackTrace) {
+            AppSnackBar.showError(
+              context,
+              message: error.toString().replaceAll('Exception:', '').trim(),
+            );
+          },
+          data: (_) {
+            if (previous?.isLoading == true) {
+              AppSnackBar.showSuccess(
                 context,
-                message: error.toString().replaceAll('Exception:', '').trim(),
+                message: 'Email confirmed successfully!',
               );
-            },
-            data: (_) {
-              if (previous?.isLoading == true) {
-                AppSnackBar.showSuccess(
-                  context,
-                  message: 'Email confirmed successfully!',
-                );
-                context.goNamed(RouteNames.verificationSuccess);
-              }
-            },
-          );
-        },
-      )
-      ..listen<AsyncValue<void>>(
-        resendVerificationControllerProvider,
-        (previous, next) {
-          next.whenOrNull(
-            error: (error, stackTrace) {
-              AppSnackBar.showError(
+              context.goNamed(RouteNames.verificationSuccess);
+            }
+          },
+        );
+      })
+      ..listen<AsyncValue<void>>(resendVerificationControllerProvider, (
+        previous,
+        next,
+      ) {
+        next.whenOrNull(
+          error: (error, stackTrace) {
+            AppSnackBar.showError(
+              context,
+              message: error.toString().replaceAll('Exception:', '').trim(),
+            );
+          },
+          data: (_) {
+            if (previous?.isLoading == true) {
+              AppSnackBar.showSuccess(
                 context,
-                message: error.toString().replaceAll('Exception:', '').trim(),
+                message: 'New 6-digit OTP sent to your email!',
               );
-            },
-            data: (_) {
-              if (previous?.isLoading == true) {
-                AppSnackBar.showSuccess(
-                  context,
-                  message: 'New 6-digit OTP sent to your email!',
-                );
-              }
-            },
-          );
-        },
-      );
+            }
+          },
+        );
+      });
 
     final verifyState = ref.watch(verifyOtpControllerProvider);
     final resendState = ref.watch(resendVerificationControllerProvider);
     final screenHeight = MediaQuery.of(context).size.height;
-    final headerHeight = screenHeight * 0.28 < 200 ? 200.0 : screenHeight * 0.28;
+    final headerHeight = screenHeight * 0.28 < 200
+        ? 200.0
+        : screenHeight * 0.28;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -159,7 +157,9 @@ class _EmailVerificationScreenState
                         width: 80.0,
                         height: 80.0,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF0D1B2A).withValues(alpha: 0.08),
+                          color: const Color(
+                            0xFF0D1B2A,
+                          ).withValues(alpha: 0.08),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -175,7 +175,9 @@ class _EmailVerificationScreenState
                         'Confirm Your Email OTP',
                         style: theme.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
+                          color: isDark
+                              ? AppColors.darkOnSurface
+                              : AppColors.onSurface,
                         ),
                       ),
 
@@ -209,7 +211,9 @@ class _EmailVerificationScreenState
                         height: 56.0,
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: verifyState.isLoading ? null : _handleVerify,
+                          onPressed: verifyState.isLoading
+                              ? null
+                              : _handleVerify,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF0D1B2A),
                             foregroundColor: Colors.white,
@@ -246,7 +250,9 @@ class _EmailVerificationScreenState
                         isLoading: resendState.isLoading,
                         onPressed: () {
                           ref
-                              .read(resendVerificationControllerProvider.notifier)
+                              .read(
+                                resendVerificationControllerProvider.notifier,
+                              )
                               .resendVerification(email: widget.email);
                         },
                       ),

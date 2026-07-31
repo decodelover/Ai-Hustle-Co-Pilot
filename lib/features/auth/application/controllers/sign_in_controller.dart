@@ -18,10 +18,7 @@ class SignInController extends BaseAuthController<void> {
   /// Validates input credentials and executes [SignInUseCase].
   ///
   /// Returns `true` if sign-in succeeded, or `false` on error.
-  Future<bool> signIn({
-    required String email,
-    required String password,
-  }) {
+  Future<bool> signIn({required String email, required String password}) {
     return executeOperation(() async {
       final emailVo = Email(email);
       final passwordVo = Password(password);

@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final class ModelSelectorState {
   const ModelSelectorState({
     this.models = const [],
-    this.selectedModelId = 'gpt-4o',
+    this.selectedModelId = 'gemini-3.6-flash',
     this.usedTokens = 0,
     this.isLoading = false,
   });
@@ -55,7 +55,7 @@ final class ModelSelectorState {
 /// Controller managing model selection, available models, and context token budgeting.
 final class ModelSelectorController extends StateNotifier<ModelSelectorState> {
   ModelSelectorController({required this.repository})
-      : super(const ModelSelectorState()) {
+    : super(const ModelSelectorState()) {
     loadModels();
   }
 
@@ -86,6 +86,6 @@ final class ModelSelectorController extends StateNotifier<ModelSelectorState> {
 /// Provider for [ModelSelectorController].
 final modelSelectorControllerProvider =
     StateNotifierProvider<ModelSelectorController, ModelSelectorState>((ref) {
-  final repo = ref.watch(aiStudioRepositoryProvider);
-  return ModelSelectorController(repository: repo);
-});
+      final repo = ref.watch(aiStudioRepositoryProvider);
+      return ModelSelectorController(repository: repo);
+    });

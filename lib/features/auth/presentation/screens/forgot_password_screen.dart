@@ -20,8 +20,7 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
       _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState
-    extends ConsumerState<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
   String? _emailError;
   bool _isSubmittedSuccess = false;
@@ -41,36 +40,38 @@ class _ForgotPasswordScreenState
 
     if (_emailError != null) return;
 
-    ref.read(resetPasswordControllerProvider.notifier).resetPassword(
-          email: _emailController.text.trim(),
-        );
+    ref
+        .read(resetPasswordControllerProvider.notifier)
+        .resetPassword(email: _emailController.text.trim());
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<void>>(
-      resetPasswordControllerProvider,
-      (previous, next) {
-        next.whenOrNull(
-          error: (error, stackTrace) {
-            AppSnackBar.showError(
-              context,
-              message: error.toString().replaceAll('Exception:', '').trim(),
-            );
-          },
-          data: (_) {
-            if (previous?.isLoading == true) {
-              setState(() => _isSubmittedSuccess = true);
-            }
-          },
-        );
-      },
-    );
+    ref.listen<AsyncValue<void>>(resetPasswordControllerProvider, (
+      previous,
+      next,
+    ) {
+      next.whenOrNull(
+        error: (error, stackTrace) {
+          AppSnackBar.showError(
+            context,
+            message: error.toString().replaceAll('Exception:', '').trim(),
+          );
+        },
+        data: (_) {
+          if (previous?.isLoading == true) {
+            setState(() => _isSubmittedSuccess = true);
+          }
+        },
+      );
+    });
 
     final resetState = ref.watch(resetPasswordControllerProvider);
     final isLoading = resetState.isLoading;
     final screenHeight = MediaQuery.of(context).size.height;
-    final headerHeight = screenHeight * 0.28 < 200 ? 200.0 : screenHeight * 0.28;
+    final headerHeight = screenHeight * 0.28 < 200
+        ? 200.0
+        : screenHeight * 0.28;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -199,7 +200,8 @@ class _ForgotPasswordScreenState
                             AppButton(
                               text: 'Back to Sign In',
                               variant: AppButtonVariant.ghost,
-                              onPressed: () => context.goNamed(RouteNames.login),
+                              onPressed: () =>
+                                  context.goNamed(RouteNames.login),
                             ),
                           ],
                         ),

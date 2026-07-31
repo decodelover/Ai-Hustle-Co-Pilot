@@ -33,11 +33,7 @@ class WorkspaceHeader extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: const BoxDecoration(
         color: Color(0xFF1E242E),
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFF2B323E),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFF2B323E))),
       ),
       child: Row(
         children: [
@@ -45,7 +41,11 @@ class WorkspaceHeader extends ConsumerWidget {
           if (showSidebarToggle) ...[
             IconButton(
               onPressed: onToggleSidebar,
-              icon: const Icon(Icons.menu_rounded, color: Colors.white, size: 20.0),
+              icon: const Icon(
+                Icons.menu_rounded,
+                color: Colors.white,
+                size: 20.0,
+              ),
             ),
             const SizedBox(width: 8.0),
           ],
@@ -66,7 +66,10 @@ class WorkspaceHeader extends ConsumerWidget {
 
           // Context Window Usage Bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
+              vertical: 4.0,
+            ),
             decoration: BoxDecoration(
               color: const Color(0xFF262D38),
               borderRadius: BorderRadius.circular(20.0),

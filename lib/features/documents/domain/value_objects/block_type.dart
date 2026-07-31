@@ -47,35 +47,35 @@ enum BlockType {
 extension BlockTypeX on BlockType {
   /// Returns a human-readable display label for UI menus.
   String get label => switch (this) {
-        BlockType.heading1 => 'Heading 1',
-        BlockType.heading2 => 'Heading 2',
-        BlockType.heading3 => 'Heading 3',
-        BlockType.paragraph => 'Paragraph',
-        BlockType.bulletList => 'Bullet List',
-        BlockType.numberedList => 'Numbered List',
-        BlockType.table => 'Table Grid',
-        BlockType.code => 'Code Snippet',
-        BlockType.quote => 'Quote',
-        BlockType.callout => 'Callout Box',
-        BlockType.image => 'Image Asset',
-        BlockType.divider => 'Divider Line',
-        BlockType.todoList => 'To-Do Checkbox',
-      };
+    BlockType.heading1 => 'Heading 1',
+    BlockType.heading2 => 'Heading 2',
+    BlockType.heading3 => 'Heading 3',
+    BlockType.paragraph => 'Paragraph',
+    BlockType.bulletList => 'Bullet List',
+    BlockType.numberedList => 'Numbered List',
+    BlockType.table => 'Table Grid',
+    BlockType.code => 'Code Snippet',
+    BlockType.quote => 'Quote',
+    BlockType.callout => 'Callout Box',
+    BlockType.image => 'Image Asset',
+    BlockType.divider => 'Divider Line',
+    BlockType.todoList => 'To-Do Checkbox',
+  };
 
   /// Markdown prefix character syntax for text serialisation.
   String get markdownPrefix => switch (this) {
-        BlockType.heading1 => '# ',
-        BlockType.heading2 => '## ',
-        BlockType.heading3 => '### ',
-        BlockType.paragraph => '',
-        BlockType.bulletList => '- ',
-        BlockType.numberedList => '1. ',
-        BlockType.table => '',
-        BlockType.code => '```',
-        BlockType.quote => '> ',
-        BlockType.callout => '💡 ',
-        BlockType.image => '![',
-        BlockType.divider => '---',
-        BlockType.todoList => '- [ ] ',
-      };
+    BlockType.heading1 => '# ',
+    BlockType.heading2 => '## ',
+    BlockType.heading3 => '### ',
+    BlockType.paragraph => '',
+    BlockType.bulletList => '- ',
+    BlockType.numberedList => '1. ',
+    BlockType.table => '',
+    BlockType.code => '```',
+    BlockType.quote => '> ',
+    BlockType.callout => '💡 ',
+    BlockType.image => '![',
+    BlockType.divider => '---',
+    BlockType.todoList => '- [ ] ',
+  };
 }

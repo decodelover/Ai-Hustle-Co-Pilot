@@ -12,9 +12,7 @@ import 'package:ai_hustle_copilot/features/documents/domain/repositories/i_docum
 /// Production repository implementation connecting local storage datasource to the domain layer.
 final class DocumentRepositoryImpl implements IDocumentRepository {
   /// Creates a [DocumentRepositoryImpl].
-  const DocumentRepositoryImpl({
-    required this.localDataSource,
-  });
+  const DocumentRepositoryImpl({required this.localDataSource});
 
   final DocumentLocalDataSource localDataSource;
 

@@ -20,10 +20,7 @@ abstract interface class AuthRepository {
   /// Returns the authenticated [AuthUser] on success.
   /// Throws [InvalidCredentialsFailure] if email/password mismatch.
   /// Throws [NetworkFailure] if network connection fails.
-  Future<AuthUser> signIn({
-    required Email email,
-    required Password password,
-  });
+  Future<AuthUser> signIn({required Email email, required Password password});
 
   /// Registers a new user account with [email], [password], and optional [displayName].
   ///
@@ -52,16 +49,12 @@ abstract interface class AuthRepository {
   /// Initiates a password reset email flow for the specified [email].
   ///
   /// Throws [AuthFailure] if sending the reset email fails.
-  Future<void> sendPasswordResetEmail({
-    required Email email,
-  });
+  Future<void> sendPasswordResetEmail({required Email email});
 
   /// Resends the email verification link to the specified [email].
   ///
   /// Throws [AuthFailure] if resending fails.
-  Future<void> resendVerificationEmail({
-    required Email email,
-  });
+  Future<void> resendVerificationEmail({required Email email});
 
   /// Refreshes the active session token and returns the updated [AuthUser].
   ///
@@ -73,8 +66,5 @@ abstract interface class AuthRepository {
   ///
   /// Returns the verified [AuthUser] on success.
   /// Throws [AuthFailure] if token is invalid or expired.
-  Future<AuthUser> verifyOtp({
-    required Email email,
-    required String token,
-  });
+  Future<AuthUser> verifyOtp({required Email email, required String token});
 }

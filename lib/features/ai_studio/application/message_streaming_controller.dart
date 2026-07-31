@@ -74,7 +74,9 @@ final class MessageStreamingController
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        failure: const AiNetworkFailure('Failed to load conversation messages.'),
+        failure: const AiNetworkFailure(
+          'Failed to load conversation messages.',
+        ),
       );
     }
   }
@@ -162,7 +164,9 @@ final class MessageStreamingController
     } catch (e) {
       state = state.copyWith(
         status: StreamingStatus.error,
-        failure: const AiNetworkFailure('Connection failed during stream dispatch.'),
+        failure: const AiNetworkFailure(
+          'Connection failed during stream dispatch.',
+        ),
       );
     }
   }
@@ -203,12 +207,14 @@ final class MessageStreamingController
 }
 
 /// Provider for [MessageStreamingController].
-final messageStreamingControllerProvider = StateNotifierProvider<
-    MessageStreamingController, MessageStreamingState>((ref) {
-  final aiRepo = ref.watch(aiStudioRepositoryProvider);
-  final convRepo = ref.watch(conversationRepositoryProvider);
-  return MessageStreamingController(
-    aiRepository: aiRepo,
-    conversationRepository: convRepo,
-  );
-});
+final messageStreamingControllerProvider =
+    StateNotifierProvider<MessageStreamingController, MessageStreamingState>((
+      ref,
+    ) {
+      final aiRepo = ref.watch(aiStudioRepositoryProvider);
+      final convRepo = ref.watch(conversationRepositoryProvider);
+      return MessageStreamingController(
+        aiRepository: aiRepo,
+        conversationRepository: convRepo,
+      );
+    });

@@ -10,8 +10,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CreditWalletController extends StateNotifier<AsyncValue<CreditWallet>> {
   /// Creates a [CreditWalletController].
   CreditWalletController({CreditRepository? creditRepository})
-      : _creditRepository = creditRepository ?? CreditRepositoryImpl(),
-        super(const AsyncLoading()) {
+    : _creditRepository = creditRepository ?? CreditRepositoryImpl(),
+      super(const AsyncLoading()) {
     loadWallet();
   }
 

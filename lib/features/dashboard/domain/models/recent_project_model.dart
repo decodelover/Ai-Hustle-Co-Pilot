@@ -4,12 +4,7 @@ library;
 import 'package:flutter/material.dart';
 
 /// Status of an active project.
-enum ProjectStatus {
-  inProgress,
-  review,
-  completed,
-  archived,
-}
+enum ProjectStatus { inProgress, review, completed, archived }
 
 /// Immutable domain model representing a recent project on the dashboard.
 @immutable
@@ -70,13 +65,13 @@ class RecentProjectModel {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        clientName,
-        progress,
-        status,
-        lastUpdated,
-        aiUsageScore,
-        ownerAvatarUrl,
-      );
+    id,
+    title,
+    clientName,
+    progress,
+    status,
+    lastUpdated,
+    aiUsageScore,
+    ownerAvatarUrl,
+  );
 }

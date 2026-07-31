@@ -5,6 +5,7 @@ import 'package:ai_hustle_copilot/core/constants/app_constants.dart';
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/features/auth/auth.dart';
 import 'package:ai_hustle_copilot/features/splash/presentation/screens/splash_screen.dart';
+import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,10 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   Widget createTestableWidget(Widget child) {
     return ProviderScope(
-      child: MaterialApp(
-        theme: AppTheme.lightTheme,
-        home: child,
-      ),
+      child: MaterialApp(theme: AppTheme.lightTheme, home: child),
     );
   }
 
@@ -36,11 +34,13 @@ void main() {
 
       expect(find.text('AI Hustle Co-Pilot'), findsOneWidget);
       expect(find.text('Welcome'), findsOneWidget);
-      expect(find.text('Continue'), findsOneWidget);
+      expect(find.text('Get Started'), findsOneWidget);
+      expect(find.byType(AppBrandBackground), findsOneWidget);
     });
 
-    testWidgets('LoginScreen renders email, password, and sign in button',
-        (tester) async {
+    testWidgets('LoginScreen renders email, password, and sign in button', (
+      tester,
+    ) async {
       await tester.pumpWidget(createTestableWidget(const LoginScreen()));
       await tester.pump();
 
@@ -49,34 +49,41 @@ void main() {
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Forgot Password?'), findsOneWidget);
       expect(find.text('Login'), findsOneWidget);
+      expect(find.byType(AppBrandBackground), findsOneWidget);
     });
 
-    testWidgets('RegisterScreen renders registration form and password strength',
-        (tester) async {
-      await tester.pumpWidget(createTestableWidget(const RegisterScreen()));
-      await tester.pump();
+    testWidgets(
+      'RegisterScreen renders registration form and password strength',
+      (tester) async {
+        await tester.pumpWidget(createTestableWidget(const RegisterScreen()));
+        await tester.pump();
 
-      expect(find.text('Create an Account'), findsOneWidget);
-      expect(find.text('Name'), findsOneWidget);
-      expect(find.text('Email'), findsOneWidget);
-      expect(find.text('Password'), findsOneWidget);
-      expect(find.text('Create account'), findsOneWidget);
-    });
+        expect(find.text('Create an Account'), findsOneWidget);
+        expect(find.text('Name'), findsOneWidget);
+        expect(find.text('Email'), findsOneWidget);
+        expect(find.text('Password'), findsOneWidget);
+        expect(find.text('Create account'), findsOneWidget);
+      },
+    );
 
-    testWidgets('ForgotPasswordScreen renders reset email input',
-        (tester) async {
+    testWidgets('ForgotPasswordScreen renders reset email input', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-          createTestableWidget(const ForgotPasswordScreen()));
+        createTestableWidget(const ForgotPasswordScreen()),
+      );
       await tester.pump();
 
       expect(find.text('Reset Password'), findsOneWidget);
       expect(find.text('Send Reset Link'), findsOneWidget);
     });
 
-    testWidgets('EmailVerificationScreen renders status and resend button',
-        (tester) async {
+    testWidgets('EmailVerificationScreen renders status and resend button', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-          createTestableWidget(const EmailVerificationScreen()));
+        createTestableWidget(const EmailVerificationScreen()),
+      );
       await tester.pump();
 
       expect(find.text('Confirm Your Email OTP'), findsOneWidget);
@@ -84,10 +91,12 @@ void main() {
       expect(find.text('Resend OTP Code'), findsOneWidget);
     });
 
-    testWidgets('VerificationSuccessScreen renders success state and CTA',
-        (tester) async {
+    testWidgets('VerificationSuccessScreen renders success state and CTA', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-          createTestableWidget(const VerificationSuccessScreen()));
+        createTestableWidget(const VerificationSuccessScreen()),
+      );
       await tester.pump();
 
       expect(find.text('Account Verified!'), findsOneWidget);

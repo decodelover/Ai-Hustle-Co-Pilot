@@ -153,14 +153,14 @@ class _AppTextFieldState extends State<AppTextField> {
     final borderColor = widget.errorText != null
         ? (isDark ? AppColors.darkDanger : AppColors.danger)
         : widget.isSuccess
-            ? (isDark ? AppColors.darkSuccess : AppColors.success)
-            : (isDark ? AppColors.darkOutline : AppColors.outline);
+        ? (isDark ? AppColors.darkSuccess : AppColors.success)
+        : (isDark ? AppColors.darkOutline : AppColors.outline);
 
     final focusedBorderColor = widget.errorText != null
         ? (isDark ? AppColors.darkDanger : AppColors.danger)
         : widget.isSuccess
-            ? (isDark ? AppColors.darkSuccess : AppColors.success)
-            : (isDark ? AppColors.darkPrimary : AppColors.primary);
+        ? (isDark ? AppColors.darkSuccess : AppColors.success)
+        : (isDark ? AppColors.darkPrimary : AppColors.primary);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

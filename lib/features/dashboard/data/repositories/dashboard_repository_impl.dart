@@ -8,9 +8,7 @@ import 'package:ai_hustle_copilot/features/dashboard/domain/repositories/dashboa
 /// Concrete repository handling dashboard persistence and API calls.
 class DashboardRepositoryImpl implements DashboardRepository {
   /// Constructs a [DashboardRepositoryImpl].
-  DashboardRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  DashboardRepositoryImpl({required this.remoteDataSource});
 
   /// Injected remote data source.
   final DashboardRemoteDataSource remoteDataSource;

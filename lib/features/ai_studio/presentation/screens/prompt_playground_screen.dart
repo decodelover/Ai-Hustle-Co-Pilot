@@ -15,7 +15,8 @@ class PromptPlaygroundScreen extends StatefulWidget {
 
 class _PromptPlaygroundScreenState extends State<PromptPlaygroundScreen> {
   final _promptController = TextEditingController(
-    text: 'You are an enterprise AI Co-Pilot for {{user_name}}. Follow Clean Architecture and SOLID rules.',
+    text:
+        'You are an enterprise AI Co-Pilot for {{user_name}}. Follow Clean Architecture and SOLID rules.',
   );
 
   @override
@@ -34,11 +35,17 @@ class _PromptPlaygroundScreenState extends State<PromptPlaygroundScreen> {
             height: 180.0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 12.0,
+                ),
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                      ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     const SizedBox(width: 8.0),
@@ -88,7 +95,10 @@ class _PromptPlaygroundScreenState extends State<PromptPlaygroundScreen> {
                       controller: _promptController,
                       maxLines: null,
                       expands: true,
-                      style: const TextStyle(fontFamily: 'FiraCode', fontSize: 13.5),
+                      style: const TextStyle(
+                        fontFamily: 'FiraCode',
+                        fontSize: 13.5,
+                      ),
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color(0xFFF8FAFC),
@@ -108,7 +118,9 @@ class _PromptPlaygroundScreenState extends State<PromptPlaygroundScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Saved Prompt Version 1.3!')),
+                                const SnackBar(
+                                  content: Text('Saved Prompt Version 1.3!'),
+                                ),
                               );
                             },
                             style: ElevatedButton.styleFrom(

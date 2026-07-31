@@ -51,14 +51,14 @@ final class DocumentBlockDto {
   final String? parentBlockId;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'documentId': documentId,
-        'type': type,
-        'textContent': textContent,
-        'attributes': attributes,
-        'sortOrder': sortOrder,
-        'parentBlockId': parentBlockId,
-      };
+    'id': id,
+    'documentId': documentId,
+    'type': type,
+    'textContent': textContent,
+    'attributes': attributes,
+    'sortOrder': sortOrder,
+    'parentBlockId': parentBlockId,
+  };
 
   DocumentBlock toDomain() {
     return DocumentBlock(
@@ -106,10 +106,10 @@ final class DocumentDto {
           .toList(),
       status: json['status'] as String? ?? 'draft',
       templateId: json['templateId'] as String?,
-      createdAt: json['createdAt'] as String? ??
-          DateTime.now().toIso8601String(),
-      updatedAt: json['updatedAt'] as String? ??
-          DateTime.now().toIso8601String(),
+      createdAt:
+          json['createdAt'] as String? ?? DateTime.now().toIso8601String(),
+      updatedAt:
+          json['updatedAt'] as String? ?? DateTime.now().toIso8601String(),
       createdByUserId: json['createdByUserId'] as String? ?? 'usr_current',
       currentVersionNumber:
           (json['currentVersionNumber'] as num?)?.toInt() ?? 1,
@@ -150,20 +150,20 @@ final class DocumentDto {
   final Map<String, dynamic> metadata;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'projectId': projectId,
-        'title': title,
-        'emojiIcon': emojiIcon,
-        'coverImageUrl': coverImageUrl,
-        'blocks': blocks.map((b) => b.toJson()).toList(),
-        'status': status,
-        'templateId': templateId,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
-        'createdByUserId': createdByUserId,
-        'currentVersionNumber': currentVersionNumber,
-        'metadata': metadata,
-      };
+    'id': id,
+    'projectId': projectId,
+    'title': title,
+    'emojiIcon': emojiIcon,
+    'coverImageUrl': coverImageUrl,
+    'blocks': blocks.map((b) => b.toJson()).toList(),
+    'status': status,
+    'templateId': templateId,
+    'createdAt': createdAt,
+    'updatedAt': updatedAt,
+    'createdByUserId': createdByUserId,
+    'currentVersionNumber': currentVersionNumber,
+    'metadata': metadata,
+  };
 
   Document toDomain() {
     return Document(

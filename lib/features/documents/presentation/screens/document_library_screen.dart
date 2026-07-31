@@ -12,15 +12,13 @@ import 'package:go_router/go_router.dart';
 /// Central hub screen listing all user documents with template creation and search.
 class DocumentLibraryScreen extends ConsumerStatefulWidget {
   /// Creates a [DocumentLibraryScreen].
-  const DocumentLibraryScreen({
-    this.projectId,
-    super.key,
-  });
+  const DocumentLibraryScreen({this.projectId, super.key});
 
   final String? projectId;
 
   @override
-  ConsumerState<DocumentLibraryScreen> createState() => _DocumentLibraryScreenState();
+  ConsumerState<DocumentLibraryScreen> createState() =>
+      _DocumentLibraryScreenState();
 }
 
 class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
@@ -97,9 +95,13 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(color: AppColors.outline),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
-              onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
+              onChanged: (val) =>
+                  setState(() => _searchQuery = val.toLowerCase()),
             ),
           ),
 
@@ -107,7 +109,8 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
           Expanded(
             child: docsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Error loading documents: $e')),
+              error: (e, _) =>
+                  Center(child: Text('Error loading documents: $e')),
               data: (documents) {
                 final filtered = documents.where((d) {
                   return d.title.toLowerCase().contains(_searchQuery);
@@ -118,16 +121,27 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.description_outlined, size: 48, color: AppColors.onSurfaceVariant),
+                        const Icon(
+                          Icons.description_outlined,
+                          size: 48,
+                          color: AppColors.onSurfaceVariant,
+                        ),
                         const SizedBox(height: 12),
                         const Text(
                           'No documents found',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.onSurface),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         const Text(
                           'Create a new document or pick an AI template to begin.',
-                          style: TextStyle(fontSize: 13, color: AppColors.onSurfaceVariant),
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.onSurfaceVariant,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton.icon(
@@ -138,7 +152,9 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                             );
                             final active = ref.read(activeDocumentProvider);
                             if (active != null && context.mounted) {
-                              context.go('${RoutePaths.documents}/${active.id}');
+                              context.go(
+                                '${RoutePaths.documents}/${active.id}',
+                              );
                             }
                           },
                           icon: const Icon(Icons.add),
@@ -150,7 +166,10 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                 }
 
                 return GridView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 340,
                     mainAxisExtent: 180,
@@ -177,7 +196,10 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Text(doc.emojiIcon ?? '📄', style: const TextStyle(fontSize: 28)),
+                                  Text(
+                                    doc.emojiIcon ?? '📄',
+                                    style: const TextStyle(fontSize: 28),
+                                  ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
@@ -196,14 +218,21 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                               const Spacer(),
                               Text(
                                 '${doc.blocks.length} Blocks • v${doc.currentVersionNumber}',
-                                style: const TextStyle(fontSize: 12, color: AppColors.onSurfaceVariant),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.onSurfaceVariant,
+                                ),
                               ),
                               const SizedBox(height: 6),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 2,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: AppColors.surfaceVariant,
                                       borderRadius: BorderRadius.circular(4),
@@ -219,7 +248,10 @@ class _DocumentLibraryScreenState extends ConsumerState<DocumentLibraryScreen> {
                                   ),
                                   Text(
                                     'Updated ${doc.updatedAt.day}/${doc.updatedAt.month}',
-                                    style: const TextStyle(fontSize: 11, color: AppColors.onSurfaceVariant),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      color: AppColors.onSurfaceVariant,
+                                    ),
                                   ),
                                 ],
                               ),

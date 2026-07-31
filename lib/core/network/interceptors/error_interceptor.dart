@@ -44,7 +44,8 @@ class NetworkErrorInterceptor extends Interceptor {
 
         var serverMessage = 'Server returned an error.';
         if (data is Map<String, dynamic>) {
-          serverMessage = data['message']?.toString() ??
+          serverMessage =
+              data['message']?.toString() ??
               data['error']?.toString() ??
               serverMessage;
         }
@@ -57,10 +58,7 @@ class NetworkErrorInterceptor extends Interceptor {
         }
 
         if (statusCode == 404) {
-          return NotFoundException(
-            message: serverMessage,
-            originalError: err,
-          );
+          return NotFoundException(message: serverMessage, originalError: err);
         }
 
         if (statusCode == 422) {

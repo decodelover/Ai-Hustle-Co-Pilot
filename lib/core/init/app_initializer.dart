@@ -93,11 +93,8 @@ abstract final class AppInitializer {
       );
       AppLogger.info('Supabase initialized successfully');
     } catch (e, s) {
-      AppLogger.error(
-        'Failed to initialize Supabase',
-        error: e,
-        stackTrace: s,
-      );
+      AppLogger.error('Failed to initialize Supabase', error: e, stackTrace: s);
+      rethrow;
     }
   }
 
@@ -108,13 +105,15 @@ abstract final class AppInitializer {
   static Future<void> _initHive() async {
     try {
       await Hive.initFlutter();
+      await Future.wait([
+        Hive.openBox<dynamic>('documents_v1'),
+        Hive.openBox<dynamic>('document_versions_v1'),
+        Hive.openBox<dynamic>('projects_v1'),
+        Hive.openBox<dynamic>('ai_studio_v1'),
+      ]);
       AppLogger.info('Hive initialized successfully');
     } catch (e, s) {
-      AppLogger.error(
-        'Failed to initialize Hive',
-        error: e,
-        stackTrace: s,
-      );
+      AppLogger.error('Failed to initialize Hive', error: e, stackTrace: s);
     }
   }
 }

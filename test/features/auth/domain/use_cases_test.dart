@@ -200,19 +200,16 @@ void main() {
 
     test('ResetPasswordUseCase triggers password reset email', () async {
       final useCase = ResetPasswordUseCase(repository);
-      await expectLater(
-        useCase(email: validEmail),
-        completes,
-      );
+      await expectLater(useCase(email: validEmail), completes);
     });
 
-    test('ResendVerificationEmailUseCase triggers verification email', () async {
-      final useCase = ResendVerificationEmailUseCase(repository);
-      await expectLater(
-        useCase(email: validEmail),
-        completes,
-      );
-    });
+    test(
+      'ResendVerificationEmailUseCase triggers verification email',
+      () async {
+        final useCase = ResendVerificationEmailUseCase(repository);
+        await expectLater(useCase(email: validEmail), completes);
+      },
+    );
 
     test('RefreshSessionUseCase refreshes active token session', () async {
       const expected = AuthUser(id: '77', email: 'refreshed@a.com');

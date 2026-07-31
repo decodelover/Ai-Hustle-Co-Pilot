@@ -4,11 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('ComponentGalleryScreen renders successfully', (tester) async {
-    await tester.pumpWidget(
-      const MaterialApp(
-        home: ComponentGalleryScreen(),
-      ),
-    );
+    await tester.pumpWidget(const MaterialApp(home: ComponentGalleryScreen()));
     await tester.pump();
 
     expect(find.text('Component Gallery (Dev Storybook)'), findsOneWidget);
@@ -20,10 +16,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: AppButton(
-            text: 'Click Me',
-            onPressed: () => pressed = true,
-          ),
+          body: AppButton(text: 'Click Me', onPressed: () => pressed = true),
         ),
       ),
     );

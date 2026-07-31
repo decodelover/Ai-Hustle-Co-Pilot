@@ -49,7 +49,11 @@ class _SemanticSearchModalState extends State<SemanticSearchModal> {
         children: [
           Row(
             children: [
-              const Icon(Icons.saved_search_rounded, color: Color(0xFF0D1B2A), size: 24.0),
+              const Icon(
+                Icons.saved_search_rounded,
+                color: Color(0xFF0D1B2A),
+                size: 24.0,
+              ),
               const SizedBox(width: 8.0),
               const Text(
                 'Enterprise Semantic Search',

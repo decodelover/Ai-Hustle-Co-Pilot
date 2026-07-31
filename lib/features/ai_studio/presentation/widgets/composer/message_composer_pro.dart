@@ -55,10 +55,9 @@ class _MessageComposerProState extends ConsumerState<MessageComposerPro> {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
 
-    ref.read(messageStreamingControllerProvider.notifier).sendPrompt(
-          conversationId: widget.conversationId,
-          promptText: text,
-        );
+    ref
+        .read(messageStreamingControllerProvider.notifier)
+        .sendPrompt(conversationId: widget.conversationId, promptText: text);
 
     _textController.clear();
   }
@@ -72,23 +71,24 @@ class _MessageComposerProState extends ConsumerState<MessageComposerPro> {
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
         color: Color(0xFF1E242E),
-        border: Border(
-          top: BorderSide(
-            color: Color(0xFF2B323E),
-          ),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF2B323E))),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Input Container Surface
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14.0,
+              vertical: 8.0,
+            ),
             decoration: BoxDecoration(
               color: const Color(0xFF262D38),
               borderRadius: BorderRadius.circular(16.0),
               border: Border.all(
-                color: _focusNode.hasFocus ? AppColors.primary : const Color(0xFF3D4655),
+                color: _focusNode.hasFocus
+                    ? AppColors.primary
+                    : const Color(0xFF3D4655),
               ),
             ),
             child: Column(
@@ -110,7 +110,8 @@ class _MessageComposerProState extends ConsumerState<MessageComposerPro> {
                     maxLines: 5,
                     style: const TextStyle(color: Colors.white, fontSize: 14.0),
                     decoration: const InputDecoration(
-                      hintText: 'Ask AI Hustle Co-Pilot or type / for templates...',
+                      hintText:
+                          'Ask AI Hustle Co-Pilot or type / for templates...',
                       hintStyle: TextStyle(
                         color: Color(0xFF777777),
                         fontSize: 14.0,
@@ -172,13 +173,17 @@ class _MessageComposerProState extends ConsumerState<MessageComposerPro> {
 
                     // Send / Stop Action Button
                     Material(
-                      color: isGenerating ? Colors.redAccent : AppColors.primary,
+                      color: isGenerating
+                          ? Colors.redAccent
+                          : AppColors.primary,
                       borderRadius: BorderRadius.circular(10.0),
                       child: InkWell(
                         onTap: isGenerating
                             ? () => ref
-                                .read(messageStreamingControllerProvider.notifier)
-                                .stopGeneration()
+                                  .read(
+                                    messageStreamingControllerProvider.notifier,
+                                  )
+                                  .stopGeneration()
                             : _handleSend,
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(

@@ -23,8 +23,8 @@ class AppLoadingIndicator extends StatelessWidget {
     this.size = 36.0,
     this.strokeWidth = 3.0,
     this.color,
-  })  : variant = AppLoadingVariant.circular,
-        height = null;
+  }) : variant = AppLoadingVariant.circular,
+       height = null;
 
   /// Creates a linear [AppLoadingIndicator].
   const AppLoadingIndicator.linear({
@@ -32,9 +32,9 @@ class AppLoadingIndicator extends StatelessWidget {
     this.value,
     this.height = 4.0,
     this.color,
-  })  : variant = AppLoadingVariant.linear,
-        size = 36.0,
-        strokeWidth = 3.0;
+  }) : variant = AppLoadingVariant.linear,
+       size = 36.0,
+       strokeWidth = 3.0;
 
   /// Progress value (0.0 to 1.0) or null for indeterminate.
   final double? value;

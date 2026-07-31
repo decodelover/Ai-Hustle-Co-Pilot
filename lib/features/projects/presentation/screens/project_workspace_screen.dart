@@ -35,7 +35,9 @@ class ProjectWorkspaceScreen extends ConsumerWidget {
           error: (error, stackTrace) => AppErrorState(
             title: 'Failed to load AI Project Workspace',
             message: error.toString(),
-            onRetry: () => ref.read(projectWorkspaceControllerProvider.notifier).initWorkspace(),
+            onRetry: () => ref
+                .read(projectWorkspaceControllerProvider.notifier)
+                .initWorkspace(),
           ),
           data: (state) {
             final active = state.activeProject;
@@ -45,7 +47,11 @@ class ProjectWorkspaceScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.folder_special_rounded, size: 64, color: Color(0xFF9CA3AF)),
+                    const Icon(
+                      Icons.folder_special_rounded,
+                      size: 64,
+                      color: Color(0xFF9CA3AF),
+                    ),
                     const SizedBox(height: 16.0),
                     const Text(
                       'No AI Projects Available',

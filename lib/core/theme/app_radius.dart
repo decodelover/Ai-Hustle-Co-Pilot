@@ -87,32 +87,31 @@ abstract class AppRadius {
 
   // ── BorderRadius Constants ──────────────────────────────────────────────
   /// Radius geometry for extra small elements.
-  static const BorderRadius borderExtraSmall =
-      BorderRadius.all(radiusObjectExtraSmall);
+  static const BorderRadius borderExtraSmall = BorderRadius.all(
+    radiusObjectExtraSmall,
+  );
 
   /// Radius geometry for small elements.
-  static const BorderRadius borderSmall =
-      BorderRadius.all(radiusObjectSmall);
+  static const BorderRadius borderSmall = BorderRadius.all(radiusObjectSmall);
 
   /// Radius geometry for medium elements (inputs).
-  static const BorderRadius borderMedium =
-      BorderRadius.all(radiusObjectMedium);
+  static const BorderRadius borderMedium = BorderRadius.all(radiusObjectMedium);
 
   /// Radius geometry for large elements (cards).
-  static const BorderRadius borderLarge =
-      BorderRadius.all(radiusObjectLarge);
+  static const BorderRadius borderLarge = BorderRadius.all(radiusObjectLarge);
 
   /// Radius geometry for extra large elements (dialogs).
-  static const BorderRadius borderXLarge =
-      BorderRadius.all(radiusObjectXLarge);
+  static const BorderRadius borderXLarge = BorderRadius.all(radiusObjectXLarge);
 
   /// Radius geometry for bottom sheets (32dp).
-  static const BorderRadius borderXXLarge =
-      BorderRadius.all(radiusObjectXXLarge);
+  static const BorderRadius borderXXLarge = BorderRadius.all(
+    radiusObjectXXLarge,
+  );
 
   /// Radius geometry for pill buttons and chips.
-  static const BorderRadius borderPill =
-      BorderRadius.all(Radius.circular(pill));
+  static const BorderRadius borderPill = BorderRadius.all(
+    Radius.circular(pill),
+  );
 
   // ── Legacy BorderRadius Aliases ─────────────────────────────────────────
   /// Alias for borderExtraSmall.
@@ -135,22 +134,27 @@ abstract class AppRadius {
 
   // ── OutlinedBorder Constants ────────────────────────────────────────────
   /// OutlinedBorder small.
-  static const OutlinedBorder shapeSm =
-      RoundedRectangleBorder(borderRadius: borderSmall);
+  static const OutlinedBorder shapeSm = RoundedRectangleBorder(
+    borderRadius: borderSmall,
+  );
 
   /// OutlinedBorder medium.
-  static const OutlinedBorder shapeMd =
-      RoundedRectangleBorder(borderRadius: borderMedium);
+  static const OutlinedBorder shapeMd = RoundedRectangleBorder(
+    borderRadius: borderMedium,
+  );
 
   /// OutlinedBorder large.
-  static const OutlinedBorder shapeLg =
-      RoundedRectangleBorder(borderRadius: borderLarge);
+  static const OutlinedBorder shapeLg = RoundedRectangleBorder(
+    borderRadius: borderLarge,
+  );
 
   /// OutlinedBorder extra large.
-  static const OutlinedBorder shapeXl =
-      RoundedRectangleBorder(borderRadius: borderXLarge);
+  static const OutlinedBorder shapeXl = RoundedRectangleBorder(
+    borderRadius: borderXLarge,
+  );
 
   /// OutlinedBorder pill.
-  static const OutlinedBorder shapePill =
-      RoundedRectangleBorder(borderRadius: borderPill);
+  static const OutlinedBorder shapePill = RoundedRectangleBorder(
+    borderRadius: borderPill,
+  );
 }

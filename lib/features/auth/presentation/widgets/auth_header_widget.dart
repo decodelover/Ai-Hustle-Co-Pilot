@@ -47,7 +47,9 @@ class AuthHeaderWidget extends StatelessWidget {
                     isDark ? AppColors.darkSecondary : AppColors.secondary,
                   ],
                 ),
-                boxShadow: isDark ? AppShadows.darkAiGlow : AppShadows.lightAiGlow,
+                boxShadow: isDark
+                    ? AppShadows.darkAiGlow
+                    : AppShadows.lightAiGlow,
               ),
               child: const Icon(
                 Icons.auto_awesome_rounded,

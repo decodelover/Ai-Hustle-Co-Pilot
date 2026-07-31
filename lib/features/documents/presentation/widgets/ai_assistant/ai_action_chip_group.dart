@@ -8,10 +8,7 @@ import 'package:flutter/material.dart';
 /// Interactive action chip group for quick AI assistant commands.
 class AiActionChipGroup extends StatelessWidget {
   /// Creates an [AiActionChipGroup].
-  const AiActionChipGroup({
-    required this.onSelectIntent,
-    super.key,
-  });
+  const AiActionChipGroup({required this.onSelectIntent, super.key});
 
   final ValueChanged<AiPromptIntent> onSelectIntent;
 
@@ -33,9 +30,16 @@ class AiActionChipGroup extends StatelessWidget {
       runSpacing: 6,
       children: intents.map((intent) {
         return ActionChip(
-          avatar: Icon(_getIconForIntent(intent), size: 12, color: AppColors.secondary),
+          avatar: Icon(
+            _getIconForIntent(intent),
+            size: 12,
+            color: AppColors.secondary,
+          ),
           label: Text(intent.label),
-          labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          labelStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
           backgroundColor: AppColors.surfaceVariant,
           side: const BorderSide(color: AppColors.outline),
           onPressed: () => onSelectIntent(intent),
@@ -45,14 +49,14 @@ class AiActionChipGroup extends StatelessWidget {
   }
 
   IconData _getIconForIntent(AiPromptIntent intent) => switch (intent) {
-        AiPromptIntent.rewrite => Icons.refresh,
-        AiPromptIntent.expand => Icons.unfold_more,
-        AiPromptIntent.summarize => Icons.compress,
-        AiPromptIntent.fixGrammar => Icons.spellcheck,
-        AiPromptIntent.changeTone => Icons.tune,
-        AiPromptIntent.translate => Icons.translate,
-        AiPromptIntent.continueWriting => Icons.forward,
-        AiPromptIntent.generateSection => Icons.add_circle_outline,
-        AiPromptIntent.generateDocument => Icons.auto_awesome,
-      };
+    AiPromptIntent.rewrite => Icons.refresh,
+    AiPromptIntent.expand => Icons.unfold_more,
+    AiPromptIntent.summarize => Icons.compress,
+    AiPromptIntent.fixGrammar => Icons.spellcheck,
+    AiPromptIntent.changeTone => Icons.tune,
+    AiPromptIntent.translate => Icons.translate,
+    AiPromptIntent.continueWriting => Icons.forward,
+    AiPromptIntent.generateSection => Icons.add_circle_outline,
+    AiPromptIntent.generateDocument => Icons.auto_awesome,
+  };
 }

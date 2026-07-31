@@ -139,7 +139,9 @@ class _AppChipState extends State<AppChip> {
 
   (Color bg, Color fg, BorderSide border) _resolveColors(bool isDark) {
     if (widget.isDisabled) {
-      final bg = isDark ? AppColors.darkDisabledSurface : AppColors.disabledSurface;
+      final bg = isDark
+          ? AppColors.darkDisabledSurface
+          : AppColors.disabledSurface;
       final fg = isDark ? AppColors.darkDisabledText : AppColors.disabledText;
       return (bg, fg, BorderSide.none);
     }

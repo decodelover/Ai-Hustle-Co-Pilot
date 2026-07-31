@@ -22,22 +22,22 @@ class HeadingBlockWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = switch (block.type) {
       BlockType.heading1 => const TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.w800,
-          color: AppColors.onSurface,
-          letterSpacing: -0.5,
-        ),
+        fontSize: 26,
+        fontWeight: FontWeight.w800,
+        color: AppColors.onSurface,
+        letterSpacing: -0.5,
+      ),
       BlockType.heading2 => const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          color: AppColors.onSurface,
-          letterSpacing: -0.3,
-        ),
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: AppColors.onSurface,
+        letterSpacing: -0.3,
+      ),
       _ => const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: AppColors.onSurface,
-        ),
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.onSurface,
+      ),
     };
 
     return TextFormField(
@@ -46,8 +46,15 @@ class HeadingBlockWidget extends StatelessWidget {
       decoration: InputDecoration(
         border: InputBorder.none,
         isDense: true,
-        hintText: 'Heading ${block.type == BlockType.heading1 ? "1" : block.type == BlockType.heading2 ? "2" : "3"}',
-        hintStyle: style.copyWith(color: AppColors.onSurfaceVariant.withValues(alpha: 0.4)),
+        hintText:
+            'Heading ${block.type == BlockType.heading1
+                ? "1"
+                : block.type == BlockType.heading2
+                ? "2"
+                : "3"}',
+        hintStyle: style.copyWith(
+          color: AppColors.onSurfaceVariant.withValues(alpha: 0.4),
+        ),
       ),
       onChanged: onChanged,
     );
@@ -80,10 +87,7 @@ class ParagraphBlockWidget extends StatelessWidget {
         border: InputBorder.none,
         isDense: true,
         hintText: 'Type text or press "/" for AI commands...',
-        hintStyle: TextStyle(
-          fontSize: 15,
-          color: AppColors.onSurfaceVariant,
-        ),
+        hintStyle: TextStyle(fontSize: 15, color: AppColors.onSurfaceVariant),
       ),
       onChanged: onChanged,
     );
@@ -106,27 +110,27 @@ class ListBlockWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefixWidget = switch (block.type) {
       BlockType.bulletList => const Padding(
-          padding: EdgeInsets.only(right: 8, top: 4),
-          child: Icon(Icons.circle, size: 6, color: AppColors.primary),
-        ),
+        padding: EdgeInsets.only(right: 8, top: 4),
+        child: Icon(Icons.circle, size: 6, color: AppColors.primary),
+      ),
       BlockType.numberedList => Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Text(
-            '${block.sortOrder + 1}.',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
+        padding: const EdgeInsets.only(right: 8),
+        child: Text(
+          '${block.sortOrder + 1}.',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
           ),
         ),
+      ),
       BlockType.todoList => Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: Checkbox(
-            value: block.attributes['checked'] == true,
-            activeColor: AppColors.success,
-            onChanged: (_) {},
-          ),
+        padding: const EdgeInsets.only(right: 8),
+        child: Checkbox(
+          value: block.attributes['checked'] == true,
+          activeColor: AppColors.success,
+          onChanged: (_) {},
         ),
+      ),
       _ => const SizedBox.shrink(),
     };
 
@@ -170,7 +174,9 @@ class CalloutBlockWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primaryDarkBlue.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.primaryDarkBlue.withValues(alpha: 0.1)),
+        border: Border.all(
+          color: AppColors.primaryDarkBlue.withValues(alpha: 0.1),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +187,11 @@ class CalloutBlockWidget extends StatelessWidget {
             child: TextFormField(
               initialValue: block.textContent,
               maxLines: null,
-              style: const TextStyle(fontSize: 14, height: 1.5, color: AppColors.onSurface),
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: AppColors.onSurface,
+              ),
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
@@ -213,9 +223,7 @@ class QuoteBlockWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 14, top: 4, bottom: 4),
       decoration: const BoxDecoration(
-        border: Border(
-          left: BorderSide(color: AppColors.secondary, width: 3),
-        ),
+        border: Border(left: BorderSide(color: AppColors.secondary, width: 3)),
       ),
       child: TextFormField(
         initialValue: block.textContent,

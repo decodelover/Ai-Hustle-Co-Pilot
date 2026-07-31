@@ -23,29 +23,29 @@ enum ExportFormat {
 extension ExportFormatX on ExportFormat {
   /// File extension suffix.
   String get extension => switch (this) {
-        ExportFormat.pdf => 'pdf',
-        ExportFormat.docx => 'docx',
-        ExportFormat.markdown => 'md',
-        ExportFormat.html => 'html',
-        ExportFormat.txt => 'txt',
-      };
+    ExportFormat.pdf => 'pdf',
+    ExportFormat.docx => 'docx',
+    ExportFormat.markdown => 'md',
+    ExportFormat.html => 'html',
+    ExportFormat.txt => 'txt',
+  };
 
   /// MIME type string.
   String get mimeType => switch (this) {
-        ExportFormat.pdf => 'application/pdf',
-        ExportFormat.docx =>
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        ExportFormat.markdown => 'text/markdown',
-        ExportFormat.html => 'text/html',
-        ExportFormat.txt => 'text/plain',
-      };
+    ExportFormat.pdf => 'application/pdf',
+    ExportFormat.docx =>
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ExportFormat.markdown => 'text/markdown',
+    ExportFormat.html => 'text/html',
+    ExportFormat.txt => 'text/plain',
+  };
 
   /// UI label.
   String get label => switch (this) {
-        ExportFormat.pdf => 'PDF Document (.pdf)',
-        ExportFormat.docx => 'Microsoft Word (.docx)',
-        ExportFormat.markdown => 'Markdown File (.md)',
-        ExportFormat.html => 'HTML Page (.html)',
-        ExportFormat.txt => 'Plain Text (.txt)',
-      };
+    ExportFormat.pdf => 'PDF Document (.pdf)',
+    ExportFormat.docx => 'Microsoft Word (.docx)',
+    ExportFormat.markdown => 'Markdown File (.md)',
+    ExportFormat.html => 'HTML Page (.html)',
+    ExportFormat.txt => 'Plain Text (.txt)',
+  };
 }

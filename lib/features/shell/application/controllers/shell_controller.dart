@@ -86,20 +86,21 @@ class ShellState {
 
   @override
   int get hashCode => Object.hash(
-        activeWorkspace,
-        selectedRoute,
-        sidebarCollapsed,
-        navRailExpanded,
-        unreadNotificationsCount,
-        isCommandPaletteOpen,
-        isSearchExpanded,
-        storageUsagePercentage,
-      );
+    activeWorkspace,
+    selectedRoute,
+    sidebarCollapsed,
+    navRailExpanded,
+    unreadNotificationsCount,
+    isCommandPaletteOpen,
+    isSearchExpanded,
+    storageUsagePercentage,
+  );
 }
 
 /// Riverpod Provider for [ShellController].
-final shellControllerProvider =
-    NotifierProvider<ShellController, ShellState>(ShellController.new);
+final shellControllerProvider = NotifierProvider<ShellController, ShellState>(
+  ShellController.new,
+);
 
 /// Centralized controller managing shell UI state and user interactions.
 class ShellController extends Notifier<ShellState> {

@@ -144,16 +144,19 @@ void main() {
       expect(current?.id, 'usr_repo_test');
     });
 
-    test('sendPasswordResetEmail and resendVerificationEmail complete', () async {
-      await expectLater(
-        repository.sendPasswordResetEmail(email: email),
-        completes,
-      );
-      await expectLater(
-        repository.resendVerificationEmail(email: email),
-        completes,
-      );
-    });
+    test(
+      'sendPasswordResetEmail and resendVerificationEmail complete',
+      () async {
+        await expectLater(
+          repository.sendPasswordResetEmail(email: email),
+          completes,
+        );
+        await expectLater(
+          repository.resendVerificationEmail(email: email),
+          completes,
+        );
+      },
+    );
 
     test('refreshSession returns updated domain AuthUser', () async {
       final refreshed = await repository.refreshSession();
@@ -161,29 +164,35 @@ void main() {
     });
 
     group('Exception to AuthFailure Mapping', () {
-      test('maps invalid login credentials to InvalidCredentialsFailure', () async {
-        dataSource.errorToThrow = const supabase.AuthException(
-          'Invalid login credentials',
-          statusCode: '400',
-        );
+      test(
+        'maps invalid login credentials to InvalidCredentialsFailure',
+        () async {
+          dataSource.errorToThrow = const supabase.AuthException(
+            'Invalid login credentials',
+            statusCode: '400',
+          );
 
-        expect(
-          () => repository.signIn(email: email, password: password),
-          throwsA(isA<InvalidCredentialsFailure>()),
-        );
-      });
+          expect(
+            () => repository.signIn(email: email, password: password),
+            throwsA(isA<InvalidCredentialsFailure>()),
+          );
+        },
+      );
 
-      test('maps email already registered to EmailAlreadyExistsFailure', () async {
-        dataSource.errorToThrow = const supabase.AuthException(
-          'User already registered',
-          statusCode: '409',
-        );
+      test(
+        'maps email already registered to EmailAlreadyExistsFailure',
+        () async {
+          dataSource.errorToThrow = const supabase.AuthException(
+            'User already registered',
+            statusCode: '409',
+          );
 
-        expect(
-          () => repository.signUp(email: email, password: password),
-          throwsA(isA<EmailAlreadyExistsFailure>()),
-        );
-      });
+          expect(
+            () => repository.signUp(email: email, password: password),
+            throwsA(isA<EmailAlreadyExistsFailure>()),
+          );
+        },
+      );
 
       test('maps unconfirmed email to EmailNotVerifiedFailure', () async {
         dataSource.errorToThrow = const supabase.AuthException(

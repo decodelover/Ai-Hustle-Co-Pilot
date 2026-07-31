@@ -68,10 +68,7 @@ class AppOpportunityCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppAvatar(
-                name: clientName,
-                imageUrl: clientAvatarUrl,
-              ),
+              AppAvatar(name: clientName, imageUrl: clientAvatarUrl),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
@@ -101,8 +98,8 @@ class AppOpportunityCard extends StatelessWidget {
                 variant: matchScore >= 85
                     ? AppBadgeVariant.success
                     : matchScore >= 70
-                        ? AppBadgeVariant.primary
-                        : AppBadgeVariant.warning,
+                    ? AppBadgeVariant.primary
+                    : AppBadgeVariant.warning,
               ),
             ],
           ),

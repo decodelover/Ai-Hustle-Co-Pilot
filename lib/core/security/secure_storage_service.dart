@@ -39,10 +39,11 @@ abstract interface class SecureStorageService {
 /// to ensure AES-256 encryption at rest.
 class SecureStorageServiceImpl implements SecureStorageService {
   SecureStorageServiceImpl({FlutterSecureStorage? storage})
-      : _storage = storage ??
-            const FlutterSecureStorage(
-              aOptions: AndroidOptions(encryptedSharedPreferences: true),
-            );
+    : _storage =
+          storage ??
+          const FlutterSecureStorage(
+            aOptions: AndroidOptions(encryptedSharedPreferences: true),
+          );
 
   final FlutterSecureStorage _storage;
 

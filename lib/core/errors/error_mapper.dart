@@ -155,23 +155,18 @@ abstract final class ErrorMapper {
 
         var serverMessage = 'Server error occurred.';
         if (responseData is Map<String, dynamic>) {
-          serverMessage = responseData['message']?.toString() ??
+          serverMessage =
+              responseData['message']?.toString() ??
               responseData['error']?.toString() ??
               serverMessage;
         }
 
         if (statusCode == 401) {
-          return UnauthorizedFailure(
-            message: serverMessage,
-            code: statusCode,
-          );
+          return UnauthorizedFailure(message: serverMessage, code: statusCode);
         }
 
         if (statusCode == 404) {
-          return NotFoundFailure(
-            message: serverMessage,
-            code: statusCode,
-          );
+          return NotFoundFailure(message: serverMessage, code: statusCode);
         }
 
         if (statusCode == 422) {
@@ -190,15 +185,10 @@ abstract final class ErrorMapper {
           );
         }
 
-        return ServerFailure(
-          message: serverMessage,
-          code: statusCode,
-        );
+        return ServerFailure(message: serverMessage, code: statusCode);
 
       case DioExceptionType.cancel:
-        return const UnknownFailure(
-          message: 'Request was cancelled.',
-        );
+        return const UnknownFailure(message: 'Request was cancelled.');
 
       case DioExceptionType.badCertificate:
         return const NetworkFailure(

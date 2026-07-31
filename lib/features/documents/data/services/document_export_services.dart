@@ -14,10 +14,7 @@ abstract final class DocumentExportService {
     required Document document,
     required ExportFormat format,
   }) async {
-    return compute(_compileExportIsolate, {
-      'doc': document,
-      'format': format,
-    });
+    return compute(_compileExportIsolate, {'doc': document, 'format': format});
   }
 
   static Uint8List _compileExportIsolate(Map<String, dynamic> params) {
@@ -85,12 +82,22 @@ abstract final class DocumentExportService {
       ..writeln('<meta charset="UTF-8">')
       ..writeln('<title>${doc.title}</title>')
       ..writeln('<style>')
-      ..writeln('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #111827; }')
-      ..writeln('h1 { font-size: 2.2rem; font-weight: 800; border-bottom: 2px solid #E5E7EB; padding-bottom: 12px; }')
+      ..writeln(
+        'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #111827; }',
+      )
+      ..writeln(
+        'h1 { font-size: 2.2rem; font-weight: 800; border-bottom: 2px solid #E5E7EB; padding-bottom: 12px; }',
+      )
       ..writeln('h2 { font-size: 1.6rem; margin-top: 24px; color: #0D1B2A; }')
-      ..writeln('blockquote { background: #F8FAFC; border-left: 4px solid #3A5FA0; margin: 16px 0; padding: 12px 20px; }')
-      ..writeln('code { background: #1E3A5F; color: #F8FAFC; padding: 12px; display: block; border-radius: 8px; font-family: monospace; }')
-      ..writeln('.callout { background: #EEF2FF; border-left: 4px solid #3A5FA0; padding: 16px; border-radius: 8px; margin: 16px 0; }')
+      ..writeln(
+        'blockquote { background: #F8FAFC; border-left: 4px solid #3A5FA0; margin: 16px 0; padding: 12px 20px; }',
+      )
+      ..writeln(
+        'code { background: #1E3A5F; color: #F8FAFC; padding: 12px; display: block; border-radius: 8px; font-family: monospace; }',
+      )
+      ..writeln(
+        '.callout { background: #EEF2FF; border-left: 4px solid #3A5FA0; padding: 16px; border-radius: 8px; margin: 16px 0; }',
+      )
       ..writeln('</style>')
       ..writeln('</head>')
       ..writeln('<body>')
@@ -111,7 +118,9 @@ abstract final class DocumentExportService {
         case BlockType.numberedList:
           buffer.writeln('<ol><li>${block.textContent}</li></ol>');
         case BlockType.todoList:
-          buffer.writeln('<div><input type="checkbox" disabled /> ${block.textContent}</div>');
+          buffer.writeln(
+            '<div><input type="checkbox" disabled /> ${block.textContent}</div>',
+          );
         case BlockType.quote:
           buffer.writeln('<blockquote>${block.textContent}</blockquote>');
         case BlockType.callout:
@@ -123,7 +132,9 @@ abstract final class DocumentExportService {
         case BlockType.image:
           buffer.writeln('<img src="${block.textContent}" alt="Asset" />');
         case BlockType.table:
-          buffer.writeln('<table><tr><td>${block.textContent}</td></tr></table>');
+          buffer.writeln(
+            '<table><tr><td>${block.textContent}</td></tr></table>',
+          );
       }
     }
 

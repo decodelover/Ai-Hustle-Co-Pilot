@@ -12,7 +12,8 @@ class AgentWorkspaceScreen extends ConsumerStatefulWidget {
   const AgentWorkspaceScreen({super.key});
 
   @override
-  ConsumerState<AgentWorkspaceScreen> createState() => _AgentWorkspaceScreenState();
+  ConsumerState<AgentWorkspaceScreen> createState() =>
+      _AgentWorkspaceScreenState();
 }
 
 class _AgentWorkspaceScreenState extends ConsumerState<AgentWorkspaceScreen> {
@@ -44,11 +45,17 @@ class _AgentWorkspaceScreenState extends ConsumerState<AgentWorkspaceScreen> {
             height: 180.0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 12.0,
+                ),
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+                      icon: const Icon(
+                        Icons.arrow_back_rounded,
+                        color: Colors.white,
+                      ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     const SizedBox(width: 8.0),
@@ -87,7 +94,8 @@ class _AgentWorkspaceScreenState extends ConsumerState<AgentWorkspaceScreen> {
                   TextField(
                     controller: _goalController,
                     decoration: InputDecoration(
-                      hintText: 'Enter autonomous goal (e.g. "Generate client proposal & pricing PDF")',
+                      hintText:
+                          'Enter autonomous goal (e.g. "Generate client proposal & pricing PDF")',
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       border: OutlineInputBorder(
@@ -112,9 +120,15 @@ class _AgentWorkspaceScreenState extends ConsumerState<AgentWorkspaceScreen> {
                           ? const SizedBox(
                               width: 24,
                               height: 24,
-                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2.5,
+                              ),
                             )
-                          : const Text('Execute Agent Task', style: TextStyle(fontWeight: FontWeight.w600)),
+                          : const Text(
+                              'Execute Agent Task',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 24.0),
@@ -140,15 +154,24 @@ class _AgentWorkspaceScreenState extends ConsumerState<AgentWorkspaceScreen> {
                           itemCount: task.steps.length,
                           itemBuilder: (_, index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                              ),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 18.0),
+                                  const Icon(
+                                    Icons.check_circle_rounded,
+                                    color: Color(0xFF10B981),
+                                    size: 18.0,
+                                  ),
                                   const SizedBox(width: 8.0),
                                   Expanded(
                                     child: Text(
                                       task.steps[index],
-                                      style: const TextStyle(color: Color(0xFF111827), fontSize: 13.5),
+                                      style: const TextStyle(
+                                        color: Color(0xFF111827),
+                                        fontSize: 13.5,
+                                      ),
                                     ),
                                   ),
                                 ],

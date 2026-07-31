@@ -21,15 +21,23 @@ class NotificationMenu extends ConsumerWidget {
           ListTile(
             leading: Icon(Icons.auto_awesome_rounded, color: AppColors.primary),
             title: Text('AI Proposal Generated'),
-            subtitle: Text('Your Upwork proposal for Flutter Architect is ready.'),
+            subtitle: Text(
+              'Your Upwork proposal for Flutter Architect is ready.',
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.check_circle_outline_rounded, color: AppColors.success),
+            leading: Icon(
+              Icons.check_circle_outline_rounded,
+              color: AppColors.success,
+            ),
             title: Text('Client Message Received'),
             subtitle: Text('Sarah from Acme Corp accepted your offer.'),
           ),
           ListTile(
-            leading: Icon(Icons.cloud_done_outlined, color: AppColors.secondary),
+            leading: Icon(
+              Icons.cloud_done_outlined,
+              color: AppColors.secondary,
+            ),
             title: Text('Workspace Backup Complete'),
             subtitle: Text('All 42 project files synced to cloud persistence.'),
           ),

@@ -23,18 +23,21 @@ import 'package:ai_hustle_copilot/features/projects/domain/entities/project.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Riverpod StateNotifier controlling the document editor, AI streaming, block tree, and snapshots.
-final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEditorState>> {
+final class DocumentEditorController
+    extends StateNotifier<AsyncValue<DocumentEditorState>> {
   /// Creates a [DocumentEditorController].
   DocumentEditorController({
     IDocumentRepository? repository,
     DocumentAiGenerationEngine? aiEngine,
     CreateVersionSnapshotUseCase? snapshotUseCase,
     ApplyTemplateUseCase? templateUseCase,
-  })  : _repository = repository ?? DocumentRepositoryImpl(localDataSource: DocumentLocalDataSource()),
-        _aiEngine = aiEngine ?? const DocumentAiGenerationEngine(),
-        _snapshotUseCase = snapshotUseCase ?? CreateVersionSnapshotUseCase(),
-        _templateUseCase = templateUseCase ?? ApplyTemplateUseCase(),
-        super(const AsyncValue.loading());
+  }) : _repository =
+           repository ??
+           DocumentRepositoryImpl(localDataSource: DocumentLocalDataSource()),
+       _aiEngine = aiEngine ?? const DocumentAiGenerationEngine(),
+       _snapshotUseCase = snapshotUseCase ?? CreateVersionSnapshotUseCase(),
+       _templateUseCase = templateUseCase ?? ApplyTemplateUseCase(),
+       super(const AsyncValue.loading());
 
   final IDocumentRepository _repository;
   final DocumentAiGenerationEngine _aiEngine;
@@ -52,10 +55,7 @@ final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEd
 
       if (doc != null) {
         state = AsyncValue.data(
-          DocumentEditorState(
-            document: doc,
-            versions: versions,
-          ),
+          DocumentEditorState(document: doc, versions: versions),
         );
       } else {
         await createNewDocument(title: 'Untitled AI Document');
@@ -197,7 +197,9 @@ final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEd
     final current = state.value;
     if (current == null || current.document == null) return;
 
-    final blocks = current.document!.blocks.where((b) => b.id != blockId).toList();
+    final blocks = current.document!.blocks
+        .where((b) => b.id != blockId)
+        .toList();
     final updatedDoc = current.document!.copyWith(blocks: blocks);
     state = AsyncValue.data(current.copyWith(document: updatedDoc));
     _scheduleAutosave();
@@ -262,10 +264,7 @@ final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEd
     if (current == null || current.document == null) return;
 
     state = AsyncValue.data(
-      current.copyWith(
-        isGenerating: true,
-        isStreaming: true,
-      ),
+      current.copyWith(isGenerating: true, isStreaming: true),
     );
 
     try {
@@ -287,7 +286,9 @@ final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEd
         } else {
           mergedBlocks = List<DocumentBlock>.from(latestState.document!.blocks);
           if (targetBlockId != null) {
-            final targetIdx = mergedBlocks.indexWhere((b) => b.id == targetBlockId);
+            final targetIdx = mergedBlocks.indexWhere(
+              (b) => b.id == targetBlockId,
+            );
             if (targetIdx >= 0 && generatedBlocks.isNotEmpty) {
               mergedBlocks[targetIdx] = generatedBlocks.first;
               if (generatedBlocks.length > 1) {
@@ -351,7 +352,9 @@ final class DocumentEditorController extends StateNotifier<AsyncValue<DocumentEd
 
     final snapshot = _snapshotUseCase.execute(
       document: current.document!,
-      commitMessage: commitNote.isNotEmpty ? commitNote : 'Manual User Snapshot',
+      commitMessage: commitNote.isNotEmpty
+          ? commitNote
+          : 'Manual User Snapshot',
       userId: 'usr_current',
     );
 

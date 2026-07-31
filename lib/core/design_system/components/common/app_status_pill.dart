@@ -25,10 +25,12 @@ class AppStatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final customExt = theme.extension<AppCustomThemeExtension>() ??
+    final customExt =
+        theme.extension<AppCustomThemeExtension>() ??
         AppCustomThemeExtension.light;
 
-    final statusColor = customColor ??
+    final statusColor =
+        customColor ??
         switch (type) {
           AppStatusPillType.pending => customExt.statusPending,
           AppStatusPillType.inProgress => customExt.statusInProgress,
