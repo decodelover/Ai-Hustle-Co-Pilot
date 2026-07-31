@@ -5,6 +5,7 @@ import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/core/theme/app_motion.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/brand_identity_header.dart';
 import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,27 +24,25 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
   late final Animation<Offset> _slideAnimation;
+  late final Animation<double> _buttonScaleAnimation;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: AppMotion.slow,
+      duration: const Duration(milliseconds: 700),
     );
-    _fadeAnimation = CurvedAnimation(
+    final curve = CurvedAnimation(
       parent: _animationController,
       curve: AppMotion.decelerateCurve,
     );
+    _fadeAnimation = curve;
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.04),
+      begin: const Offset(0, 0.06),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: AppMotion.decelerateCurve,
-      ),
-    );
+    ).animate(curve);
+    _buttonScaleAnimation = Tween<double>(begin: 0.92, end: 1).animate(curve);
   }
 
   @override
@@ -74,50 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       backgroundColor: Colors.transparent,
       body: AppBrandBackground(
         variant: AppBrandBackgroundVariant.welcome,
-        headerHeight: 334,
-        header: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.space24,
-            AppSpacing.space16,
-            AppSpacing.space24,
-            AppSpacing.space24,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const _BrandMark(),
-                  const SizedBox(width: AppSpacing.space12),
-                  Text(
-                    'AI Hustle Co-Pilot',
-                    style: textTheme.titleLarge?.copyWith(
-                      color: AppColors.onPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                'Turn your next opportunity\ninto forward motion.',
-                style: textTheme.displaySmall?.copyWith(
-                  color: AppColors.onPrimary,
-                  fontWeight: FontWeight.w700,
-                  height: 1.12,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.space12),
-              Text(
-                'A calm workspace for finding work, creating stronger proposals, and staying on top of every client detail.',
-                style: textTheme.bodyLarge?.copyWith(
-                  color: AppColors.onPrimary.withValues(alpha: 0.76),
-                  height: 1.45,
-                ),
-              ),
-            ],
-          ),
-        ),
+        header: const BrandIdentityHeader(),
         child: SafeArea(
           top: false,
           child: FadeTransition(
@@ -127,7 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(
                   AppSpacing.space24,
-                  AppSpacing.space32,
+                  AppSpacing.space24,
                   AppSpacing.space24,
                   bottomInset + AppSpacing.space24,
                 ),
@@ -139,53 +95,88 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       style: textTheme.displayMedium?.copyWith(
                         color: AppColors.primaryText,
                         fontWeight: FontWeight.w700,
+                        height: 1.1,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.space12),
+                    const SizedBox(height: AppSpacing.space8),
+                    Container(
+                      width: 54,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space16),
                     Text(
-                      'Discover legitimate opportunities, use AI to move faster, and build a freelance practice you can be proud of.',
+                      'Your AI-powered freelance workspace for finding better work, creating with confidence, and keeping momentum.',
                       style: textTheme.bodyLarge?.copyWith(
                         color: AppColors.secondaryText,
-                        height: 1.5,
+                        height: 1.45,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space24),
                     const _ValueRow(
                       icon: Icons.explore_outlined,
                       title: 'Find the right work',
-                      description: 'See opportunities that fit your strengths.',
+                      description:
+                          'Discover opportunities that fit your strengths.',
                     ),
                     const SizedBox(height: AppSpacing.space16),
                     const _ValueRow(
-                      icon: Icons.edit_note_rounded,
-                      title: 'Create with confidence',
-                      description: 'Draft proposals, documents, and follow-ups with AI support.',
+                      icon: Icons.auto_awesome_outlined,
+                      title: 'Create with AI',
+                      description:
+                          'Shape proposals, documents, and follow-ups faster.',
                     ),
                     const SizedBox(height: AppSpacing.space16),
                     const _ValueRow(
                       icon: Icons.track_changes_rounded,
                       title: 'Keep momentum',
-                      description: 'Organize projects and know what to do next.',
+                      description:
+                          'Know what to do next across every client detail.',
                     ),
-                    const SizedBox(height: AppSpacing.space32),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: Semantics(
-                        button: true,
-                        label: 'Get started with AI Hustle Co-Pilot',
-                        child: FilledButton.icon(
-                          onPressed: _navigateToLogin,
-                          icon: const Icon(Icons.arrow_forward_rounded),
-                          label: const Text('Get Started'),
+                    const SizedBox(height: AppSpacing.space24),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ScaleTransition(
+                        scale: _buttonScaleAnimation,
+                        child: Semantics(
+                          button: true,
+                          label: 'Continue to sign in to AI Hustle Co-Pilot',
+                          child: InkWell(
+                            onTap: _navigateToLogin,
+                            borderRadius: BorderRadius.circular(32),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Continue',
+                                    style: textTheme.titleMedium?.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(width: AppSpacing.space12),
+                                  Container(
+                                    width: 52,
+                                    height: 52,
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.primary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: AppColors.onPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space12),
-                    Center(
-                      child: TextButton(
-                        onPressed: _navigateToLogin,
-                        child: const Text('Already have an account? Sign in'),
                       ),
                     ),
                   ],
@@ -194,28 +185,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _BrandMark extends StatelessWidget {
-  const _BrandMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.onPrimary.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.onPrimary.withValues(alpha: 0.18)),
-      ),
-      child: const Icon(
-        Icons.auto_awesome_rounded,
-        color: AppColors.onPrimary,
-        size: 20,
       ),
     );
   }
@@ -235,6 +204,7 @@ class _ValueRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -252,7 +222,13 @@ class _ValueRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: textTheme.titleMedium),
+              Text(
+                title,
+                style: textTheme.titleMedium?.copyWith(
+                  color: AppColors.primaryText,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: AppSpacing.space4),
               Text(
                 description,

@@ -52,6 +52,12 @@ the authenticated shell. It delegates the topographic contour painter to
 `WaveHeaderWidget`, includes restrained navy ambient depth, and supports a static
 reduced-motion state via `MediaQuery.disableAnimations`.
 
+Public welcome/auth surfaces intentionally use a large navy field (about 60% of
+the phone on welcome and 55% on auth) followed by a pronounced white organic
+curve. The contour drift and curve motion are finite entrance motion so the
+onboarding screen feels alive without creating an endless test or accessibility
+animation loop.
+
 Motion uses the shared `AppMotion` durations: 150ms fast, 250ms medium, and 350ms
 slow. Use opacity and transform transitions only; never block access with an
 entrance animation.

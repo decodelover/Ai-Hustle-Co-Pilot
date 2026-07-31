@@ -4,6 +4,8 @@
 /// gradient (#0D1B2A -> #152A4D) with an organic curved bezier divider.
 library;
 
+import 'dart:math' as math;
+
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,9 @@ class TopographicWavePainter extends CustomPainter {
     this.lineColor = AppColors.secondary,
     this.bottomCurveColor = Colors.white,
     this.showBottomCurve = true,
+    this.motionProgress = 1,
+    this.curveTop = 0.72,
+    this.curveDip = 0.96,
   });
 
   /// Color for contour lines.
@@ -24,6 +29,15 @@ class TopographicWavePainter extends CustomPainter {
 
   /// Whether to draw the bottom organic curve transition into white surface.
   final bool showBottomCurve;
+
+  /// Finite entrance-motion progress for the contour pattern and curve.
+  final double motionProgress;
+
+  /// Fraction of the header where the white surface begins at the left edge.
+  final double curveTop;
+
+  /// Fraction of the header reached by the deepest point of the curve.
+  final double curveDip;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -54,85 +68,100 @@ class TopographicWavePainter extends CustomPainter {
       ..strokeWidth = 1.0
       ..color = Colors.white.withValues(alpha: 0.08);
 
+    final drift = (0.5 - (motionProgress - 0.5).abs()) * size.width * 0.035;
+
     // Contour Line 1
     final path1 = Path()
-      ..moveTo(-size.width * 0.2, size.height * 0.25)
+      ..moveTo(-size.width * 0.2 + drift, size.height * 0.25)
       ..cubicTo(
-        size.width * 0.2,
+        size.width * 0.2 + drift,
         size.height * 0.05,
-        size.width * 0.6,
+        size.width * 0.6 + drift,
         size.height * 0.45,
-        size.width * 1.2,
+        size.width * 1.2 + drift,
         size.height * 0.2,
       );
     canvas.drawPath(path1, linePaint);
 
     // Contour Line 2
     final path2 = Path()
-      ..moveTo(-size.width * 0.1, size.height * 0.45)
+      ..moveTo(-size.width * 0.1 - drift, size.height * 0.45)
       ..cubicTo(
-        size.width * 0.3,
+        size.width * 0.3 - drift,
         size.height * 0.2,
-        size.width * 0.75,
+        size.width * 0.75 - drift,
         size.height * 0.65,
-        size.width * 1.15,
+        size.width * 1.15 - drift,
         size.height * 0.38,
       );
     canvas.drawPath(path2, linePaintGlow);
 
     // Contour Line 3
     final path3 = Path()
-      ..moveTo(-size.width * 0.15, size.height * 0.65)
+      ..moveTo(-size.width * 0.15 + drift, size.height * 0.65)
       ..cubicTo(
-        size.width * 0.25,
+        size.width * 0.25 + drift,
         size.height * 0.4,
-        size.width * 0.7,
+        size.width * 0.7 + drift,
         size.height * 0.8,
-        size.width * 1.1,
+        size.width * 1.1 + drift,
         size.height * 0.55,
       );
     canvas.drawPath(path3, linePaint);
 
     // Contour Line 4
     final path4 = Path()
-      ..moveTo(size.width * 0.1, size.height * 0.1)
+      ..moveTo(size.width * 0.1 - drift, size.height * 0.1)
       ..cubicTo(
-        size.width * 0.5,
+        size.width * 0.5 - drift,
         size.height * 0.35,
-        size.width * 0.85,
+        size.width * 0.85 - drift,
         size.height * 0.15,
-        size.width * 1.25,
+        size.width * 1.25 - drift,
         size.height * 0.45,
       );
     canvas.drawPath(path4, linePaintGlow);
 
     // Contour Line 5 (Subtle background loop)
     final path5 = Path()
-      ..moveTo(-size.width * 0.05, size.height * 0.8)
+      ..moveTo(-size.width * 0.05 + drift, size.height * 0.8)
       ..cubicTo(
-        size.width * 0.35,
+        size.width * 0.35 + drift,
         size.height * 0.55,
-        size.width * 0.65,
+        size.width * 0.65 + drift,
         size.height * 0.9,
-        size.width * 1.05,
+        size.width * 1.05 + drift,
         size.height * 0.7,
       );
     canvas.drawPath(path5, linePaint);
 
     // ── 3. Bottom Organic Bezier Curve Transition ──────────────────────────
     if (showBottomCurve) {
+      final curveMotion =
+          math.sin(motionProgress * math.pi) * size.height * 0.018;
+      final leftY = size.height * curveTop + curveMotion;
+      final dipY = size.height * curveDip - curveMotion;
+      final rightY = size.height * (curveTop + 0.04) + curveMotion;
       final curvePath = Path()
-        ..moveTo(0, size.height)
-        ..lineTo(0, size.height * 0.92)
+        ..moveTo(0, leftY)
         ..cubicTo(
-          size.width * 0.3,
-          size.height * 0.98,
-          size.width * 0.7,
-          size.height * 0.88,
+          size.width * 0.18,
+          leftY - size.height * 0.09,
+          size.width * 0.34,
+          leftY - size.height * 0.04,
+          size.width * 0.52,
+          dipY - size.height * 0.06,
+        )
+        ..cubicTo(
+          size.width * 0.72,
+          dipY + size.height * 0.04,
+          size.width * 0.86,
+          dipY - size.height * 0.08,
           size.width,
-          size.height * 0.94,
+          rightY,
         )
         ..lineTo(size.width, size.height)
+        ..lineTo(0, size.height)
         ..close();
 
       final curvePaint = Paint()..color = bottomCurveColor;
@@ -144,7 +173,10 @@ class TopographicWavePainter extends CustomPainter {
   bool shouldRepaint(covariant TopographicWavePainter oldDelegate) {
     return oldDelegate.lineColor != lineColor ||
         oldDelegate.bottomCurveColor != bottomCurveColor ||
-        oldDelegate.showBottomCurve != showBottomCurve;
+        oldDelegate.showBottomCurve != showBottomCurve ||
+        oldDelegate.motionProgress != motionProgress ||
+        oldDelegate.curveTop != curveTop ||
+        oldDelegate.curveDip != curveDip;
   }
 }
 
@@ -156,6 +188,9 @@ class WaveHeaderWidget extends StatelessWidget {
     this.height = 280.0,
     this.bottomCurveColor = AppColors.background,
     this.showBottomCurve = true,
+    this.motionProgress = 1,
+    this.curveTop = 0.72,
+    this.curveDip = 0.96,
     this.child,
   });
 
@@ -167,6 +202,15 @@ class WaveHeaderWidget extends StatelessWidget {
 
   /// Whether to draw the organic bottom curve transition.
   final bool showBottomCurve;
+
+  /// Finite animation progress used by the contour treatment.
+  final double motionProgress;
+
+  /// Fraction where the white surface begins on the left edge.
+  final double curveTop;
+
+  /// Fraction reached by the deepest part of the white curve.
+  final double curveDip;
 
   /// Optional child overlay content inside the header.
   final Widget? child;
@@ -180,6 +224,9 @@ class WaveHeaderWidget extends StatelessWidget {
         painter: TopographicWavePainter(
           bottomCurveColor: bottomCurveColor,
           showBottomCurve: showBottomCurve,
+          motionProgress: motionProgress,
+          curveTop: curveTop,
+          curveDip: curveDip,
         ),
         child: child,
       ),

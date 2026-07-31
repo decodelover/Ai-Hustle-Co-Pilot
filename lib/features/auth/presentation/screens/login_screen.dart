@@ -5,10 +5,10 @@ import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/brand_identity_header.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/remember_me_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
 import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,6 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           : null;
     });
     if (_emailError != null || _passwordError != null) return;
+
     ref
         .read(signInControllerProvider.notifier)
         .signIn(
@@ -62,7 +63,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         error: (error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(error.toString().replaceAll('Exception:', '').trim()),
+              content: Text(
+                error.toString().replaceAll('Exception:', '').trim(),
+              ),
               backgroundColor: AppColors.danger,
             ),
           );
@@ -81,24 +84,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AppBrandBackground(
-        headerHeight: 220,
-        header: const _AuthBrandHeader(),
+        header: const BrandIdentityHeader(),
         child: SafeArea(
           top: false,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(28, 44, 28, 28),
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 440),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Sign in', style: textTheme.headlineLarge),
+                    Text(
+                      'Sign in',
+                      style: textTheme.headlineLarge?.copyWith(
+                        color: AppColors.primaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                     const SizedBox(height: AppSpacing.space8),
+                    Container(
+                      width: 54,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space16),
                     Text(
                       'Pick up where you left off and keep your freelance work moving.',
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppColors.secondaryText,
+                        height: 1.45,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space24),
@@ -110,7 +128,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       errorText: _emailError,
                       isDisabled: isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.space16),
+                    const SizedBox(height: AppSpacing.space20),
                     AuthInputField(
                       label: 'Password',
                       hintText: 'Enter your password',
@@ -121,21 +139,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onSubmitted: (_) => _submit(),
                     ),
                     const SizedBox(height: AppSpacing.space8),
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                    Row(
                       children: [
-                        RememberMeWidget(
-                          value: _rememberMe,
-                          onChanged: (value) {
-                            if (value != null) {
-                              setState(() => _rememberMe = value);
-                            }
-                          },
+                        Expanded(
+                          child: RememberMeWidget(
+                            value: _rememberMe,
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() => _rememberMe = value);
+                              }
+                            },
+                          ),
                         ),
                         TextButton(
-                          onPressed: () =>
-                              context.pushNamed(RouteNames.forgotPassword),
+                          onPressed: isLoading
+                              ? null
+                              : () => context.pushNamed(
+                                  RouteNames.forgotPassword,
+                                ),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primary,
+                            minimumSize: const Size(48, 48),
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
                           child: const Text('Forgot Password?'),
                         ),
                       ],
@@ -145,6 +172,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       height: 56,
                       child: FilledButton(
                         onPressed: isLoading ? null : _submit,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.onPrimary,
+                          disabledBackgroundColor: AppColors.primary.withValues(
+                            alpha: 0.45,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                         child: isLoading
                             ? const SizedBox(
                                 width: 22,
@@ -158,19 +195,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space20),
-                    const OrDividerWidget(),
-                    SocialLoginButtons(
-                      isLoading: isLoading,
-                      onFacebookPressed: () {},
-                      onGooglePressed: () {},
-                      onApplePressed: () {},
-                    ),
-                    const SizedBox(height: AppSpacing.space20),
-                    Center(
-                      child: TextButton(
-                        onPressed: () => context.pushNamed(RouteNames.register),
-                        child: const Text("Don't have an account? Sign up"),
-                      ),
+                    AuthFooterWidget(
+                      promptText: "Don't have an account?",
+                      actionText: 'Sign up',
+                      onActionPressed: () {
+                        if (!isLoading) context.pushNamed(RouteNames.register);
+                      },
                     ),
                   ],
                 ),
@@ -178,52 +208,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _AuthBrandHeader extends StatelessWidget {
-  const _AuthBrandHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(24, 16, 24, 24),
-      child: Row(
-        children: [
-          _AuthBrandMark(),
-          SizedBox(width: AppSpacing.space12),
-          Text(
-            'AI Hustle Co-Pilot',
-            style: TextStyle(
-              color: AppColors.onPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AuthBrandMark extends StatelessWidget {
-  const _AuthBrandMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.onPrimary.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: const Icon(
-        Icons.auto_awesome_rounded,
-        color: AppColors.onPrimary,
-        size: 20,
       ),
     );
   }

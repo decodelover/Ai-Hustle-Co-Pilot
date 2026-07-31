@@ -1,6 +1,7 @@
 /// Enterprise RememberMeWidget checkbox with reference design styling.
 library;
 
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable Remember Me checkbox widget.
@@ -20,37 +21,45 @@ class RememberMeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onChanged(!value),
-      borderRadius: BorderRadius.circular(8.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 24.0,
-            height: 24.0,
-            child: Checkbox(
-              value: value,
-              onChanged: onChanged,
-              activeColor: const Color(0xFF3D82F7),
-              checkColor: Colors.white,
-              side: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+    return Semantics(
+      checked: value,
+      label: 'Remember me',
+      child: InkWell(
+        onTap: () => onChanged(!value),
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IgnorePointer(
+                child: Checkbox(
+                  value: value,
+                  onChanged: onChanged,
+                  activeColor: AppColors.primary,
+                  checkColor: AppColors.onPrimary,
+                  side: const BorderSide(
+                    color: AppColors.outlineVariant,
+                    width: 1.5,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               ),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
+              const SizedBox(width: 4),
+              const Text(
+                'Remember me',
+                style: TextStyle(
+                  color: AppColors.secondaryText,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 8.0),
-          const Text(
-            'Remember me',
-            style: TextStyle(
-              color: Color(0xFF777777),
-              fontSize: 13.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

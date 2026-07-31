@@ -34,7 +34,7 @@ void main() {
 
       expect(find.text('AI Hustle Co-Pilot'), findsOneWidget);
       expect(find.text('Welcome'), findsOneWidget);
-      expect(find.text('Get Started'), findsOneWidget);
+      expect(find.text('Continue'), findsOneWidget);
       expect(find.byType(AppBrandBackground), findsOneWidget);
     });
 

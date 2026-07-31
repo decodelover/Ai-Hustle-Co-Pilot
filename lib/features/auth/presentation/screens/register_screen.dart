@@ -5,9 +5,9 @@ import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/brand_identity_header.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/terms_checkbox_widget.dart';
 import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +64,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       );
       return;
     }
+
     ref
         .read(signUpControllerProvider.notifier)
         .signUp(
@@ -80,7 +81,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         error: (error, stackTrace) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(error.toString().replaceAll('Exception:', '').trim()),
+              content: Text(
+                error.toString().replaceAll('Exception:', '').trim(),
+              ),
               backgroundColor: AppColors.danger,
             ),
           );
@@ -102,24 +105,39 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AppBrandBackground(
-        headerHeight: 220,
-        header: const _RegisterBrandHeader(),
+        header: BrandIdentityHeader(onBack: context.pop),
         child: SafeArea(
           top: false,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(28, 44, 28, 28),
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 440),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text('Create an Account', style: textTheme.headlineLarge),
-                    const SizedBox(height: AppSpacing.space8),
                     Text(
-                      'Set up your workspace and turn good ideas into repeatable progress.',
+                      'Create an Account',
+                      style: textTheme.headlineLarge?.copyWith(
+                        color: AppColors.primaryText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space8),
+                    Container(
+                      width: 54,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.space16),
+                    Text(
+                      'Set up your AI Hustle workspace and turn good ideas into repeatable progress.',
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppColors.secondaryText,
+                        height: 1.45,
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space24),
@@ -130,7 +148,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       errorText: _nameError,
                       isDisabled: isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.space16),
+                    const SizedBox(height: AppSpacing.space20),
                     AuthInputField(
                       label: 'Email',
                       hintText: 'you@example.com',
@@ -139,7 +157,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       errorText: _emailError,
                       isDisabled: isLoading,
                     ),
-                    const SizedBox(height: AppSpacing.space16),
+                    const SizedBox(height: AppSpacing.space20),
                     AuthInputField(
                       label: 'Password',
                       hintText: 'At least 6 characters',
@@ -162,6 +180,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       height: 56,
                       child: FilledButton(
                         onPressed: isLoading ? null : _submit,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.onPrimary,
+                          disabledBackgroundColor: AppColors.primary.withValues(
+                            alpha: 0.45,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                         child: isLoading
                             ? const SizedBox(
                                 width: 22,
@@ -175,19 +203,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.space20),
-                    const OrDividerWidget(),
-                    SocialLoginButtons(
-                      isLoading: isLoading,
-                      onFacebookPressed: () {},
-                      onGooglePressed: () {},
-                      onApplePressed: () {},
-                    ),
-                    const SizedBox(height: AppSpacing.space20),
-                    Center(
-                      child: TextButton(
-                        onPressed: () => context.pushNamed(RouteNames.login),
-                        child: const Text('Already have an account? Sign in'),
-                      ),
+                    AuthFooterWidget(
+                      promptText: 'Already have an account?',
+                      actionText: 'Sign in',
+                      onActionPressed: () {
+                        if (!isLoading) context.pushNamed(RouteNames.login);
+                      },
                     ),
                   ],
                 ),
@@ -195,60 +216,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _RegisterBrandHeader extends StatelessWidget {
-  const _RegisterBrandHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-      child: Row(
-        children: [
-          IconButton(
-            tooltip: 'Back',
-            onPressed: context.pop,
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: AppColors.onPrimary,
-            ),
-          ),
-          const _RegisterBrandMark(),
-          const SizedBox(width: AppSpacing.space12),
-          const Text(
-            'AI Hustle Co-Pilot',
-            style: TextStyle(
-              color: AppColors.onPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RegisterBrandMark extends StatelessWidget {
-  const _RegisterBrandMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.onPrimary.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: const Icon(
-        Icons.auto_awesome_rounded,
-        color: AppColors.onPrimary,
-        size: 20,
       ),
     );
   }

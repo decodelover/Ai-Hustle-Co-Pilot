@@ -49,7 +49,7 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
     super.initState();
     _ambientController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 14),
+      duration: const Duration(milliseconds: 1800),
     );
   }
 
@@ -100,11 +100,19 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
                 left: 0,
                 right: 0,
                 height: height,
-                child: WaveHeaderWidget(
-                  height: height,
-                  child: widget.header == null
-                      ? null
-                      : SafeArea(child: widget.header!),
+                child: AnimatedBuilder(
+                  animation: _ambientController,
+                  builder: (context, _) => WaveHeaderWidget(
+                    height: height,
+                    motionProgress: _ambientController.value,
+                    curveTop:
+                        widget.variant == AppBrandBackgroundVariant.welcome
+                        ? 0.70
+                        : 0.72,
+                    child: widget.header == null
+                        ? null
+                        : SafeArea(child: widget.header!),
+                  ),
                 ),
               )
             else
@@ -113,11 +121,15 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
                 left: 0,
                 right: 0,
                 height: 224,
-                child: WaveHeaderWidget(height: 224),
+                child: WaveHeaderWidget(height: 224, showBottomCurve: false),
               ),
             if (isPublicSurface)
               Positioned(
-                top: height - 28,
+                top:
+                    height *
+                    (widget.variant == AppBrandBackgroundVariant.welcome
+                        ? 0.66
+                        : 0.68),
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -132,11 +144,16 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
   }
 
   double _resolveHeaderHeight(double maxHeight) {
-    if (widget.headerHeight != null) return widget.headerHeight!;
-    if (widget.variant == AppBrandBackgroundVariant.welcome) {
-      return math.max(300, maxHeight * 0.44);
+    if (widget.variant == AppBrandBackgroundVariant.shell) {
+      return widget.headerHeight ?? 224;
     }
-    return math.max(204, maxHeight * 0.28);
+
+    final isWelcome = widget.variant == AppBrandBackgroundVariant.welcome;
+    final targetRatio = isWelcome ? 0.62 : 0.55;
+    final minimumHeight = isWelcome ? 360.0 : 320.0;
+    final requestedHeight = widget.headerHeight ?? maxHeight * targetRatio;
+
+    return math.min(maxHeight * 0.72, math.max(minimumHeight, requestedHeight));
   }
 }
 

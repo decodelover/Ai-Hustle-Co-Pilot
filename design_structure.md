@@ -86,7 +86,7 @@ $$\text{Spacing Tokens}: [4, 8, 12, 16, 20, 24, 32, 40, 48, 64]$$
 - **Background**: Gradient from `#0D1B2A` to `#152A4D`.
 - **Pattern**: `TopographicWavePainter` custom cubic bezier contour lines in `#3A5FA0` (opacity 0.12).
 - **Divider**: Organic bezier curve transitioning cleanly into the white `#FFFFFF` surface below.
-- **Application**: Onboarding (45% screen height), Authentication screens (28% screen height), Empty states, and Hero banners.
+- **Application**: Onboarding (roughly 60% of a phone surface), Authentication screens (roughly 55% of a phone surface), Empty states, and Hero banners. Public screens use a large white surface that rises at the left, dips deeply through the center, and returns toward the right edge.
 
 ### 6.2 Buttons
 - **Primary Button**: Filled `#0D1B2A`, height `56px`, corner radius `28px` (pill), white text (`#FFFFFF`), font weight `w600`.
@@ -122,11 +122,11 @@ This section is the implementation reference for the pre-Phase-3.6 interface red
 ### 9.1 Shared background
 
 `lib/shared/widgets/app_brand_background.dart` is the only product background
-composition. It owns the navy gradient, topographic contour treatment, restrained
-ambient motion, and reduced-motion fallback. It supports three contexts:
+composition. It owns the large navy field, topographic contour treatment, deep
+organic white curve, finite entrance motion, and reduced-motion fallback. It supports three contexts:
 
-- `welcome`: larger hero header with the onboarding value proposition.
-- `authentication`: compact hero header for sign-in and account creation.
+- `welcome`: large hero field with the brand identity and animated onboarding content.
+- `authentication`: large hero field for sign-in and account creation, with the form beginning inside the white curve.
 - `shell`: persistent navy depth behind the authenticated application shell.
 
 `AppAuthBackground` remains as a compatibility wrapper and delegates to this

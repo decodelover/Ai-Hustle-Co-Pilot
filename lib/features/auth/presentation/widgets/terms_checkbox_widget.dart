@@ -2,6 +2,7 @@
 library;
 
 import 'package:ai_hustle_copilot/core/design_system/feedback/app_dialog.dart';
+import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable terms and conditions agreement checkbox widget.
@@ -29,9 +30,9 @@ class TermsCheckboxWidget extends StatelessWidget {
           child: Checkbox(
             value: value,
             onChanged: onChanged,
-            activeColor: const Color(0xFF3D82F7),
-            checkColor: Colors.white,
-            side: const BorderSide(color: Color(0xFFCCCCCC), width: 1.5),
+            activeColor: AppColors.primary,
+            checkColor: AppColors.onPrimary,
+            side: const BorderSide(color: AppColors.outlineVariant, width: 1.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -48,7 +49,7 @@ class TermsCheckboxWidget extends StatelessWidget {
                 const Text(
                   'I agree to the ',
                   style: TextStyle(
-                    color: Color(0xFF777777),
+                    color: AppColors.secondaryText,
                     fontSize: 13.0,
                     fontWeight: FontWeight.w400,
                   ),
@@ -66,7 +67,7 @@ class TermsCheckboxWidget extends StatelessWidget {
                   child: const Text(
                     'Terms of Service',
                     style: TextStyle(
-                      color: Color(0xFF3D82F7),
+                      color: AppColors.primary,
                       fontSize: 13.0,
                       fontWeight: FontWeight.w600,
                     ),
