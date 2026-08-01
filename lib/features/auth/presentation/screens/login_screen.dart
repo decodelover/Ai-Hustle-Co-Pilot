@@ -1,4 +1,4 @@
-/// Responsive sign-in experience connected to the existing auth controller.
+/// Sign-in experience connected to the existing auth controller.
 library;
 
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
@@ -8,7 +8,6 @@ import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_experi
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/remember_me_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +25,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _rememberMe = true;
   String? _emailError;
   String? _passwordError;
 
@@ -74,14 +72,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     final isLoading = ref.watch(signInControllerProvider).isLoading;
     return AuthExperienceScaffold(
-      eyebrow: 'Welcome back',
-      headline: 'Your next win is already in motion.',
-      description:
-          'Return to one calm workspace for opportunities, proposals, clients, and the next best action.',
-      formTitle: 'Sign in',
-      formDescription:
-          'Pick up where you left off and keep your freelance work moving.',
-      icon: Icons.track_changes_rounded,
+      kicker: 'Sign in to continue',
+      title: 'Welcome Back!',
+      subtitle: 'Log in to your Co-Pilot',
       child: AutofillGroup(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -96,7 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               errorText: _emailError,
               isDisabled: isLoading,
             ),
-            const SizedBox(height: AppSpacing.space20),
+            const SizedBox(height: AppSpacing.space16),
             AuthInputField(
               label: 'Password',
               hintText: 'Enter your password',
@@ -108,63 +101,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               isDisabled: isLoading,
               onSubmitted: (_) => _submit(),
             ),
-            const SizedBox(height: AppSpacing.space8),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final useColumn =
-                    constraints.maxWidth < 340 ||
-                    MediaQuery.textScalerOf(context).scale(1) > 1.3;
-                final remember = RememberMeWidget(
-                  value: _rememberMe,
-                  onChanged: (value) {
-                    if (value != null) setState(() => _rememberMe = value);
-                  },
-                );
-                final forgot = TextButton(
-                  onPressed: isLoading
-                      ? null
-                      : () => context.pushNamed(RouteNames.forgotPassword),
-                  child: const Text('Forgot Password?'),
-                );
-                if (useColumn) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      remember,
-                      Align(child: forgot),
-                    ],
-                  );
-                }
-                return Row(
-                  children: [
-                    Expanded(child: remember),
-                    forgot,
-                  ],
-                );
-              },
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: isLoading
+                    ? null
+                    : () => context.pushNamed(RouteNames.forgotPassword),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  minimumSize: const Size(48, 44),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text('Forgot Password?'),
+              ),
             ),
-            const SizedBox(height: AppSpacing.space16),
+            const SizedBox(height: AppSpacing.space8),
             AppButton(
-              text: 'Login',
-              height: 56,
+              text: 'Sign in',
+              height: 52,
               isLoading: isLoading,
               onPressed: _submit,
-              trailingIcon: Icons.arrow_forward_rounded,
             ),
-            const SizedBox(height: AppSpacing.space24),
             const OrDividerWidget(),
-            const SizedBox(height: AppSpacing.space20),
             SocialLoginButtons(isLoading: isLoading),
-            const SizedBox(height: AppSpacing.space8),
-            Text(
-              'Social sign-in becomes available when a provider is connected.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
             const SizedBox(height: AppSpacing.space20),
             AuthFooterWidget(
               promptText: "Don't have an account?",
-              actionText: 'Sign up',
+              actionText: 'Sign Up',
               onActionPressed: () {
                 if (!isLoading) context.pushNamed(RouteNames.register);
               },

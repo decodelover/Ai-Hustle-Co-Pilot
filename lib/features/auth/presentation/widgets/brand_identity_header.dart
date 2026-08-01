@@ -1,130 +1,140 @@
-/// Shared public brand identity row used by onboarding and authentication.
+/// Shared AI Hustle Co-Pilot identity row used by onboarding and auth.
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
 import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
-/// Displays the AI Hustle Co-Pilot identity inside the navy hero surface.
+/// Displays the compact product mark used throughout the public experience.
 class BrandIdentityHeader extends StatelessWidget {
   /// Creates a brand identity header.
-  const BrandIdentityHeader({super.key, this.onBack, this.showTagline = true});
+  const BrandIdentityHeader({
+    super.key,
+    this.onBack,
+    this.showTagline = true,
+    this.onDarkSurface = true,
+    this.compact = false,
+  });
 
-  /// Optional back action for account creation and nested auth screens.
+  /// Optional back action for nested auth screens.
   final VoidCallback? onBack;
 
   /// Whether to show the wider-screen product tagline.
   final bool showTagline;
 
+  /// Whether the header sits on the navy onboarding/brand surface.
+  final bool onDarkSurface;
+
+  /// Uses the smaller mark spacing used in form headers.
+  final bool compact;
+
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final showWideTagline = showTagline && constraints.maxWidth >= 520;
+    final foreground = onDarkSurface
+        ? AppColors.onPrimary
+        : AppColors.primaryText;
+    final secondaryForeground = onDarkSurface
+        ? AppColors.onPrimary.withValues(alpha: 0.68)
+        : AppColors.secondaryText;
 
-        return Padding(
-          padding: EdgeInsets.fromLTRB(
-            onBack == null ? AppSpacing.space24 : AppSpacing.space8,
-            AppSpacing.space12,
-            AppSpacing.space24,
-            AppSpacing.space16,
+    return Row(
+      children: [
+        if (onBack != null)
+          IconButton(
+            tooltip: 'Back',
+            onPressed: onBack,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints.tightFor(
+              width: AppSpacing.space48,
+              height: AppSpacing.space48,
+            ),
+            icon: Icon(Icons.arrow_back_rounded, color: foreground),
           ),
-          child: Row(
+        _AiBrandMark(onDarkSurface: onDarkSurface, compact: compact),
+        SizedBox(width: compact ? AppSpacing.space8 : AppSpacing.space12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              if (onBack != null)
-                IconButton(
-                  tooltip: 'Back',
-                  onPressed: onBack,
-                  icon: const Icon(
-                    Icons.arrow_back_rounded,
-                    color: AppColors.onPrimary,
-                  ),
-                ),
-              const _AiBrandMark(),
-              const SizedBox(width: AppSpacing.space12),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'AI Hustle Co-Pilot',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: AppColors.onPrimary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '@aihustlecopilot',
-                      style: TextStyle(
-                        color: AppColors.onPrimary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
+              Text(
+                'AI Hustle Co-Pilot',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: foreground,
+                  fontSize: compact ? 14 : 16,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.25,
                 ),
               ),
-              if (showWideTagline) ...[
-                const SizedBox(width: AppSpacing.space12),
-                const Icon(
-                  Icons.auto_awesome,
-                  color: AppColors.onPrimary,
-                  size: 18,
-                ),
-                const SizedBox(width: AppSpacing.space8),
-                const Flexible(
-                  child: Text(
-                    'AI-powered freelance success',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppColors.onPrimary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
+              if (showTagline)
+                Text(
+                  'AI-powered freelance success',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: secondaryForeground,
+                    fontSize: compact ? 10 : 11,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.1,
                   ),
                 ),
-              ],
             ],
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
 
 class _AiBrandMark extends StatelessWidget {
-  const _AiBrandMark();
+  const _AiBrandMark({required this.onDarkSurface, required this.compact});
+
+  final bool onDarkSurface;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final size = compact ? 36.0 : 42.0;
+    final markBackground = onDarkSurface
+        ? AppColors.background
+        : AppColors.primary;
+    final markForeground = onDarkSurface
+        ? AppColors.primary
+        : AppColors.onPrimary;
+
     return Semantics(
       label: 'AI Hustle Co-Pilot logo',
       image: true,
       child: Container(
-        width: 48,
-        height: 48,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          color: markBackground,
+          borderRadius: BorderRadius.circular(compact ? 10 : 12),
           border: Border.all(
-            color: AppColors.onPrimary.withValues(alpha: 0.72),
-            width: 1.4,
+            color: onDarkSurface
+                ? AppColors.onPrimary.withValues(alpha: 0.28)
+                : AppColors.primary.withValues(alpha: 0.12),
           ),
-          color: AppColors.onPrimary.withValues(alpha: 0.08),
+          boxShadow: onDarkSurface
+              ? null
+              : const [
+                  BoxShadow(
+                    color: Color(0x140D1B2A),
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
         ),
-        child: const Center(
+        child: Center(
           child: Text(
             'AI',
             style: TextStyle(
-              color: AppColors.onPrimary,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
+              color: markForeground,
+              fontSize: compact ? 13 : 15,
+              fontWeight: FontWeight.w900,
               letterSpacing: -1,
             ),
           ),

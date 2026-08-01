@@ -5,7 +5,6 @@ import 'package:ai_hustle_copilot/core/constants/app_constants.dart';
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/features/auth/auth.dart';
 import 'package:ai_hustle_copilot/features/splash/presentation/screens/splash_screen.dart';
-import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -51,9 +50,9 @@ void main() {
       await tester.pump();
 
       expect(find.text('AI Hustle Co-Pilot'), findsOneWidget);
-      expect(find.text('Welcome'), findsOneWidget);
-      expect(find.text('Continue'), findsOneWidget);
-      expect(find.byType(AppBrandBackground), findsOneWidget);
+      expect(find.text('Welcome to AI\nHustle Co-Pilot!'), findsOneWidget);
+      expect(find.text('Get Started'), findsOneWidget);
+      expect(find.bySemanticsLabel('Onboarding step 1 of 4'), findsOneWidget);
     });
 
     testWidgets('LoginScreen renders email, password, and sign in button', (
@@ -66,8 +65,8 @@ void main() {
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Forgot Password?'), findsOneWidget);
-      expect(find.text('Login'), findsOneWidget);
-      expect(find.byType(AppBrandBackground), findsOneWidget);
+      expect(find.text('Welcome Back!'), findsOneWidget);
+      expect(find.text('Sign in'), findsOneWidget);
     });
 
     testWidgets(
@@ -76,11 +75,11 @@ void main() {
         await tester.pumpWidget(createTestableWidget(const RegisterScreen()));
         await tester.pump();
 
-        expect(find.text('Create an Account'), findsOneWidget);
-        expect(find.text('Name'), findsOneWidget);
+        expect(find.text('Create your account'), findsOneWidget);
+        expect(find.text('Full name'), findsOneWidget);
         expect(find.text('Email'), findsOneWidget);
         expect(find.text('Password'), findsOneWidget);
-        expect(find.text('Create account'), findsOneWidget);
+        expect(find.text('Sign Up'), findsOneWidget);
       },
     );
 
@@ -92,8 +91,8 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text('Reset Password'), findsOneWidget);
-      expect(find.text('Send Reset Link'), findsOneWidget);
+      expect(find.text('Forgot Password?'), findsOneWidget);
+      expect(find.text('Send reset link'), findsOneWidget);
     });
 
     testWidgets('EmailVerificationScreen renders status and resend button', (
@@ -104,9 +103,9 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text('Confirm Your Email OTP'), findsOneWidget);
-      expect(find.text('Confirm & Verify'), findsOneWidget);
-      expect(find.text('Resend OTP Code'), findsOneWidget);
+      expect(find.text('Confirm your email'), findsOneWidget);
+      expect(find.text('Verify email'), findsOneWidget);
+      expect(find.textContaining('Resend code'), findsOneWidget);
     });
 
     testWidgets('VerificationSuccessScreen renders success state and CTA', (
@@ -117,7 +116,7 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.text('Account Verified!'), findsOneWidget);
+      expect(find.text('Email confirmed'), findsOneWidget);
       expect(find.text('Continue to Dashboard'), findsOneWidget);
     });
 
@@ -139,7 +138,7 @@ void main() {
       await tester.pump();
 
       expect(tester.takeException(), isNull);
-      expect(find.text('Login'), findsOneWidget);
+      expect(find.text('Sign in'), findsOneWidget);
     });
 
     testWidgets('RegisterScreen adapts to a dark tablet landscape', (
@@ -159,7 +158,7 @@ void main() {
       await tester.pump();
 
       expect(tester.takeException(), isNull);
-      expect(find.text('Create account'), findsOneWidget);
+      expect(find.text('Sign Up'), findsOneWidget);
     });
   });
 }

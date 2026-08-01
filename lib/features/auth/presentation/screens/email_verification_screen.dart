@@ -1,4 +1,4 @@
-/// Responsive email OTP verification experience.
+/// Email OTP confirmation experience connected to the existing auth flow.
 library;
 
 import 'dart:async';
@@ -66,7 +66,7 @@ class _EmailVerificationScreenState
     if (code.length < 6) {
       AppSnackBar.showError(
         context,
-        message: 'Please enter the 6-digit OTP code sent to your email.',
+        message: 'Please enter the 6-digit code sent to your email.',
       );
       return;
     }
@@ -112,7 +112,7 @@ class _EmailVerificationScreenState
             if (previous?.isLoading == true) {
               AppSnackBar.showSuccess(
                 context,
-                message: 'New 6-digit OTP sent to your email!',
+                message: 'New verification code sent to your email.',
               );
             }
           },
@@ -122,40 +122,22 @@ class _EmailVerificationScreenState
     final verifyState = ref.watch(verifyOtpControllerProvider);
     final resendState = ref.watch(resendVerificationControllerProvider);
     final canResend = _secondsRemaining == 0 && !resendState.isLoading;
+
     return AuthExperienceScaffold(
-      eyebrow: 'One last step',
-      headline: 'Secure the workspace you are building.',
-      description:
-          'A short verification keeps your projects, client details, and momentum connected to you.',
-      formTitle: 'Confirm Your Email OTP',
-      formDescription:
-          'We sent a 6-digit confirmation code to ${widget.email}.',
-      icon: Icons.mark_email_unread_rounded,
+      kicker: 'Almost there',
+      title: 'Confirm your email',
+      subtitle: 'Enter the 6-digit code sent to ${widget.email}.',
       onBack: () => context.goNamed(RouteNames.login),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.space16),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              borderRadius: AppRadius.borderMedium,
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.shield_outlined, color: AppColors.primary),
-                SizedBox(width: AppSpacing.space12),
-                Expanded(
-                  child: Text(
-                    'Enter the code from your email. It expires for your protection.',
-                  ),
-                ),
-              ],
-            ),
+          _VerificationNotice(
+            email: widget.email,
+            secondsRemaining: _secondsRemaining,
           ),
           const SizedBox(height: AppSpacing.space20),
           AuthInputField(
-            label: 'OTP Code',
+            label: 'Verification code',
             hintText: '123456',
             controller: _otpController,
             keyboardType: TextInputType.number,
@@ -167,28 +149,78 @@ class _EmailVerificationScreenState
           ),
           const SizedBox(height: AppSpacing.space24),
           AppButton(
-            text: verifyState.isLoading ? 'Checking code' : 'Confirm & Verify',
-            height: 56,
+            text: 'Verify email',
+            height: 52,
             isLoading: verifyState.isLoading,
             onPressed: _handleVerify,
-            trailingIcon: Icons.verified_user_outlined,
           ),
-          const SizedBox(height: AppSpacing.space12),
-          AppButton(
-            text: resendState.isLoading
-                ? 'Sending new code'
-                : 'Resend OTP Code',
-            variant: AppButtonVariant.ghost,
-            isLoading: resendState.isLoading,
-            isDisabled: !canResend,
-            onPressed: _resend,
-          ),
-          if (!canResend && !resendState.isLoading)
-            Text(
-              'Available again in ${_secondsRemaining}s',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
+          const SizedBox(height: AppSpacing.space8),
+          TextButton(
+            onPressed: canResend ? _resend : null,
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.primary,
+              disabledForegroundColor: AppColors.secondaryText,
+              minimumSize: const Size(48, 48),
             ),
+            child: Text(
+              resendState.isLoading
+                  ? 'Sending new code…'
+                  : canResend
+                  ? 'Resend code'
+                  : 'Resend code in ${_secondsRemaining}s',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _VerificationNotice extends StatelessWidget {
+  const _VerificationNotice({
+    required this.email,
+    required this.secondsRemaining,
+  });
+
+  final String email;
+  final int secondsRemaining;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isDark ? AppColors.darkSecondary : AppColors.secondary;
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.space16),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: AppRadius.borderMedium,
+        border: Border.all(color: color.withValues(alpha: 0.12)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.mark_email_unread_outlined, color: color, size: 20),
+          const SizedBox(width: AppSpacing.space12),
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                text: 'Check ',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(height: 1.45),
+                children: [
+                  TextSpan(
+                    text: email,
+                    style: const TextStyle(fontWeight: FontWeight.w800),
+                  ),
+                  TextSpan(
+                    text:
+                        '. The code expires in ${secondsRemaining.toString().padLeft(2, '0')}s.',
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
-/// Dedicated AuthInputField component matching Master Design System V2.0 specs.
+/// Dedicated auth field matching the light mobile auth reference.
 ///
-/// Features filled background (#F8FAFC), height 56, border radius 16,
-/// label above field, floating focus border (#0D1B2A), and password eye toggle.
+/// The field keeps labels outside the control, uses a quiet inset surface, and
+/// reserves the trailing affordance for password visibility only.
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
@@ -27,6 +27,7 @@ class AuthInputField extends StatefulWidget {
     this.autofillHints,
     this.focusNode,
     this.maxLength,
+    this.showPrefixIcon = false,
   });
 
   /// Label displayed above the input box.
@@ -68,6 +69,9 @@ class AuthInputField extends StatefulWidget {
   /// Optional maximum character count.
   final int? maxLength;
 
+  /// Whether to show the legacy leading icon inside the field.
+  final bool showPrefixIcon;
+
   @override
   State<AuthInputField> createState() => _AuthInputFieldState();
 }
@@ -85,12 +89,6 @@ class _AuthInputFieldState extends State<AuthInputField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final icon = widget.isPassword
-        ? Icons.lock_outline_rounded
-        : widget.label.toLowerCase().contains('email')
-        ? Icons.mail_outline_rounded
-        : Icons.person_outline_rounded;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -99,7 +97,9 @@ class _AuthInputFieldState extends State<AuthInputField> {
           widget.label,
           style: theme.textTheme.labelLarge?.copyWith(
             color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
-            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.1,
           ),
         ),
         const SizedBox(height: AppSpacing.space8),
@@ -134,52 +134,57 @@ class _AuthInputFieldState extends State<AuthInputField> {
                   ? AppColors.darkOnSurfaceVariant
                   : AppColors.onSurfaceVariant,
             ),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: Icon(
-                icon,
-                color: isDark
-                    ? AppColors.darkOnSurfaceVariant
-                    : AppColors.onSurfaceVariant,
-                size: 20,
-              ),
-            ),
-            prefixIconConstraints: const BoxConstraints(
-              minWidth: 48,
-              minHeight: 56,
-            ),
+            prefixIcon: widget.showPrefixIcon
+                ? Icon(
+                    widget.isPassword
+                        ? Icons.lock_outline_rounded
+                        : widget.label.toLowerCase().contains('email')
+                        ? Icons.mail_outline_rounded
+                        : Icons.person_outline_rounded,
+                    color: isDark
+                        ? AppColors.darkOnSurfaceVariant
+                        : AppColors.onSurfaceVariant,
+                    size: 20,
+                  )
+                : null,
+            prefixIconConstraints: widget.showPrefixIcon
+                ? const BoxConstraints(minWidth: 48, minHeight: 52)
+                : null,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.space16,
               vertical: AppSpacing.space16,
             ),
             border: const OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
+              borderRadius: AppRadius.borderSmall,
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
+              borderRadius: AppRadius.borderSmall,
               borderSide: BorderSide(
                 color: isDark
                     ? AppColors.darkOutlineVariant
-                    : AppColors.outlineVariant,
+                    : AppColors.outline,
               ),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
-              borderSide: BorderSide(color: AppColors.primary, width: 2),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: AppRadius.borderSmall,
+              borderSide: BorderSide(
+                color: isDark ? AppColors.darkSecondary : AppColors.primary,
+                width: 1.5,
+              ),
             ),
             disabledBorder: OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
+              borderRadius: AppRadius.borderSmall,
               borderSide: BorderSide(
                 color: isDark ? AppColors.darkOutline : AppColors.outline,
               ),
             ),
             errorBorder: const OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
+              borderRadius: AppRadius.borderSmall,
               borderSide: BorderSide(color: AppColors.danger),
             ),
             focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: AppRadius.borderMedium,
+              borderRadius: AppRadius.borderSmall,
               borderSide: BorderSide(color: AppColors.danger, width: 2),
             ),
             errorText: widget.errorText,

@@ -1,4 +1,4 @@
-/// Responsive password recovery experience.
+/// Password recovery experience connected to the existing auth controller.
 library;
 
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
@@ -64,18 +64,12 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
     final isLoading = ref.watch(resetPasswordControllerProvider).isLoading;
     return AuthExperienceScaffold(
-      eyebrow: 'Recovery',
-      headline: 'A quick reset. No lost momentum.',
-      description:
-          'We will send a secure recovery link so you can get back to your workspace with confidence.',
-      formTitle: _isSubmittedSuccess ? 'Reset Link Sent!' : 'Reset Password',
-      formDescription: _isSubmittedSuccess
-          ? 'Your next step is waiting in your inbox.'
-          : 'Enter your account email and we will send a password reset link.',
-      icon: _isSubmittedSuccess
-          ? Icons.mark_email_read_rounded
-          : Icons.lock_reset_rounded,
-      onBack: context.pop,
+      kicker: 'Reset access',
+      title: _isSubmittedSuccess ? 'Check your inbox' : 'Forgot Password?',
+      subtitle: _isSubmittedSuccess
+          ? 'We sent a secure reset link to your email address.'
+          : 'Enter your email and we’ll help you get back in.',
+      onBack: () => context.goNamed(RouteNames.login),
       child: AnimatedSwitcher(
         duration: AppMotion.medium,
         child: _isSubmittedSuccess
@@ -100,17 +94,21 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   ),
                   const SizedBox(height: AppSpacing.space24),
                   AppButton(
-                    text: 'Send Reset Link',
-                    height: 56,
+                    text: 'Send reset link',
+                    height: 52,
                     isLoading: isLoading,
                     onPressed: _onResetSubmitted,
-                    trailingIcon: Icons.arrow_forward_rounded,
                   ),
-                  const SizedBox(height: AppSpacing.space12),
-                  AppButton(
-                    text: 'Back to Sign In',
-                    variant: AppButtonVariant.ghost,
-                    onPressed: () => context.goNamed(RouteNames.login),
+                  const SizedBox(height: AppSpacing.space8),
+                  TextButton(
+                    onPressed: isLoading
+                        ? null
+                        : () => context.goNamed(RouteNames.login),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      minimumSize: const Size(48, 48),
+                    ),
+                    child: const Text('Back to Sign In'),
                   ),
                 ],
               ),
@@ -126,23 +124,36 @@ class _RecoverySuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Icon(
-          Icons.check_circle_rounded,
-          size: 72,
-          color: AppColors.success,
+        Center(
+          child: Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: (isDark ? AppColors.darkSuccess : AppColors.success)
+                  .withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.mark_email_read_rounded,
+              color: isDark ? AppColors.darkSuccess : AppColors.success,
+              size: 34,
+            ),
+          ),
         ),
-        const SizedBox(height: AppSpacing.space16),
+        const SizedBox(height: AppSpacing.space20),
         Text(
-          'We sent a password recovery email to $email. Check your inbox and follow the secure link.',
+          'We sent a secure password reset link to $email. Check your inbox to continue.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
         ),
         const SizedBox(height: AppSpacing.space24),
         AppButton(
           text: 'Return to Sign In',
+          height: 52,
           onPressed: () => context.goNamed(RouteNames.login),
         ),
       ],

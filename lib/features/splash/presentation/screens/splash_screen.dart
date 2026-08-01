@@ -73,12 +73,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(
-                        width: 220,
-                        child: OnboardingVisual(
-                          icon: Icons.auto_awesome_rounded,
-                        ),
-                      ),
+                      const SizedBox(width: 220, child: OnboardingVisual()),
                       const SizedBox(height: AppSpacing.space16),
                       Text(
                         'AI Hustle',

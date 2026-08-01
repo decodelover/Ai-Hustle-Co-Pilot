@@ -74,6 +74,11 @@
       "reason": "Preserves mobile clarity while giving larger screens an intentional composition"
     },
     {
+      "area": "mobile public entry",
+      "choice": "Use a navy topographic onboarding hero with a white elevated action sheet, then carry the same compact mark, pale inset fields, navy CTA, and icon-only provider row through login, sign-up, recovery, and email confirmation",
+      "reason": "Matches the selected reference direction while keeping every auth step calm, recognizable, and easy to scan on a phone"
+    },
+    {
       "area": "phone navigation",
       "choice": "Flat five-item footer with compact single-line labels and no overlapping center action",
       "reason": "Protects icon rhythm, touch clarity, and scanability on narrow mobile widths"

@@ -1,4 +1,4 @@
-/// Responsive account creation connected to the existing auth controller.
+/// Account creation experience connected to the existing auth controller.
 library;
 
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
@@ -105,21 +105,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
     return AuthExperienceScaffold(
-      eyebrow: 'Start strong',
-      headline: 'Build a freelance system that compounds.',
-      description:
-          'Bring discovery, creation, delivery, and follow-up into a single intelligent operating rhythm.',
-      formTitle: 'Create an Account',
-      formDescription:
-          'Set up your AI Hustle workspace and turn ideas into repeatable progress.',
-      icon: Icons.rocket_launch_rounded,
+      kicker: 'Create your workspace',
+      title: 'Create your account',
+      subtitle: 'Start your journey with AI Hustle Co-Pilot',
       onBack: context.pop,
       child: AutofillGroup(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AuthInputField(
-              label: 'Name',
+              label: 'Full name',
               hintText: 'Your full name',
               controller: _nameController,
               textInputAction: TextInputAction.next,
@@ -163,7 +158,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               isDisabled: isLoading,
               onSubmitted: (_) => _submit(),
             ),
-            const SizedBox(height: AppSpacing.space16),
+            const SizedBox(height: AppSpacing.space12),
             TermsCheckboxWidget(
               value: _agreeToTerms,
               onChanged: (value) {
@@ -172,15 +167,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             const SizedBox(height: AppSpacing.space20),
             AppButton(
-              text: 'Create account',
-              height: 56,
+              text: 'Sign Up',
+              height: 52,
               isLoading: isLoading,
               onPressed: _submit,
-              trailingIcon: Icons.arrow_forward_rounded,
             ),
-            const SizedBox(height: AppSpacing.space24),
-            const OrDividerWidget(),
-            const SizedBox(height: AppSpacing.space20),
+            const OrDividerWidget(label: 'Or Sign Up With'),
             SocialLoginButtons(isLoading: isLoading),
             const SizedBox(height: AppSpacing.space20),
             AuthFooterWidget(
