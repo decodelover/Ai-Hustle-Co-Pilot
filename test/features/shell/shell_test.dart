@@ -46,10 +46,10 @@ void main() {
       expect(find.byType(AppTopBar), findsOneWidget);
     });
 
-    testWidgets('ShellScreen renders BottomNavigation and FAB in Phone mode', (
+    testWidgets('ShellScreen renders clean BottomNavigation in Phone mode', (
       tester,
     ) async {
-      tester.view.physicalSize = const Size(390, 844);
+      tester.view.physicalSize = const Size(360, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
 
@@ -65,7 +65,10 @@ void main() {
 
       expect(find.text('Mobile Content'), findsOneWidget);
       expect(find.byType(AppBottomNavigation), findsOneWidget);
-      expect(find.byType(AiFloatingButton), findsOneWidget);
+      expect(find.byType(AiFloatingButton), findsNothing);
+      expect(find.text('AI'), findsOneWidget);
+      expect(find.text('Documents'), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets(

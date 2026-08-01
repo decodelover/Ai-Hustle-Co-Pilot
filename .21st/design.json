@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "project": {
+    "name": "AI Hustle Co-Pilot",
+    "productType": "AI productivity SaaS mobile application",
+    "stack": ["Flutter", "Material 3", "Riverpod", "GoRouter"]
+  },
+  "sources": {
+    "tokens": [
+      "lib/core/theme/app_colors.dart",
+      "lib/core/theme/app_typography.dart",
+      "lib/core/theme/app_spacing.dart",
+      "lib/core/theme/app_radius.dart",
+      "lib/core/theme/app_shadows.dart",
+      "lib/core/theme/app_motion.dart",
+      "lib/core/theme/app_breakpoints.dart"
+    ],
+    "components": [
+      "lib/core/design_system",
+      "lib/shared/widgets/app_brand_background.dart",
+      "lib/features/dashboard/presentation/widgets/dashboard_surface.dart"
+    ],
+    "assets": ["assets"],
+    "instructions": [".agents/AGENTS.md", "DESIGN_LANGUAGE.md"]
+  },
+  "design": {
+    "colorMode": "light and dark",
+    "colors": {
+      "brand": "#0D1B2A",
+      "brandElevated": "#152A4D",
+      "interactive": "#3A5FA0",
+      "spark": "#FF6B6B",
+      "canvas": "#FFFFFF",
+      "subtleSurface": "#F8FAFC",
+      "primaryText": "#111827"
+    },
+    "typography": {"ui": "Inter", "code": "Fira Code"},
+    "spacing": {"rhythm": "4dp micro-step within an 8dp-centered scale"},
+    "radius": {"controls": "16dp", "cards": "24dp", "heroes": "28dp", "pills": "999dp"},
+    "shadows": {"style": "soft layered navy shadows with restrained AI glow"},
+    "motion": {"fast": "150ms", "medium": "250ms", "slow": "350ms", "pressScale": 0.98},
+    "density": "comfortable productivity"
+  },
+  "components": {
+    "installed": [],
+    "preferredPrimitives": ["AppBrandBackground", "AppButton", "AppTextField", "AppCard", "AppAvatar", "AppBadge"],
+    "patterns": ["navy topographic hero", "layered neutral work surface", "contextual AI callout", "four-state lifecycle"]
+  },
+  "constraints": {
+    "must": [
+      "Use project design tokens only",
+      "Maintain 48dp touch targets and WCAG AA contrast",
+      "Respect reduced motion",
+      "Keep onboarding, auth, shell, and dashboard visually continuous",
+      "Preserve Flutter Riverpod and GoRouter architecture"
+    ],
+    "avoid": [
+      "Raw feature-local colors",
+      "Generic Material template composition",
+      "Mixed icon families within a component group",
+      "Decorative glass, gradients, or motion without hierarchy purpose",
+      "Presentation changes that alter authentication business logic"
+    ]
+  },
+  "decisions": [
+    {
+      "area": "product identity",
+      "choice": "Cinematic navy topographic brand fields paired with calm light or dark work surfaces",
+      "reason": "Creates continuity between onboarding and the authenticated dashboard"
+    },
+    {
+      "area": "authentication",
+      "choice": "Story-led onboarding and focused single-task auth cards with contextual side narratives on wider layouts",
+      "reason": "Preserves mobile clarity while giving larger screens an intentional composition"
+    },
+    {
+      "area": "phone navigation",
+      "choice": "Flat five-item footer with compact single-line labels and no overlapping center action",
+      "reason": "Protects icon rhythm, touch clarity, and scanability on narrow mobile widths"
+    }
+  ],
+  "evidence": ["DESIGN_LANGUAGE.md", "lib/features/dashboard/presentation/"],
+  "generatedAt": "2026-08-01T02:53:54.139Z"
+}

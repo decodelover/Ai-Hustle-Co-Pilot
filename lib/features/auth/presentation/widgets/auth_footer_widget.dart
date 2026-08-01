@@ -1,7 +1,7 @@
 /// Enterprise AuthFooterWidget for switching between Sign In and Sign Up screens.
 library;
 
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable authentication footer prompt with semantic link navigation.
@@ -25,12 +25,19 @@ class AuthFooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
           promptText,
-          style: const TextStyle(color: AppColors.secondaryText, fontSize: 13),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: isDark
+                ? AppColors.darkOnSurfaceVariant
+                : AppColors.onSurfaceVariant,
+          ),
         ),
         TextButton(
           onPressed: onActionPressed,
@@ -42,9 +49,8 @@ class AuthFooterWidget extends StatelessWidget {
           ),
           child: Text(
             actionText,
-            style: const TextStyle(
+            style: theme.textTheme.bodySmall?.copyWith(
               color: AppColors.primary,
-              fontSize: 13,
               fontWeight: FontWeight.w700,
             ),
           ),

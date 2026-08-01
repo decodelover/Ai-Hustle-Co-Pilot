@@ -1,9 +1,12 @@
 /// Authenticated dashboard command center.
 library;
 
+import 'dart:math' as math;
+
 import 'package:ai_hustle_copilot/core/design_system/components/feedback/app_error_state.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/core/theme/app_motion.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/dashboard/application/controllers/dashboard_controller.dart';
 import 'package:ai_hustle_copilot/features/dashboard/domain/models/dashboard_state.dart';
 import 'package:ai_hustle_copilot/features/dashboard/presentation/widgets/ai_insights_panel.dart';
@@ -65,7 +68,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
         loading: () => const DashboardSkeletonLoader(),
         error: (error, stackTrace) => AppErrorState(
           title: 'Dashboard unavailable',
-          message: 'We could not refresh your workspace. Try again in a moment.',
+          message:
+              'We could not refresh your workspace. Try again in a moment.',
           onRetry: () =>
               ref.read(dashboardControllerProvider.notifier).refresh(),
         ),
@@ -75,30 +79,39 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
   }
 
   Widget _buildDashboard(BuildContext context, DashboardState state) {
-    final visibleInsights = state.insights.where((item) => !item.isDismissed).toList();
-    final focusInsight = visibleInsights.isNotEmpty ? visibleInsights.first : null;
-    final focusProject = state.projects.isNotEmpty ? state.projects.first : null;
-    final focusTitle = focusInsight?.title ??
-        (focusProject == null ? 'Explore your next opportunity' : 'Continue ${focusProject.title}');
-    final focusDescription = focusInsight?.description ??
+    final visibleInsights = state.insights
+        .where((item) => !item.isDismissed)
+        .toList();
+    final focusInsight = visibleInsights.isNotEmpty
+        ? visibleInsights.first
+        : null;
+    final focusProject = state.projects.isNotEmpty
+        ? state.projects.first
+        : null;
+    final focusTitle =
+        focusInsight?.title ??
+        (focusProject == null
+            ? 'Explore your next opportunity'
+            : 'Continue ${focusProject.title}');
+    final focusDescription =
+        focusInsight?.description ??
         (focusProject == null
             ? 'Browse relevant opportunities and choose one clear step to start building momentum.'
             : 'Your latest project is ${((focusProject.progress) * 100).round()}% complete. Keep the handoff moving.');
-    final focusAction = focusInsight?.actionLabel ??
+    final focusAction =
+        focusInsight?.actionLabel ??
         (focusProject == null ? 'Find opportunities' : 'Open active work');
-    final focusRoute = focusInsight?.targetRoute ??
+    final focusRoute =
+        focusInsight?.targetRoute ??
         (focusProject == null ? RoutePaths.discover : RoutePaths.projects);
 
-    return FadeTransition(
-      opacity: CurvedAnimation(
-        parent: _animationController,
-        curve: AppMotion.decelerateCurve,
-      ),
-      child: RefreshIndicator(
-        onRefresh: () =>
-            ref.read(dashboardControllerProvider.notifier).refresh(),
-        child: DashboardResponsiveGrid(
-          header: DashboardHeaderWidget(
+    return RefreshIndicator(
+      onRefresh: () => ref.read(dashboardControllerProvider.notifier).refresh(),
+      child: DashboardResponsiveGrid(
+        header: _StaggeredSection(
+          animation: _animationController,
+          index: 0,
+          child: DashboardHeaderWidget(
             userName: state.userName,
             workspaceName: 'Personal Workspace',
             productivityScore: state.productivityScore,
@@ -107,7 +120,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
             onRefreshPressed: () =>
                 ref.read(dashboardControllerProvider.notifier).refresh(),
           ),
-          primaryFocus: PrimaryFocusCard(
+        ),
+        primaryFocus: _StaggeredSection(
+          animation: _animationController,
+          index: 1,
+          child: PrimaryFocusCard(
             title: focusTitle,
             description: focusDescription,
             actionLabel: focusAction,
@@ -116,16 +133,33 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 ? Icons.explore_outlined
                 : Icons.arrow_forward_rounded,
           ),
-          aiCopilot: AiCopilotCard(
+        ),
+        aiCopilot: _StaggeredSection(
+          animation: _animationController,
+          index: 2,
+          child: AiCopilotCard(
             title: focusInsight == null
                 ? 'Turn a rough idea into a clear next step.'
                 : 'Use AI to move this recommendation forward.',
-            description: 'Draft, organize, and refine work with the context already in your workspace.',
+            description:
+                'Draft, organize, and refine work with the context already in your workspace.',
             onAction: () => context.go(RoutePaths.aiStudio),
           ),
-          quickActions: QuickActionsGrid(actions: state.quickActions),
-          metricsGrid: _buildMetricsGrid(state),
-          chartsSection: AnalyticsChartsSection(
+        ),
+        quickActions: _StaggeredSection(
+          animation: _animationController,
+          index: 3,
+          child: QuickActionsGrid(actions: state.quickActions),
+        ),
+        metricsGrid: _StaggeredSection(
+          animation: _animationController,
+          index: 4,
+          child: _buildMetricsGrid(state),
+        ),
+        chartsSection: _StaggeredSection(
+          animation: _animationController,
+          index: 5,
+          child: AnalyticsChartsSection(
             selectedTimeframe: state.selectedTimeframe,
             productivityScore: state.productivityScore,
             activeProjects: state.projects.length,
@@ -133,9 +167,21 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 .read(dashboardControllerProvider.notifier)
                 .setChartTimeframe(timeframe),
           ),
-          recentProjects: RecentProjectsList(projects: state.projects),
-          recentActivity: RecentActivityFeed(activities: state.activities),
-          aiInsights: AiInsightsPanel(
+        ),
+        recentProjects: _StaggeredSection(
+          animation: _animationController,
+          index: 6,
+          child: RecentProjectsList(projects: state.projects),
+        ),
+        recentActivity: _StaggeredSection(
+          animation: _animationController,
+          index: 8,
+          child: RecentActivityFeed(activities: state.activities),
+        ),
+        aiInsights: _StaggeredSection(
+          animation: _animationController,
+          index: 7,
+          child: AiInsightsPanel(
             insights: visibleInsights,
             onDismiss: (id) => ref
                 .read(dashboardControllerProvider.notifier)
@@ -162,8 +208,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+            crossAxisSpacing: AppSpacing.space12,
+            mainAxisSpacing: AppSpacing.space12,
             childAspectRatio: constraints.maxWidth < 600 ? 1.15 : 1.35,
           ),
           itemCount: state.metrics.length,
@@ -171,6 +217,42 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
               DashboardMetricCard(model: state.metrics[index]),
         );
       },
+    );
+  }
+}
+
+class _StaggeredSection extends StatelessWidget {
+  const _StaggeredSection({
+    required this.animation,
+    required this.index,
+    required this.child,
+  });
+
+  final Animation<double> animation;
+  final int index;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.of(context).disableAnimations) return child;
+    final start = (index * 0.055).clamp(0.0, 0.48);
+    final curved = CurvedAnimation(
+      parent: animation,
+      curve: Interval(
+        start,
+        math.min(1, start + 0.48),
+        curve: AppMotion.decelerateCurve,
+      ),
+    );
+    return FadeTransition(
+      opacity: curved,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 0.035),
+          end: Offset.zero,
+        ).animate(curved),
+        child: child,
+      ),
     );
   }
 }

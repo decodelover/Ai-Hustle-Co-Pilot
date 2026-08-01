@@ -1,16 +1,16 @@
-/// Production-ready Forgot Password screen.
+/// Responsive password recovery experience.
 library;
 
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_experience_scaffold.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
-import 'package:ai_hustle_copilot/shared/widgets/topographic_wave_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Full-featured Password Recovery screen conforming strictly to Master Design System V2.0.
+/// Full-featured password recovery screen.
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   /// Creates a [ForgotPasswordScreen].
   const ForgotPasswordScreen({super.key});
@@ -37,9 +37,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           ? 'Email address is required'
           : null;
     });
-
     if (_emailError != null) return;
-
     ref
         .read(resetPasswordControllerProvider.notifier)
         .resetPassword(email: _emailController.text.trim());
@@ -52,12 +50,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       next,
     ) {
       next.whenOrNull(
-        error: (error, stackTrace) {
-          AppSnackBar.showError(
-            context,
-            message: error.toString().replaceAll('Exception:', '').trim(),
-          );
-        },
+        error: (error, stackTrace) => AppSnackBar.showError(
+          context,
+          message: error.toString().replaceAll('Exception:', '').trim(),
+        ),
         data: (_) {
           if (previous?.isLoading == true) {
             setState(() => _isSubmittedSuccess = true);
@@ -66,151 +62,90 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       );
     });
 
-    final resetState = ref.watch(resetPasswordControllerProvider);
-    final isLoading = resetState.isLoading;
-    final screenHeight = MediaQuery.of(context).size.height;
-    final headerHeight = screenHeight * 0.28 < 200
-        ? 200.0
-        : screenHeight * 0.28;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Top Dark Blue Wave Header
-            WaveHeaderWidget(
-              height: headerHeight,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 16.0,
+    final isLoading = ref.watch(resetPasswordControllerProvider).isLoading;
+    return AuthExperienceScaffold(
+      eyebrow: 'Recovery',
+      headline: 'A quick reset. No lost momentum.',
+      description:
+          'We will send a secure recovery link so you can get back to your workspace with confidence.',
+      formTitle: _isSubmittedSuccess ? 'Reset Link Sent!' : 'Reset Password',
+      formDescription: _isSubmittedSuccess
+          ? 'Your next step is waiting in your inbox.'
+          : 'Enter your account email and we will send a password reset link.',
+      icon: _isSubmittedSuccess
+          ? Icons.mark_email_read_rounded
+          : Icons.lock_reset_rounded,
+      onBack: context.pop,
+      child: AnimatedSwitcher(
+        duration: AppMotion.medium,
+        child: _isSubmittedSuccess
+            ? _RecoverySuccess(
+                key: const ValueKey('recovery-success'),
+                email: _emailController.text.trim(),
+              )
+            : Column(
+                key: const ValueKey('recovery-form'),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AuthInputField(
+                    label: 'Email',
+                    hintText: 'you@example.com',
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    autofillHints: const [AutofillHints.email],
+                    errorText: _emailError,
+                    isDisabled: isLoading,
+                    onSubmitted: (_) => _onResetSubmitted(),
                   ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => context.pop(),
-                        icon: const Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.white,
-                          size: 22.0,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      const Text(
-                        'AI Hustle Co-Pilot',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: AppSpacing.space24),
+                  AppButton(
+                    text: 'Send Reset Link',
+                    height: 56,
+                    isLoading: isLoading,
+                    onPressed: _onResetSubmitted,
+                    trailingIcon: Icons.arrow_forward_rounded,
                   ),
-                ),
+                  const SizedBox(height: AppSpacing.space12),
+                  AppButton(
+                    text: 'Back to Sign In',
+                    variant: AppButtonVariant.ghost,
+                    onPressed: () => context.goNamed(RouteNames.login),
+                  ),
+                ],
               ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.space24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
-                  child: _isSubmittedSuccess
-                      ? AppSuccessState(
-                          title: 'Reset Link Sent!',
-                          message:
-                              'We sent a password recovery email to ${_emailController.text.trim()}. Please check your inbox.',
-                          actionLabel: 'Return to Sign In',
-                          onAction: () => context.goNamed(RouteNames.login),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              'Reset Password',
-                              style: TextStyle(
-                                color: Color(0xFF111827),
-                                fontSize: 26.0,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: -0.4,
-                              ),
-                            ),
-
-                            const SizedBox(height: 8.0),
-
-                            const Text(
-                              'Enter your account email and we will send a password reset link.',
-                              style: TextStyle(
-                                color: Color(0xFF6B7280),
-                                fontSize: 14.0,
-                              ),
-                            ),
-
-                            const SizedBox(height: 24.0),
-
-                            // Email Input (#F8FAFC filled, radius 16)
-                            AuthInputField(
-                              label: 'Email',
-                              hintText: 'demo@email.com',
-                              controller: _emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              errorText: _emailError,
-                              isDisabled: isLoading,
-                            ),
-
-                            const SizedBox(height: 24.0),
-
-                            // Send Reset Link Primary Button
-                            SizedBox(
-                              height: 56.0,
-                              child: ElevatedButton(
-                                onPressed: isLoading ? null : _onResetSubmitted,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF0D1B2A),
-                                  foregroundColor: Colors.white,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(28.0),
-                                  ),
-                                ),
-                                child: isLoading
-                                    ? const SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 2.5,
-                                        ),
-                                      )
-                                    : const Text(
-                                        'Send Reset Link',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 12.0),
-
-                            AppButton(
-                              text: 'Back to Sign In',
-                              variant: AppButtonVariant.ghost,
-                              onPressed: () =>
-                                  context.goNamed(RouteNames.login),
-                            ),
-                          ],
-                        ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
+    );
+  }
+}
+
+class _RecoverySuccess extends StatelessWidget {
+  const _RecoverySuccess({required this.email, super.key});
+
+  final String email;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Icon(
+          Icons.check_circle_rounded,
+          size: 72,
+          color: AppColors.success,
+        ),
+        const SizedBox(height: AppSpacing.space16),
+        Text(
+          'We sent a password recovery email to $email. Check your inbox and follow the secure link.',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const SizedBox(height: AppSpacing.space24),
+        AppButton(
+          text: 'Return to Sign In',
+          onPressed: () => context.goNamed(RouteNames.login),
+        ),
+      ],
     );
   }
 }

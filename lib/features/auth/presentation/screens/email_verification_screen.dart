@@ -1,16 +1,18 @@
-/// Production-ready Email OTP Verification screen.
+/// Responsive email OTP verification experience.
 library;
+
+import 'dart:async';
 
 import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_experience_scaffold.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
-import 'package:ai_hustle_copilot/shared/widgets/topographic_wave_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Full-featured 6-digit OTP Email Verification screen conforming to Master Design System V2.0.
+/// Full-featured six-digit OTP email verification screen.
 class EmailVerificationScreen extends ConsumerStatefulWidget {
   /// Creates an [EmailVerificationScreen].
   const EmailVerificationScreen({
@@ -28,10 +30,33 @@ class EmailVerificationScreen extends ConsumerStatefulWidget {
 
 class _EmailVerificationScreenState
     extends ConsumerState<EmailVerificationScreen> {
-  final TextEditingController _otpController = TextEditingController();
+  final _otpController = TextEditingController();
+  Timer? _timer;
+  int _secondsRemaining = 60;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    _timer?.cancel();
+    _secondsRemaining = 60;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      if (_secondsRemaining <= 1) {
+        timer.cancel();
+        setState(() => _secondsRemaining = 0);
+      } else {
+        setState(() => _secondsRemaining--);
+      }
+    });
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -45,32 +70,30 @@ class _EmailVerificationScreenState
       );
       return;
     }
-
     ref
         .read(verifyOtpControllerProvider.notifier)
         .verifyOtp(email: widget.email, token: code);
   }
 
+  void _resend() {
+    ref
+        .read(resendVerificationControllerProvider.notifier)
+        .resendVerification(email: widget.email);
+    _startCountdown();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final isDark = context.isDarkMode;
-
     ref
       ..listen<AsyncValue<void>>(verifyOtpControllerProvider, (previous, next) {
         next.whenOrNull(
-          error: (error, stackTrace) {
-            AppSnackBar.showError(
-              context,
-              message: error.toString().replaceAll('Exception:', '').trim(),
-            );
-          },
+          error: (error, stackTrace) => AppSnackBar.showError(
+            context,
+            message: error.toString().replaceAll('Exception:', '').trim(),
+          ),
           data: (_) {
             if (previous?.isLoading == true) {
-              AppSnackBar.showSuccess(
-                context,
-                message: 'Email confirmed successfully!',
-              );
               context.goNamed(RouteNames.verificationSuccess);
             }
           },
@@ -81,12 +104,10 @@ class _EmailVerificationScreenState
         next,
       ) {
         next.whenOrNull(
-          error: (error, stackTrace) {
-            AppSnackBar.showError(
-              context,
-              message: error.toString().replaceAll('Exception:', '').trim(),
-            );
-          },
+          error: (error, stackTrace) => AppSnackBar.showError(
+            context,
+            message: error.toString().replaceAll('Exception:', '').trim(),
+          ),
           data: (_) {
             if (previous?.isLoading == true) {
               AppSnackBar.showSuccess(
@@ -100,169 +121,75 @@ class _EmailVerificationScreenState
 
     final verifyState = ref.watch(verifyOtpControllerProvider);
     final resendState = ref.watch(resendVerificationControllerProvider);
-    final screenHeight = MediaQuery.of(context).size.height;
-    final headerHeight = screenHeight * 0.28 < 200
-        ? 200.0
-        : screenHeight * 0.28;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Top Dark Blue Wave Header
-            WaveHeaderWidget(
-              height: headerHeight,
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 16.0,
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => context.goNamed(RouteNames.login),
-                        icon: const Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.white,
-                          size: 22.0,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      const Text(
-                        'AI Hustle Co-Pilot',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                    ],
+    final canResend = _secondsRemaining == 0 && !resendState.isLoading;
+    return AuthExperienceScaffold(
+      eyebrow: 'One last step',
+      headline: 'Secure the workspace you are building.',
+      description:
+          'A short verification keeps your projects, client details, and momentum connected to you.',
+      formTitle: 'Confirm Your Email OTP',
+      formDescription:
+          'We sent a 6-digit confirmation code to ${widget.email}.',
+      icon: Icons.mark_email_unread_rounded,
+      onBack: () => context.goNamed(RouteNames.login),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.space16),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.08),
+              borderRadius: AppRadius.borderMedium,
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.shield_outlined, color: AppColors.primary),
+                SizedBox(width: AppSpacing.space12),
+                Expanded(
+                  child: Text(
+                    'Enter the code from your email. It expires for your protection.',
                   ),
                 ),
-              ),
+              ],
             ),
-
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.space24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
-                  child: Column(
-                    children: [
-                      // ── Verification Graphic Badge ──────────────────────
-                      Container(
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          color: const Color(
-                            0xFF0D1B2A,
-                          ).withValues(alpha: 0.08),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.mark_email_unread_rounded,
-                          size: 40.0,
-                          color: Color(0xFF0D1B2A),
-                        ),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space20),
-
-                      Text(
-                        'Confirm Your Email OTP',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: isDark
-                              ? AppColors.darkOnSurface
-                              : AppColors.onSurface,
-                        ),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space8),
-
-                      Text(
-                        'We sent a 6-digit confirmation code to ${widget.email}.\nEnter the OTP code below to confirm your account.',
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: isDark
-                              ? AppColors.darkOnSurfaceVariant
-                              : AppColors.onSurfaceVariant,
-                        ),
-                      ),
-
-                      const SizedBox(height: 28.0),
-
-                      // ── 6-Digit OTP Code Input Field ─────────────────────
-                      AuthInputField(
-                        label: 'OTP Code',
-                        hintText: 'Enter 6-Digit OTP (e.g. 123456)',
-                        controller: _otpController,
-                        keyboardType: TextInputType.number,
-                        onSubmitted: (_) => _handleVerify(),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space24),
-
-                      // ── Primary Verify Button ────────────────────────────
-                      SizedBox(
-                        height: 56.0,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: verifyState.isLoading
-                              ? null
-                              : _handleVerify,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0D1B2A),
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28.0),
-                            ),
-                          ),
-                          child: verifyState.isLoading
-                              ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2.5,
-                                  ),
-                                )
-                              : const Text(
-                                  'Confirm & Verify',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                        ),
-                      ),
-
-                      const SizedBox(height: AppSpacing.space16),
-
-                      // ── Resend OTP Button ────────────────────────────────
-                      AppButton(
-                        text: 'Resend OTP Code',
-                        variant: AppButtonVariant.ghost,
-                        isLoading: resendState.isLoading,
-                        onPressed: () {
-                          ref
-                              .read(
-                                resendVerificationControllerProvider.notifier,
-                              )
-                              .resendVerification(email: widget.email);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          ),
+          const SizedBox(height: AppSpacing.space20),
+          AuthInputField(
+            label: 'OTP Code',
+            hintText: '123456',
+            controller: _otpController,
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.done,
+            autofillHints: const [AutofillHints.oneTimeCode],
+            maxLength: 6,
+            isDisabled: verifyState.isLoading,
+            onSubmitted: (_) => _handleVerify(),
+          ),
+          const SizedBox(height: AppSpacing.space24),
+          AppButton(
+            text: verifyState.isLoading ? 'Checking code' : 'Confirm & Verify',
+            height: 56,
+            isLoading: verifyState.isLoading,
+            onPressed: _handleVerify,
+            trailingIcon: Icons.verified_user_outlined,
+          ),
+          const SizedBox(height: AppSpacing.space12),
+          AppButton(
+            text: resendState.isLoading
+                ? 'Sending new code'
+                : 'Resend OTP Code',
+            variant: AppButtonVariant.ghost,
+            isLoading: resendState.isLoading,
+            isDisabled: !canResend,
+            onPressed: _resend,
+          ),
+          if (!canResend && !resendState.isLoading)
+            Text(
+              'Available again in ${_secondsRemaining}s',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

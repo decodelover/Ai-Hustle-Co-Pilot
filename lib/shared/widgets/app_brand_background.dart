@@ -82,7 +82,11 @@ class _AppBrandBackgroundState extends State<AppBrandBackground>
         return Stack(
           fit: StackFit.expand,
           children: [
-            const ColoredBox(color: AppColors.background),
+            ColoredBox(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkBackground
+                  : AppColors.background,
+            ),
             AnimatedBuilder(
               animation: _ambientController,
               builder: (context, _) {

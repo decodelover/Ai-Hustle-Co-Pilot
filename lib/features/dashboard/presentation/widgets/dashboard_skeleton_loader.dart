@@ -12,27 +12,48 @@ class DashboardSkeletonLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final columns = width < 600
+        ? 2
+        : width < 960
+        ? 3
+        : 4;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: EdgeInsets.fromLTRB(
+        width < 600 ? AppSpacing.space16 : AppSpacing.space32,
+        AppSpacing.space24,
+        width < 600 ? AppSpacing.space16 : AppSpacing.space32,
+        AppSpacing.space96,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header skeleton
-          AppSkeletonLoader.card(),
+          AppSkeletonLoader.card(height: width < 600 ? 380 : 300),
           const SizedBox(height: AppSpacing.xl),
 
-          // Quick actions skeleton
-          const AppSkeletonLoader(width: 140, height: 20),
+          const AppSkeletonLoader(width: 180, height: 24),
           const SizedBox(height: AppSpacing.md),
-          AppSkeletonLoader.card(height: 72),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columns,
+              mainAxisSpacing: AppSpacing.space12,
+              crossAxisSpacing: AppSpacing.space12,
+              childAspectRatio: 1.1,
+            ),
+            itemCount: 7,
+            itemBuilder: (_, _) => AppSkeletonLoader.card(),
+          ),
           const SizedBox(height: AppSpacing.xl),
 
           // KPI Grid skeleton
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columns,
               mainAxisSpacing: AppSpacing.md,
               crossAxisSpacing: AppSpacing.md,
               childAspectRatio: 1.6,

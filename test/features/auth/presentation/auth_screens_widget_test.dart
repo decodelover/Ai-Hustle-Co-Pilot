@@ -17,6 +17,24 @@ void main() {
     );
   }
 
+  Widget createAccessibleWidget(
+    Widget child, {
+    required ThemeData theme,
+    TextScaler textScaler = TextScaler.noScaling,
+  }) {
+    return ProviderScope(
+      child: MaterialApp(
+        theme: theme,
+        home: Builder(
+          builder: (context) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
+
   group('Authentication Screens Widget Tests', () {
     testWidgets('SplashScreen renders title and branding', (tester) async {
       await tester.pumpWidget(createTestableWidget(const SplashScreen()));
@@ -101,6 +119,47 @@ void main() {
 
       expect(find.text('Account Verified!'), findsOneWidget);
       expect(find.text('Continue to Dashboard'), findsOneWidget);
+    });
+
+    testWidgets('LoginScreen supports a small phone and large text', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(375, 667);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        createAccessibleWidget(
+          const LoginScreen(),
+          theme: AppTheme.lightTheme,
+          textScaler: const TextScaler.linear(1.6),
+        ),
+      );
+      await tester.pump();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Login'), findsOneWidget);
+    });
+
+    testWidgets('RegisterScreen adapts to a dark tablet landscape', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1024, 768);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        createAccessibleWidget(
+          const RegisterScreen(),
+          theme: AppTheme.darkTheme,
+        ),
+      );
+      await tester.pump();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('Create account'), findsOneWidget);
     });
   });
 }

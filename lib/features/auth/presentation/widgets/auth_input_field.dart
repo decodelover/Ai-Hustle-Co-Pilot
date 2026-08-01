@@ -5,6 +5,8 @@
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
+import 'package:ai_hustle_copilot/core/theme/app_radius.dart';
+import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
 /// Pixel-perfect input field for authentication forms.
@@ -21,6 +23,10 @@ class AuthInputField extends StatefulWidget {
     this.isDisabled = false,
     this.onChanged,
     this.onSubmitted,
+    this.textInputAction,
+    this.autofillHints,
+    this.focusNode,
+    this.maxLength,
   });
 
   /// Label displayed above the input box.
@@ -50,6 +56,18 @@ class AuthInputField extends StatefulWidget {
   /// Submitted callback.
   final ValueChanged<String>? onSubmitted;
 
+  /// Keyboard action displayed for this field.
+  final TextInputAction? textInputAction;
+
+  /// Platform autofill hints.
+  final Iterable<String>? autofillHints;
+
+  /// Optional focus node for keyboard flow.
+  final FocusNode? focusNode;
+
+  /// Optional maximum character count.
+  final int? maxLength;
+
   @override
   State<AuthInputField> createState() => _AuthInputFieldState();
 }
@@ -65,6 +83,8 @@ class _AuthInputFieldState extends State<AuthInputField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final icon = widget.isPassword
         ? Icons.lock_outline_rounded
         : widget.label.toLowerCase().contains('email')
@@ -77,15 +97,15 @@ class _AuthInputFieldState extends State<AuthInputField> {
       children: [
         Text(
           widget.label,
-          style: const TextStyle(
-            color: AppColors.primaryText,
-            fontSize: 15.0,
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: AppSpacing.space8),
         TextFormField(
           controller: widget.controller,
+          focusNode: widget.focusNode,
           enabled: !widget.isDisabled,
           obscureText: widget.isPassword && _obscureText,
           keyboardType:
@@ -95,43 +115,71 @@ class _AuthInputFieldState extends State<AuthInputField> {
                   : TextInputType.text),
           onChanged: widget.onChanged,
           onFieldSubmitted: widget.onSubmitted,
-          style: const TextStyle(
-            color: AppColors.primaryText,
-            fontSize: 15.0,
+          textInputAction: widget.textInputAction,
+          autofillHints: widget.autofillHints,
+          maxLength: widget.maxLength,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: isDark ? AppColors.darkOnSurface : AppColors.onSurface,
             fontWeight: FontWeight.w500,
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: const TextStyle(
-              color: AppColors.mutedText,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
+            counterText: '',
+            filled: true,
+            fillColor: isDark
+                ? AppColors.darkSurfaceVariant
+                : AppColors.surfaceVariant,
+            hintStyle: theme.textTheme.bodyMedium?.copyWith(
+              color: isDark
+                  ? AppColors.darkOnSurfaceVariant
+                  : AppColors.onSurfaceVariant,
             ),
             prefixIcon: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Icon(icon, color: AppColors.secondaryText, size: 19),
+              padding: const EdgeInsets.only(left: 4),
+              child: Icon(
+                icon,
+                color: isDark
+                    ? AppColors.darkOnSurfaceVariant
+                    : AppColors.onSurfaceVariant,
+                size: 20,
+              ),
             ),
             prefixIconConstraints: const BoxConstraints(
-              minWidth: 27,
-              minHeight: 48,
+              minWidth: 48,
+              minHeight: 56,
             ),
-            contentPadding: const EdgeInsets.only(top: 8, bottom: 9),
-            border: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.outlineVariant),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.space16,
+              vertical: AppSpacing.space16,
             ),
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.outlineVariant),
+            border: const OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
+              borderSide: BorderSide.none,
             ),
-            focusedBorder: const UnderlineInputBorder(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
+              borderSide: BorderSide(
+                color: isDark
+                    ? AppColors.darkOutlineVariant
+                    : AppColors.outlineVariant,
+              ),
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
               borderSide: BorderSide(color: AppColors.primary, width: 2),
             ),
-            disabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.outline),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
+              borderSide: BorderSide(
+                color: isDark ? AppColors.darkOutline : AppColors.outline,
+              ),
             ),
-            errorBorder: const UnderlineInputBorder(
+            errorBorder: const OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
               borderSide: BorderSide(color: AppColors.danger),
             ),
-            focusedErrorBorder: const UnderlineInputBorder(
+            focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: AppRadius.borderMedium,
               borderSide: BorderSide(color: AppColors.danger, width: 2),
             ),
             errorText: widget.errorText,
@@ -147,7 +195,9 @@ class _AuthInputFieldState extends State<AuthInputField> {
                       _obscureText
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
-                      color: AppColors.secondaryText,
+                      color: isDark
+                          ? AppColors.darkOnSurfaceVariant
+                          : AppColors.onSurfaceVariant,
                       size: 20,
                     ),
                     onPressed: () {

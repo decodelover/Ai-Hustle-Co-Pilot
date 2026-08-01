@@ -111,5 +111,27 @@ void main() {
         expect(find.text('Quick actions'), findsOneWidget);
       },
     );
+
+    testWidgets('DashboardScreen has no overflow at responsive widths', (
+      WidgetTester tester,
+    ) async {
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      tester.view.devicePixelRatio = 1.0;
+
+      for (final size in <Size>[
+        const Size(390, 844),
+        const Size(768, 1024),
+        const Size(1440, 1200),
+      ]) {
+        tester.view.physicalSize = size;
+        await tester.pumpWidget(
+          const ProviderScope(child: MaterialApp(home: DashboardScreen())),
+        );
+        await tester.pump(const Duration(milliseconds: 700));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: 'Overflow at $size');
+      }
+    });
   });
 }

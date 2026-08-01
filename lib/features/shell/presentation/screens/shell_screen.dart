@@ -6,7 +6,6 @@ import 'package:ai_hustle_copilot/features/shell/application/controllers/shell_c
 import 'package:ai_hustle_copilot/features/shell/presentation/navigation/app_bottom_navigation.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/navigation/app_navigation_rail.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/navigation/app_sidebar.dart';
-import 'package:ai_hustle_copilot/features/shell/presentation/widgets/ai_floating_button.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/app_top_bar.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/command_palette_widget.dart';
 import 'package:ai_hustle_copilot/features/shell/presentation/widgets/drawer_content.dart';
@@ -68,10 +67,6 @@ class ShellScreen extends ConsumerWidget {
               ],
             ),
             bottomNavigationBar: isCompact ? const AppBottomNavigation() : null,
-            floatingActionButton: isCompact ? const AiFloatingButton() : null,
-            floatingActionButtonLocation: isCompact
-                ? FloatingActionButtonLocation.centerDocked
-                : null,
           ),
         ),
       ),

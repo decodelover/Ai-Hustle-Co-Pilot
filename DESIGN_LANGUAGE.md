@@ -1,280 +1,423 @@
-# AI Hustle Co-Pilot — Enterprise Design Language Specification (v2.0)
+# AI Hustle Co-Pilot — Product Design Language
 
-> **Primary Design Authority**: `UI/UX Pro Max Design Intelligence`
-> **Master Reference Document**: `design_structure.md` (Design System Version 2.0)
-> **Visual Direction**: Premium Dark Blue Identity (`#0D1B2A`), Topographic Wave Header Branding, and Apple / Linear Inspired Minimalism.
+**Version:** 3.0
+**Status:** Canonical
+**Applies to:** Onboarding, authentication, authenticated shell, dashboard, and future product surfaces
+**Implemented reference:** `lib/features/dashboard/presentation/`
 
----
+This document replaces the former `DESIGN_LANGUAGE.md` and
+`design_structure.md`. It records the design language used by the redesigned
+dashboard and is the single product-level visual authority for future UI work.
 
-## 1. Color Philosophy & Palette Architecture
+The Flutter implementation remains the final authority for token values:
 
-### 1.1 Brand Identity & Design Intent
-AI Hustle Co-Pilot combines **Intelligence, Confidence, Speed, and Focus**. The color system is engineered around **Primary Dark Blue (`#0D1B2A`)** and **Accent Coral (`#FF6B6B`)**, minimizing glare and cognitive fatigue during long productivity sessions.
+- `lib/core/theme/app_colors.dart`
+- `lib/core/theme/app_typography.dart`
+- `lib/core/theme/app_spacing.dart`
+- `lib/core/theme/app_radius.dart`
+- `lib/core/theme/app_elevation.dart`
+- `lib/core/theme/app_shadows.dart`
+- `lib/core/theme/app_motion.dart`
+- `lib/core/theme/app_breakpoints.dart`
 
----
-
-### 1.2 Light Theme Palette
-
-| Token | Hex Code | HSL / Opacity | Purpose & Design Rationale |
-|-------|----------|---------------|----------------------------|
-| `primaryDarkBlue` | `#0D1B2A` | `hsl(212, 53%, 11%)` | **Primary Brand Color**: Wave headers, dark canvas, and primary CTAs. |
-| `primaryBlue` | `#152A4D` | `hsl(217, 57%, 19%)` | **Secondary Dark Blue**: Header gradients and elevated dark surfaces. |
-| `primary` | `#0D1B2A` | `hsl(212, 53%, 11%)` | Primary button fill and active brand elements. |
-| `onPrimary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Crisp contrast for primary button text and filled icons. |
-| `secondary` | `#3A5FA0` | `hsl(218, 47%, 43%)` | **Accent Blue**: Secondary interactive elements and active tab indicators. |
-| `onSecondary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Contrast text for secondary interactive surfaces. |
-| `accent` | `#3A5FA0` | `hsl(218, 47%, 43%)` | Reserved for AI copilot triggers and active highlights. |
-| `accentCoral` | `#FF6B6B` | `hsl(0, 100%, 71%)` | **Coral Highlight**: Key CTA highlights, spark badges, and notifications. |
-| `onAccent` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Contrast text over accent banners. |
-| `background` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Clean White Canvas. |
-| `surface` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Pure white surface for cards, panels, and container dialogs. |
-| `surfaceVariant` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Light gray container surface for form inputs (#F8FAFC). |
-| `onSurface` | `#111827` | `hsl(221, 39%, 11%)` | Deep Charcoal primary text (18.5:1 AAA contrast). |
-| `onSurfaceVariant`| `#6B7280` | `hsl(220, 9%, 46%)` | Secondary body text, subheadings, and field labels. |
-| `outline` | `#E5E7EB` | `hsl(220, 13%, 91%)` | Crisp 1px border stroke for card bounds and input fields. |
-| `outlineVariant` | `#CBD5E1` | `hsl(213, 27%, 84%)` | Hover/focus border stroke state. |
-| `success` | `#10B981` | `hsl(160, 84%, 39%)` | **Emerald**: Confirms completed workflows and verified status. |
-| `warning` | `#F59E0B` | `hsl(38, 92%, 50%)` | **Amber**: Alerts user to pending approvals or quota limits. |
-| `danger` | `#EF4444` | `hsl(0, 84%, 60%)` | **Ruby Red**: Destructive actions, validation errors, and auth failures. |
-| `info` | `#3A5FA0` | `hsl(218, 47%, 43%)` | Neutral system notifications and informational badges. |
-| `skeletonStart` | `#E2E8F0` | `hsl(214, 32%, 91%)` | Base shimmer gradient starting color. |
-| `skeletonEnd` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Highlight shimmer gradient ending color. |
+Do not introduce raw colors, spacing, radii, elevations, or motion values in a
+feature when an equivalent token exists.
 
 ---
 
-### 1.3 Dark Theme Palette
+## 1. Product Character
 
-| Token | Hex Code | HSL / Opacity | Purpose & Design Rationale |
-|-------|----------|---------------|----------------------------|
-| `primary` | `#3D82F7` | `hsl(218, 93%, 60%)` | Vibrant Blue for primary filled buttons and highlights in dark mode. |
-| `onPrimary` | `#FFFFFF` | `hsl(0, 0%, 100%)` | High contrast text over primary filled buttons. |
-| `secondary` | `#60A5FA` | `hsl(213, 94%, 68%)` | Luminous Blue for secondary active states. |
-| `onSecondary` | `#0F172A` | `hsl(222, 47%, 11%)` | Dark slate text over luminous chips/badges. |
-| `accent` | `#60A5FA` | `hsl(213, 94%, 68%)` | Cyan-Blue for AI copilot glows and key triggers in dark mode. |
-| `onAccent` | `#0F172A` | `hsl(222, 47%, 11%)` | Dark text over glowing accent containers. |
-| `background` | `#3D4655` | `hsl(218, 17%, 29%)` | **Master Dark Slate Canvas**: Matches Screen 1 Onboarding reference background. |
-| `surface` | `#2B323E` | `hsl(218, 18%, 21%)` | Dark Slate surface for floating panels, cards, and bottom navigation. |
-| `surfaceVariant` | `#262D38` | `hsl(218, 19%, 18%)` | Elevated surface variant for input containers and headers. |
-| `onSurface` | `#F8FAFC` | `hsl(210, 40%, 98%)` | Off-white text delivering 15.8:1 contrast against `#3D4655`. |
-| `onSurfaceVariant`| `#94A3B8` | `hsl(215, 20%, 65%)` | Muted secondary text (6.4:1 WCAG AA). |
-| `outline` | `#262D38` | `hsl(218, 19%, 18%)` | Subtle dark border stroke separating card containers. |
-| `outlineVariant` | `#3D4655` | `hsl(218, 17%, 29%)` | Active border highlight stroke. |
-| `success` | `#10B981` | `hsl(160, 84%, 45%)` | Bright Emerald for dark mode success state. |
-| `warning` | `#F59E0B` | `hsl(38, 92%, 50%)` | Bright Amber for dark mode warnings. |
-| `danger` | `#EF4444` | `hsl(0, 84%, 60%)` | Crimson Red for dark mode destructive alerts. |
-| `info` | `#60A5FA` | `hsl(213, 94%, 68%)` | Sky Blue for dark mode system info. |
-| `skeletonStart` | `#262D38` | `hsl(218, 19%, 18%)` | Dark shimmer start. |
-| `skeletonEnd` | `#2B323E` | `hsl(218, 18%, 21%)` | Dark shimmer end. |
+AI Hustle Co-Pilot is a premium AI operating system for independent work. Its
+interface should communicate intelligence, confidence, momentum, and calm.
+
+The visual character is:
+
+- **Cinematic navy depth:** deep blue brand surfaces create focus and make AI
+  interactions feel distinctive.
+- **Quiet precision:** white and soft-neutral work surfaces keep dense product
+  information readable.
+- **Layered, not ornamental:** borders, shadows, translucency, and gradients
+  establish hierarchy. They are never added without a structural purpose.
+- **Human and contextual:** the product greets the user, explains what changed,
+  and recommends a useful next action.
+- **Modern native utility:** compact enough for serious work, spacious enough
+  for touch, and never reminiscent of a stock Flutter template.
+
+Reference qualities include the clarity of Linear and Vercel, the composure of
+Apple interfaces, and the contextual intelligence of leading AI workspaces.
+These are quality benchmarks, not layouts to copy.
 
 ---
 
-### 1.4 Chart Palette (Data Visualization)
-Designed for high distinction across both Light & Dark modes:
-- `chart1`: `#6D28D9` (Primary Violet)
-- `chart2`: `#059669` (Emerald Green)
-- `chart3`: `#2563EB` (Royal Blue)
-- `chart4`: `#D97706` (Amber Yellow)
-- `chart5`: `#EC4899` (Electric Pink)
+## 2. Core Visual Signature
+
+### 2.1 Navy-to-light composition
+
+The product combines a deep navy identity layer with a quiet light working
+canvas. Navy establishes brand and focus; light surfaces carry detailed work.
+
+Primary branded surfaces use a top-left to bottom-right gradient:
+
+`AppColors.primaryDarkBlue` → `AppColors.primaryBlue`
+
+The dashboard welcome hero, onboarding header, AI focus surfaces, and primary
+brand moments may use this treatment. Ordinary content cards must not repeat
+the full gradient.
+
+### 2.2 Topographic contours
+
+Thin, low-opacity contour lines represent exploration, progress, and connected
+intelligence. They appear only inside major navy brand fields.
+
+Rules:
+
+- Keep contours subtle enough that text remains dominant.
+- Use `AppColors.onPrimary` with restrained opacity.
+- Never place the pattern behind dense body copy or data charts.
+- Use the shared painters/background components instead of creating a new
+  contour style per screen.
+
+### 2.3 Ambient light
+
+Soft radial blue illumination may sit behind or within a major brand surface.
+It provides depth without becoming neon decoration. Coral is a momentary spark,
+not an ambient background color.
+
+### 2.4 Surface hierarchy
+
+Use three surface roles:
+
+1. **Brand surface:** navy gradient, high-contrast white content, reserved for
+   heroes and high-priority AI moments.
+2. **Standard surface:** white or dark elevated surface with a quiet border and
+   low elevation.
+3. **Subtle surface:** soft neutral fill used for nested cards, featured command
+   tiles, and grouped metadata.
+
+Avoid stacking more than two bordered surfaces. When hierarchy is already clear
+through spacing, do not add another card.
 
 ---
 
-## 2. Typography System
+## 3. Color System
 
-### 2.1 Font Pairings & Scale
-- **Primary Typeface**: `Inter` / `Roboto` (Clean, highly legible geometric sans-serif for UI and body text).
-- **Monospace Typeface**: `JetBrains Mono` / `Fira Code` (For prompt logs, code blocks, metrics, and API outputs).
+### 3.1 Brand and light-theme tokens
 
-| Style Name | Font Weight | Font Size | Line Height | Tracking (Letter Spacing) | Target Usage |
-|------------|-------------|-----------|-------------|---------------------------|--------------|
-| `displayLarge` | Bold (700) | 40sp | 48sp | -0.5px | Hero metric banners, major onboarding titles |
-| `displayMedium` | SemiBold (600) | 32sp | 40sp | -0.25px | Screen primary section titles |
-| `displaySmall` | SemiBold (600) | 28sp | 36sp | 0.0px | Secondary hero headings |
-| `headlineLarge` | SemiBold (600) | 24sp | 32sp | 0.0px | Dashboard section headers, modal titles |
-| `headlineMedium` | Medium (500) | 20sp | 28sp | 0.15px | Card titles, group headers |
-| `headlineSmall` | Medium (500) | 18sp | 24sp | 0.15px | Sub-card headers, list item titles |
-| `titleLarge` | Medium (500) | 16sp | 22sp | 0.1px | App bar titles, navigation items |
-| `titleMedium` | Medium (500) | 14sp | 20sp | 0.1px | Table header labels, form section labels |
-| `titleSmall` | Medium (500) | 12sp | 16sp | 0.1px | Chip labels, dense table headers |
-| `bodyLarge` | Regular (400) | 16sp | 24sp | 0.5px | Long-form articles, prompt responses |
-| `bodyMedium` | Regular (400) | 14sp | 20sp | 0.25px | Default paragraph body text, form input text |
-| `bodySmall` | Regular (400) | 12sp | 16sp | 0.4px | Helper text, secondary descriptions |
-| `labelLarge` | Medium (500) | 14sp | 20sp | 0.1px | Primary & secondary button text |
-| `labelMedium` | Medium (500) | 12sp | 16sp | 0.5px | Badge text, tab bar labels |
-| `labelSmall` | Medium (500) | 10sp | 14sp | 0.5px | Micro tags, timestamp indicators |
+| Token | Value | Role |
+|---|---:|---|
+| `primaryDarkBlue` | `#0D1B2A` | Deep brand canvas, primary actions, hero base |
+| `primaryBlue` | `#152A4D` | Elevated navy and gradient end |
+| `secondary` / `accent` | `#3A5FA0` | Interactive blue, chart emphasis, AI accents |
+| `accentCoral` | `#FF6B6B` | Sparse energy signal, notifications, hero score |
+| `background` | `#FFFFFF` | Main light canvas |
+| `surface` | `#FFFFFF` | Primary cards and panels |
+| `surfaceVariant` | `#F8FAFC` | Nested and quiet surfaces |
+| `onSurface` | `#111827` | Primary text |
+| `onSurfaceVariant` | `#6B7280` | Secondary text and metadata |
+| `outline` | `#E5E7EB` | Default borders and dividers |
+| `outlineVariant` | `#CBD5E1` | Active or emphasized borders |
+| `success` | `#10B981` | Positive progress and healthy state |
+| `warning` | `#F59E0B` | Review, pending, or attention state |
+| `danger` | `#EF4444` | Failure and destructive state |
 
----
+### 3.2 Dark-theme tokens
 
-## 3. Spatial & Grid System (8-Point Spatial Grid)
+| Token | Value | Role |
+|---|---:|---|
+| `darkBackground` | `#0D1B2A` | Main dark canvas |
+| `darkSurface` | `#152A4D` | Primary dark card surface |
+| `darkSurfaceVariant` | `#1E3A5F` | Nested or elevated dark surface |
+| `darkPrimary` | `#3A5FA0` | Primary dark-mode interaction |
+| `darkSecondary` | `#60A5FA` | Luminous secondary interaction |
+| `darkAccent` | `#FF6B6B` | Sparse dark-mode energy signal |
+| `darkOnSurface` | `#F8FAFC` | Primary dark-mode text |
+| `darkOnSurfaceVariant` | `#94A3B8` | Secondary dark-mode text |
+| `darkOutline` | `#1E3A5F` | Default dark border |
+| `darkOutlineVariant` | `#2E4A7F` | Active dark border |
 
-All layouts, padding, margins, gaps, and component sizes follow a strict **8-point spatial grid** (with a `4dp` micro-token for compact elements).
+### 3.3 Color discipline
 
-| Token Name | Size | Concrete Usage Guidelines |
-|------------|------|---------------------------|
-| `space4` | 4dp | Micro gap between icon and text inside a badge; pill border padding. |
-| `space8` | 8dp | Inner content padding for chips; gap between dense horizontal icons. |
-| `space12` | 12dp | Compact card internal padding; vertical gap between form fields. |
-| `space16` | 16dp | **Standard Screen Edge Margin**; default card internal padding. |
-| `space20` | 20dp | Medium card internal padding; bottom sheet header margin. |
-| `space24` | 24dp | Major section spacing; gap between stacked dashboard widgets. |
-| `space32` | 32dp | Large hero section gap; vertical space above primary action buttons. |
-| `space40` | 40dp | Outer dialog margin; desktop sidebar section separation. |
-| `space48` | 48dp | **Minimum Accessibility Touch Target Height**; floating bar offset. |
-| `space64` | 64dp | Empty state vertical illustration spacing. |
-| `space80` | 80dp | Hero header top padding; major page hero spacing. |
-| `space96` | 96dp | Maximum page container padding on tablet/desktop views. |
-
----
-
-## 4. Border Radius System
-
-| Token Name | Radius | Concrete Usage Guidelines |
-|------------|--------|---------------------------|
-| `radiusSmall` | 6dp | Tooltips, micro badges, context menu items, checkbox containers. |
-| `radiusMedium` | 10dp | Input text fields, dropdown menus, action buttons, table rows. |
-| `radiusLarge` | 16dp | **Standard Card Container**; modal dialogs, bottom sheets, alert panels. |
-| `radiusXLarge` | 24dp | Floating action bars, major feature callout cards, AI chat bubbles. |
-| `radiusPill` | 999dp | Search bars, tag chips, status badges, avatar online indicators. |
-| `radiusCircular`| 50% | Circular action buttons, avatar images, step process indicators. |
+- Never add feature-local hex values.
+- Functional color must be paired with a label, icon, shape, or position.
+- Coral is limited to emphasis, urgency, or an AI spark. It is not a general
+  button color.
+- Charts use the existing `chart1`–`chart5` tokens and must remain readable
+  without color alone.
+- Text and controls must meet WCAG AA contrast in both themes.
 
 ---
 
-## 5. Material 3 Elevation Architecture
+## 4. Typography
 
-| Level | Surface Tint / Shadow Depth | Concrete Component Allocation |
-|-------|-----------------------------|-------------------------------|
-| `Level 0` | 0dp (Flat, 1px border stroke) | Inset panels, list items, embedded form inputs, default page canvas. |
-| `Level 1` | 1dp - 2dp elevation shadow | Standard content cards, data table containers, top AppBars. |
-| `Level 2` | 3dp - 4dp elevation shadow | Hovered cards, search filter drawers, dropdown popovers. |
-| `Level 3` | 6dp - 8dp elevation shadow | Floating Action Buttons (FAB), sticky action bars, snackbars. |
-| `Level 4` | 12dp - 16dp elevation shadow | Modal dialogs, date pickers, centered confirmation alerts. |
-| `Level 5` | 24dp elevation shadow | Full-screen modal sheets, primary app navigation drawers. |
+Inter is the product typeface. Fira Code is reserved for code and tabular
+technical content. Typography creates hierarchy through size, weight, spacing,
+and contrast—not through multiple font families.
 
----
+| Role | Token | Use |
+|---|---|---|
+| Product hero | `displayMedium` / `displaySmall` | Personalized greetings and major onboarding statements |
+| Screen title | `headlineLarge` | Primary screen identity |
+| Section title | `headlineSmall` | Dashboard and workspace sections |
+| Card title | `titleLarge` / `titleMedium` | Actions, projects, insights |
+| Standard copy | `bodyLarge` / `bodyMedium` | Explanations and user-facing guidance |
+| Supporting copy | `bodySmall` | Metadata and secondary descriptions |
+| Controls | `labelLarge` / `labelMedium` | Buttons, filters, status controls |
+| Eyebrow | `labelSmall` | Short category labels with increased tracking |
 
-## 6. Shadow System
+Rules:
 
-### 6.1 Light Theme Shadows
-- `shadowSm`: `0px 1px 2px rgba(15, 23, 42, 0.05)` (Subtle card border grounding).
-- `shadowMd`: `0px 4px 6px -1px rgba(15, 23, 42, 0.08), 0px 2px 4px -2px rgba(15, 23, 42, 0.04)` (Dropdowns & popovers).
-- `shadowLg`: `0px 10px 15px -3px rgba(15, 23, 42, 0.10), 0px 4px 6px -4px rgba(15, 23, 42, 0.05)` (Modals & elevated sheets).
-- `shadowGlow`: `0px 0px 20px rgba(109, 40, 217, 0.25)` (Exclusive AI Copilot active glow).
-
-### 6.2 Dark Theme Shadows
-- `shadowDarkSm`: `0px 1px 2px rgba(0, 0, 0, 0.40)`
-- `shadowDarkMd`: `0px 4px 12px rgba(0, 0, 0, 0.50)`
-- `shadowDarkLg`: `0px 12px 24px rgba(0, 0, 0, 0.70)`
-- `shadowDarkGlow`: `0px 0px 24px rgba(147, 51, 234, 0.35)` (Dark mode AI Copilot glow).
+- Headlines normally use weights 600–700.
+- Body copy normally uses weight 400 and a line height of at least 1.4.
+- Data values may use tighter tracking but must not sacrifice legibility.
+- Do not use body text below 12sp.
+- Keep desktop text measure near 60–75 characters per line.
 
 ---
 
-## 7. Motion & Animation Language
+## 5. Spacing, Shape, and Elevation
 
-### 7.1 Motion Principles
-1. **Purposeful & Spatial**: Animations must clarify state transitions and originate from the user touch point.
-2. **Fast Exits, Smooth Enters**: Elements enter in `250ms` with decelerate curves, and exit in `150ms` with accelerate curves.
-3. **Zero Layout Thrashing**: Never animate layout dimensions (`width`/`height`); animate transform (`scale`/`translate`) and `opacity`.
+### 5.1 Spacing rhythm
 
-### 7.2 Durations & Easing Curves
-- **Fast Duration** (`150ms`): Button press states, checkbox toggles, tooltip fades.
-- **Medium Duration** (`250ms`): Card expands, dialog pops, tab switches.
-- **Slow Duration** (`350ms`): Page route transitions, bottom sheet slides.
-- **Standard Easing**: `Cubic(0.2, 0.0, 0.0, 1.0)` (Material Emphasized Decelerate).
-- **Spring Easing**: `Cubic(0.34, 1.56, 0.64, 1.0)` (Subtle pop feedback for AI triggers).
+Use `AppSpacing` exclusively. The system uses a 4dp micro step within an
+8dp-centered rhythm:
 
----
+`4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96`
 
-## 8. Iconography & Visual Assets
+Common assignments:
 
-- **Primary Icon Family**: `Icons.rounded` (Material Rounded) or `Lucide` / `Heroicons` vector stroke icons.
-- **Rules**:
-  - All interactive icon buttons must measure at least **48x48dp** touch target area.
-  - Icon stroke thickness: `2.0dp` (standard), `1.5dp` (dense table headers).
-  - Categorization:
-    - *Navigation*: `Icons.dashboard_rounded`, `Icons.folder_rounded`, `Icons.settings_rounded`
-    - *Actions*: `Icons.add_rounded`, `Icons.edit_rounded`, `Icons.delete_outline_rounded`
-    - *AI Features*: `Icons.auto_awesome_rounded`, `Icons.psychology_rounded`, `Icons.bolt_rounded`
-    - *Status*: `Icons.check_circle_rounded`, `Icons.warning_amber_rounded`, `Icons.error_outline_rounded`
+- 4–8dp: inline icon, label, and metadata relationships.
+- 12–16dp: compact card gaps and inner padding.
+- 20–24dp: normal card padding and section separation.
+- 32–48dp: hero and high-level layout breathing room.
+- 48dp: minimum interactive target.
+- 64–96dp: page-level or safe-area separation.
 
----
+### 5.2 Radius hierarchy
 
-## 9. Illustration Style & 4-State UI Lifecycle
+| Token | Value | Use |
+|---|---:|---|
+| `extraSmall` | 4dp | Micro indicators only |
+| `small` | 8dp | Compact internal geometry |
+| `medium` | 16dp | Icon wells, inputs, controls |
+| `large` | 24dp | Standard cards and panels |
+| `xLarge` | 28dp | Heroes and major feature surfaces |
+| `xxLarge` | 32dp | Bottom sheets |
+| `pill` | 999dp | Filters, badges, progress tracks, compact CTAs |
 
-### 9.1 4-State Lifecycle Rule
-Every screen must handle and cleanly present all four lifecycle states:
-1. **Loading State**: Customized skeleton shimmering loaders matching the exact geometric bounds of target content.
-2. **Empty State**: Contextually relevant, actionable, and illustrative empty states with a primary CTA button.
-3. **Error State**: User-friendly error messaging with interactive retry triggers.
-4. **Success State**: Smooth content presentation enhanced by subtle micro-animations.
+### 5.3 Elevation
 
----
-
-## 10. Component Rules & Styling Standards
-
-### 10.1 Buttons (`AppButton`)
-- **Primary Button**: Filled violet background (`primary`), white text (`onPrimary`), `10dp` radius, height `48dp`, subtle press scale animation (`0.98x`).
-- **Secondary Button**: Outlined stroke (`outline`), surface background, primary text.
-- **Ghost/Tertiary Button**: Transparent background, violet hover state, no border.
-
-### 10.2 Inputs (`AppTextField`)
-- Height `48dp`, `10dp` radius, `1px` border (`outline`), focused border `2px` (`primary`).
-- Error state: `danger` border stroke with inline error message below field (`bodySmall`, `danger`).
-
-### 10.3 Cards (`AppCard`)
-- `16dp` radius, `1px` border stroke (`outline`), `Level 1` shadow, padding `16dp` or `20dp`.
-
-### 10.4 Modals & Sheets (`AppDialog` / `AppBottomSheet`)
-- `24dp` top radius for bottom sheets; `16dp` radius for centered dialogs. Scrim overlay `#000000` with `50%` opacity.
+- Resting cards use `AppElevation.level1` or the equivalent small shadow.
+- Interactive hover uses the medium shadow and a very small scale lift.
+- Dialogs and sheets use levels 4–5.
+- Navy heroes use a broad, low-opacity grounding shadow rather than a tall
+  Material elevation.
+- Borders remain visible at rest; shadow alone must not define a card boundary.
 
 ---
 
-## 11. Accessibility (WCAG AA Compliance)
+## 6. Iconography
 
-1. **Contrast Ratios**:
-   - Normal text (`body`, `label`): Minimum **4.5:1** contrast against surface.
-   - Large text (`headline`, `display`): Minimum **3.0:1** contrast against surface.
-2. **Touch Targets**: Minimum **48x48dp** padding box for all clickable icons and buttons.
-3. **Dynamic Text & Screen Readers**: All typography scales gracefully with system accessibility text scale up to `200%`.
-4. **Semantics**: Every image and icon button has a descriptive `semanticsLabel`.
+The dashboard uses Cupertino outline icons as its premium, consistent visual
+language. Existing screens may use carefully matched rounded Material icons,
+but a single component or navigation group must not mix icon families.
 
----
+Rules:
 
-## 12. Responsive Strategy & Breakpoints
-
-| Breakpoint Target | Width Range | Columns | Margin | Spacing Strategy |
-|-------------------|-------------|---------|--------|------------------|
-| **Compact (Phones)** | `< 600dp` | 4 | 16dp | Bottom navigation, single-column scrollable cards |
-| **Medium (Tablets / Foldables)** | `600dp - 840dp` | 8 | 24dp | Navigation rail, 2-column grid cards |
-| **Expanded (Desktop / Laptops)** | `> 840dp` | 12 | 32dp | Fixed left sidebar, multi-column dashboard grid |
+- Prefer outline icons for navigation and normal actions.
+- Use filled variants only for selected, saved, or strongly active states.
+- Icons must use existing size tokens or the established 16/20/24dp rhythm.
+- Icon-only buttons require a tooltip and semantic label.
+- Do not use emoji as interface icons.
+- Decorative icons are excluded from semantics when adjacent text already
+  communicates the same meaning.
 
 ---
 
-## 13. Reusable Design Tokens in Flutter
+## 7. Dashboard Information Architecture
 
-Defined under `lib/core/theme/app_colors.dart`, `app_spacing.dart`, `app_radii.dart`, and `app_typography.dart`.
+The authenticated dashboard is ordered by user intent:
 
-### Example Spatial Tokens (`AppSpacing`):
-```dart
-class AppSpacing {
-  static const double space4 = 4.0;
-  static const double space8 = 8.0;
-  static const double space12 = 12.0;
-  static const double space16 = 16.0;
-  static const double space20 = 20.0;
-  static const double space24 = 24.0;
-  static const double space32 = 32.0;
-  static const double space40 = 40.0;
-  static const double space48 = 48.0;
-  static const double space64 = 64.0;
-  static const double space80 = 80.0;
-  static const double space96 = 96.0;
-}
-```
+1. **Welcome hero:** identity, date, plan, productivity score, credits, and the
+   primary project action.
+2. **Next best action:** one contextual recommendation from existing dashboard
+   state.
+3. **AI Co-Pilot entry:** a direct path into contextual AI work.
+4. **AI Command Center:** seven clear launch points for chat, projects,
+   workspace, documents, automation, marketplace, and analytics.
+5. **KPI layer:** compact values with trend labels and restrained sparklines.
+6. **Analytics:** readable productivity trend with timeframe controls and a
+   text summary.
+7. **Recent projects:** progress, status, last activity, tags, and AI health.
+8. **AI insights:** prioritized recommendations with impact and explicit
+   actions.
+9. **Recent activity:** a calm chronological timeline.
+
+The shell owns the floating AI assistant. Individual dashboard sections must
+not introduce a competing floating action button.
 
 ---
 
-## 14. Naming Conventions for Future Widgets
+## 8. Component Language
 
-To ensure codebase consistency across 100+ screens:
-1. **Component Primitives**: Prefix with `App` (`AppButton`, `AppCard`, `AppTextField`, `AppAvatar`, `AppBadge`).
-2. **Feature Presentation Widgets**: `<Feature><Descriptor>Widget` (e.g., `AuthHeaderWidget`, `ProposalCardWidget`).
-3. **Feature Screens**: `<Feature><Action>Screen` (e.g., `SignInScreen`, `DashboardHomeScreen`).
+### 8.1 Welcome hero
+
+- Use the navy brand gradient and topographic contours.
+- Place identity and workspace context first.
+- Keep one white pill-shaped primary CTA.
+- Put productivity score inside a translucent bordered panel.
+- Use coral only for the score progress ring or a similarly rare spark.
+
+### 8.2 Command tiles
+
+- Use a consistent grid and equal card geometry.
+- Each tile contains an icon well, title, short outcome-oriented description,
+  and direction indicator.
+- Featured AI tiles may use a navy icon gradient; other tiles use a quiet blue
+  tint.
+- The whole tile is interactive and exposes hover, focus, and pressed states.
+
+### 8.3 KPI cards
+
+- Lead with the value, not decoration.
+- Always show the metric name as visible text.
+- Pair positive/negative trends with directional icons and text.
+- Sparklines are low-opacity supporting signals and never replace exact values.
+
+### 8.4 Projects
+
+- Provide a recognizable cover or monogram.
+- Show status in text and color.
+- Show exact progress numerically beside the progress indicator.
+- Keep last activity visible.
+- Show AI health and tags only when real state provides them.
+
+### 8.5 Insights and activity
+
+- Insights use type, priority, impact, description, and one clear action.
+- Activity uses a chronological line, category icon, title, description, and
+  relative timestamp.
+- Empty states explain what will appear and how the user can create it.
+
+### 8.6 Loading and errors
+
+- Skeletons mirror final layout geometry to prevent visual jumping.
+- Errors state what failed and provide a retry action.
+- Loading, empty, error, and success states are mandatory for data-backed
+  screens.
+
+---
+
+## 9. Responsive Behavior
+
+Use `LayoutBuilder`, current constraints, and `AppBreakpoints`. Do not design
+against one fixed device width.
+
+| Mode | Width | Dashboard behavior |
+|---|---:|---|
+| Phone | `<600dp` | Single content column, two-column action/KPI grids, 16dp page margin |
+| Tablet | `600–839dp` | Single prioritized content flow with denser grids, 24dp margin |
+| Expanded | `840–1199dp` | Two-column secondary content and navigation rail, 32dp margin |
+| Desktop | `1200–1919dp` | Persistent navigation, constrained multi-column content |
+| UltraWide | `≥1920dp` | Centered content at a readable maximum width, never stretched edge-to-edge |
+
+Responsive rules:
+
+- No horizontal scrolling for primary page content.
+- Preserve at least 48dp touch targets at every width.
+- Prioritize hero, actions, and primary analytics before secondary history on
+  small screens.
+- Charts reduce height and complexity on phones.
+- Reserve bottom padding for system gestures, bottom navigation, and the AI
+  assistant.
+- Support landscape and large text without clipping essential actions.
+
+---
+
+## 10. Motion and Interaction
+
+All motion uses `AppMotion`:
+
+- Fast: 150ms for press, hover, and small state changes.
+- Medium: 250ms for card and control transitions.
+- Slow: 350ms for entrances and major transitions.
+- Standard curve: emphasized deceleration.
+- Spring curve: restricted to AI triggers and small celebratory feedback.
+
+Dashboard entrance uses a restrained fade and upward slide with roughly 55ms
+stagger between major sections. Interactive surfaces may scale to 0.98 on press
+and lift only slightly on hover.
+
+Rules:
+
+- Animate opacity and transforms, not layout dimensions.
+- Motion must explain hierarchy or interaction state.
+- User input remains available during animation.
+- `MediaQuery.disableAnimations` produces the complete static state immediately.
+- Avoid looping decorative motion in data-heavy work areas.
+
+---
+
+## 11. Accessibility
+
+- Meet WCAG AA: 4.5:1 for normal text and 3:1 for large text and meaningful
+  graphical controls.
+- Maintain a minimum 48×48dp interaction target and at least 8dp between nearby
+  targets.
+- Use `Semantics` for cards, charts, progress, and non-obvious controls.
+- Every icon-only button has a tooltip and an accessible name.
+- Charts include a concise text summary and visible exact values.
+- Never rely on hover, color, animation, or gesture alone.
+- Keep focus indication visible for keyboard and assistive navigation.
+- Support TalkBack, VoiceOver, dynamic type, and reduced motion.
+
+---
+
+## 12. Content Style
+
+Product copy is concise, calm, specific, and action-oriented.
+
+Prefer:
+
+- “Your AI workspace is ready.”
+- “Create a focused workspace.”
+- “3 active projects contributing to your momentum.”
+
+Avoid:
+
+- Generic filler such as “Unlock your potential.”
+- Technical system language when a user action is available.
+- Excessive exclamation marks.
+- Labels that describe the component instead of the user outcome.
+
+---
+
+## 13. Non-Negotiable Rules
+
+1. Use only shared design tokens and approved theme extensions.
+2. Preserve the navy, topographic, light-surface product identity.
+3. Use one icon family within a component group.
+4. Keep one dominant primary action per screen region.
+5. Use glass/translucency only when it clarifies surface depth.
+6. Keep data truthful; never fabricate project, insight, or metric content for
+   decorative effect.
+7. Implement loading, empty, error, and success states.
+8. Provide semantics, visible focus, reduced motion, and 48dp touch targets.
+9. Verify phone, tablet, expanded, and wide layouts before release.
+10. Do not bypass the design system to achieve a one-off visual effect.
+
+---
+
+## 14. Pre-Delivery UI Checklist
+
+- [ ] No raw colors, spacing, radii, shadows, or motion values where tokens exist.
+- [ ] No mixed icon styles or emoji icons.
+- [ ] Text and graphical contrast meet WCAG AA.
+- [ ] Icon-only controls have tooltips and semantic labels.
+- [ ] Touch targets are at least 48×48dp.
+- [ ] Hover, focus, pressed, selected, disabled, and loading states are clear.
+- [ ] Reduced motion is respected.
+- [ ] Loading skeletons match final content geometry.
+- [ ] Empty and error states provide a recovery path.
+- [ ] Charts expose exact values and a readable semantic summary.
+- [ ] Phone, tablet, expanded, desktop, and ultrawide layouts do not overflow.
+- [ ] The screen feels continuous with onboarding and the authenticated shell.

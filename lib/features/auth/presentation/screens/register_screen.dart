@@ -1,15 +1,16 @@
-/// Account creation screen connected to the shared onboarding brand system.
+/// Responsive account creation connected to the existing auth controller.
 library;
 
+import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/auth/application/providers/auth_application_providers.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_experience_scaffold.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_footer_widget.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/auth_input_field.dart';
-import 'package:ai_hustle_copilot/features/auth/presentation/widgets/brand_identity_header.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/or_divider_widget.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/password_strength_widget.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/social_login_buttons.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/terms_checkbox_widget.dart';
-import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,16 +28,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
   bool _agreeToTerms = true;
   String? _nameError;
   String? _emailError;
   String? _passwordError;
+  String? _confirmError;
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmController.dispose();
     super.dispose();
   }
 
@@ -51,16 +55,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _passwordError = _passwordController.text.length < 6
           ? 'Password must be at least 6 characters'
           : null;
+      _confirmError = _confirmController.text != _passwordController.text
+          ? 'Passwords do not match'
+          : null;
     });
-    if (_nameError != null || _emailError != null || _passwordError != null) {
+    if ([
+      _nameError,
+      _emailError,
+      _passwordError,
+      _confirmError,
+    ].any((error) => error != null)) {
       return;
     }
     if (!_agreeToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please accept the Terms of Service.'),
-          backgroundColor: AppColors.danger,
-        ),
+      AppSnackBar.showError(
+        context,
+        message: 'Please accept the Terms of Service and Privacy Policy.',
       );
       return;
     }
@@ -78,16 +88,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(signUpControllerProvider, (previous, next) {
       next.whenOrNull(
-        error: (error, stackTrace) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                error.toString().replaceAll('Exception:', '').trim(),
-              ),
-              backgroundColor: AppColors.danger,
-            ),
-          );
-        },
+        error: (error, stackTrace) => AppSnackBar.showError(
+          context,
+          message: error.toString().replaceAll('Exception:', '').trim(),
+        ),
         data: (_) {
           if (previous?.isLoading == true) {
             context.goNamed(
@@ -100,121 +104,93 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
 
     final isLoading = ref.watch(signUpControllerProvider).isLoading;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: AppBrandBackground(
-        header: BrandIdentityHeader(onBack: context.pop),
-        child: SafeArea(
-          top: false,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 440),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Create an Account',
-                      style: textTheme.headlineLarge?.copyWith(
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space8),
-                    Container(
-                      width: 54,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space16),
-                    Text(
-                      'Set up your AI Hustle workspace and turn good ideas into repeatable progress.',
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: AppColors.secondaryText,
-                        height: 1.45,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space24),
-                    AuthInputField(
-                      label: 'Name',
-                      hintText: 'Your full name',
-                      controller: _nameController,
-                      errorText: _nameError,
-                      isDisabled: isLoading,
-                    ),
-                    const SizedBox(height: AppSpacing.space20),
-                    AuthInputField(
-                      label: 'Email',
-                      hintText: 'you@example.com',
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      errorText: _emailError,
-                      isDisabled: isLoading,
-                    ),
-                    const SizedBox(height: AppSpacing.space20),
-                    AuthInputField(
-                      label: 'Password',
-                      hintText: 'At least 6 characters',
-                      isPassword: true,
-                      controller: _passwordController,
-                      errorText: _passwordError,
-                      isDisabled: isLoading,
-                    ),
-                    const SizedBox(height: AppSpacing.space12),
-                    TermsCheckboxWidget(
-                      value: _agreeToTerms,
-                      onChanged: (value) {
-                        if (!isLoading) {
-                          setState(() => _agreeToTerms = value ?? false);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: AppSpacing.space16),
-                    SizedBox(
-                      height: 56,
-                      child: FilledButton(
-                        onPressed: isLoading ? null : _submit,
-                        style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.onPrimary,
-                          disabledBackgroundColor: AppColors.primary.withValues(
-                            alpha: 0.45,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: isLoading
-                            ? const SizedBox(
-                                width: 22,
-                                height: 22,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.onPrimary,
-                                  strokeWidth: 2.5,
-                                ),
-                              )
-                            : const Text('Create account'),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space20),
-                    AuthFooterWidget(
-                      promptText: 'Already have an account?',
-                      actionText: 'Sign in',
-                      onActionPressed: () {
-                        if (!isLoading) context.pushNamed(RouteNames.login);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+    return AuthExperienceScaffold(
+      eyebrow: 'Start strong',
+      headline: 'Build a freelance system that compounds.',
+      description:
+          'Bring discovery, creation, delivery, and follow-up into a single intelligent operating rhythm.',
+      formTitle: 'Create an Account',
+      formDescription:
+          'Set up your AI Hustle workspace and turn ideas into repeatable progress.',
+      icon: Icons.rocket_launch_rounded,
+      onBack: context.pop,
+      child: AutofillGroup(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AuthInputField(
+              label: 'Name',
+              hintText: 'Your full name',
+              controller: _nameController,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.name],
+              errorText: _nameError,
+              isDisabled: isLoading,
             ),
-          ),
+            const SizedBox(height: AppSpacing.space16),
+            AuthInputField(
+              label: 'Email',
+              hintText: 'you@example.com',
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.email],
+              errorText: _emailError,
+              isDisabled: isLoading,
+            ),
+            const SizedBox(height: AppSpacing.space16),
+            AuthInputField(
+              label: 'Password',
+              hintText: 'At least 6 characters',
+              controller: _passwordController,
+              isPassword: true,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.newPassword],
+              errorText: _passwordError,
+              isDisabled: isLoading,
+              onChanged: (_) => setState(() {}),
+            ),
+            PasswordStrengthWidget(password: _passwordController.text),
+            const SizedBox(height: AppSpacing.space16),
+            AuthInputField(
+              label: 'Confirm password',
+              hintText: 'Re-enter your password',
+              controller: _confirmController,
+              isPassword: true,
+              textInputAction: TextInputAction.done,
+              autofillHints: const [AutofillHints.newPassword],
+              errorText: _confirmError,
+              isDisabled: isLoading,
+              onSubmitted: (_) => _submit(),
+            ),
+            const SizedBox(height: AppSpacing.space16),
+            TermsCheckboxWidget(
+              value: _agreeToTerms,
+              onChanged: (value) {
+                if (!isLoading) setState(() => _agreeToTerms = value ?? false);
+              },
+            ),
+            const SizedBox(height: AppSpacing.space20),
+            AppButton(
+              text: 'Create account',
+              height: 56,
+              isLoading: isLoading,
+              onPressed: _submit,
+              trailingIcon: Icons.arrow_forward_rounded,
+            ),
+            const SizedBox(height: AppSpacing.space24),
+            const OrDividerWidget(),
+            const SizedBox(height: AppSpacing.space20),
+            SocialLoginButtons(isLoading: isLoading),
+            const SizedBox(height: AppSpacing.space20),
+            AuthFooterWidget(
+              promptText: 'Already have an account?',
+              actionText: 'Sign in',
+              onActionPressed: () {
+                if (!isLoading) context.pushNamed(RouteNames.login);
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -14,8 +14,6 @@ class AppAuthBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBrandBackground(
-      child: child,
-    );
+    return AppBrandBackground(child: child);
   }
 }

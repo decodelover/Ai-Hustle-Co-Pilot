@@ -1,4 +1,4 @@
-/// Responsive dashboard composition for phone and tablet layouts.
+/// Responsive dashboard composition for phone through ultrawide layouts.
 library;
 
 import 'package:ai_hustle_copilot/core/theme/app_breakpoints.dart';
@@ -65,7 +65,11 @@ class DashboardResponsiveGrid extends StatelessWidget {
 
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppBreakpoints.ultraWide),
+        constraints: BoxConstraints(
+          maxWidth: mode == DashboardLayoutMode.ultraWide
+              ? AppBreakpoints.desktop
+              : AppBreakpoints.contentMaxWidth,
+        ),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.fromLTRB(
@@ -78,7 +82,7 @@ class DashboardResponsiveGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               header,
-              const SizedBox(height: AppSpacing.space20),
+              const SizedBox(height: AppSpacing.space24),
               _focusRow(mode),
               const SizedBox(height: AppSpacing.space24),
               quickActions,
@@ -94,7 +98,8 @@ class DashboardResponsiveGrid extends StatelessWidget {
   }
 
   Widget _focusRow(DashboardLayoutMode mode) {
-    if (mode == DashboardLayoutMode.phone) {
+    if (mode == DashboardLayoutMode.phone ||
+        mode == DashboardLayoutMode.tablet) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

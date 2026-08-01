@@ -9,6 +9,8 @@ import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
 import 'package:ai_hustle_copilot/features/auth/domain/auth_state.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/providers/auth_state_provider.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/onboarding_visual.dart';
+import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -48,70 +50,57 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    final isDark = context.isDarkMode;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.darkBackground : AppColors.background,
-        ),
-        child: Center(
-          child: ScaleIn(
-            duration: AppMotion.slow,
-            child: FadeIn(
+      backgroundColor: Colors.transparent,
+      body: AppBrandBackground(
+        variant: AppBrandBackgroundVariant.shell,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.primaryDarkBlue, AppColors.primaryBlue],
+            ),
+          ),
+          child: Center(
+            child: ScaleIn(
               duration: AppMotion.slow,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 96.0,
-                    height: 96.0,
-                    decoration: BoxDecoration(
-                      borderRadius: AppRadius.borderXLarge,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          isDark ? AppColors.darkPrimary : AppColors.primary,
-                          isDark
-                              ? AppColors.darkSecondary
-                              : AppColors.secondary,
-                        ],
+              child: FadeIn(
+                duration: AppMotion.slow,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 340),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        width: 220,
+                        child: OnboardingVisual(
+                          icon: Icons.auto_awesome_rounded,
+                        ),
                       ),
-                      boxShadow: isDark
-                          ? AppShadows.darkAiGlow
-                          : AppShadows.lightAiGlow,
-                    ),
-                    child: const Icon(
-                      Icons.auto_awesome_rounded,
-                      size: 48.0,
-                      color: AppColors.onPrimary,
-                    ),
+                      const SizedBox(height: AppSpacing.space16),
+                      Text(
+                        'AI Hustle',
+                        style: theme.textTheme.headlineLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.onPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.space4),
+                      Text(
+                        'CO-PILOT',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: AppColors.accentCoral,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 3.0,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.space32),
+                      const AppLoadingIndicator(color: AppColors.onPrimary),
+                    ],
                   ),
-                  const SizedBox(height: AppSpacing.space24),
-                  Text(
-                    'AI Hustle',
-                    style: theme.textTheme.headlineLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: isDark
-                          ? AppColors.darkOnSurface
-                          : AppColors.onSurface,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.space4),
-                  Text(
-                    'CO-PILOT',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: isDark ? AppColors.darkPrimary : AppColors.primary,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 3.0,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.space48),
-                  const AppLoadingIndicator(),
-                ],
+                ),
               ),
             ),
           ),

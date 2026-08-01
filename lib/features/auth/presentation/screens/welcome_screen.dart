@@ -1,11 +1,10 @@
-/// Welcome surface introducing the product before authentication.
+/// Cinematic, swipeable onboarding experience.
 library;
 
+import 'package:ai_hustle_copilot/core/design_system/design_system.dart';
 import 'package:ai_hustle_copilot/core/router/route_names.dart';
-import 'package:ai_hustle_copilot/core/theme/app_colors.dart';
-import 'package:ai_hustle_copilot/core/theme/app_motion.dart';
-import 'package:ai_hustle_copilot/core/theme/app_spacing.dart';
 import 'package:ai_hustle_copilot/features/auth/presentation/widgets/brand_identity_header.dart';
+import 'package:ai_hustle_copilot/features/auth/presentation/widgets/onboarding_visual.dart';
 import 'package:ai_hustle_copilot/shared/widgets/app_brand_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,169 +18,128 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
-  late final Animation<double> _fadeAnimation;
-  late final Animation<Offset> _slideAnimation;
-  late final Animation<double> _buttonScaleAnimation;
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  static const _pages = [
+    _OnboardingStory(
+      eyebrow: 'Welcome',
+      title: 'Find work that fits your edge.',
+      description:
+          'Surface better opportunities, understand the brief, and decide where your energy pays off.',
+      icon: Icons.explore_rounded,
+    ),
+    _OnboardingStory(
+      eyebrow: 'Create',
+      title: 'Turn good thinking into polished work.',
+      description:
+          'Use your AI co-pilot to shape proposals, documents, and follow-ups without losing your voice.',
+      icon: Icons.auto_awesome_rounded,
+    ),
+    _OnboardingStory(
+      eyebrow: 'Momentum',
+      title: 'Run the whole hustle from one calm place.',
+      description:
+          'See what matters now, keep every client detail close, and build a rhythm that compounds.',
+      icon: Icons.trending_up_rounded,
+    ),
+  ];
+
+  final _pageController = PageController();
+  int _currentPage = 0;
 
   @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-    );
-    final curve = CurvedAnimation(
-      parent: _animationController,
-      curve: AppMotion.decelerateCurve,
-    );
-    _fadeAnimation = curve;
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.06),
-      end: Offset.zero,
-    ).animate(curve);
-    _buttonScaleAnimation = Tween<double>(begin: 0.92, end: 1).animate(curve);
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.of(context).disableAnimations) {
-      _animationController.value = 1;
-    } else if (!_animationController.isAnimating &&
-        _animationController.value == 0) {
-      _animationController.forward();
+  void _continue() {
+    if (_currentPage < _pages.length - 1) {
+      _pageController.nextPage(
+        duration: AppMotion.medium,
+        curve: AppMotion.decelerateCurve,
+      );
+    } else {
+      context.pushNamed(RouteNames.login);
     }
   }
 
   @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  void _navigateToLogin() => context.pushNamed(RouteNames.login);
-
-  @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AppBrandBackground(
-        variant: AppBrandBackgroundVariant.welcome,
-        header: const BrandIdentityHeader(),
-        child: SafeArea(
-          top: false,
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                  AppSpacing.space24,
-                  AppSpacing.space24,
-                  AppSpacing.space24,
-                  bottomInset + AppSpacing.space24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        variant: AppBrandBackgroundVariant.shell,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.primaryDarkBlue, AppColors.primaryBlue],
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Text(
-                      'Welcome',
-                      style: textTheme.displayMedium?.copyWith(
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.w700,
-                        height: 1.1,
+                    const Expanded(child: BrandIdentityHeader()),
+                    TextButton(
+                      onPressed: () => context.pushNamed(RouteNames.login),
+                      child: const Text(
+                        'Skip',
+                        style: TextStyle(color: AppColors.onPrimary),
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.space8),
-                    Container(
-                      width: 54,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space16),
-                    Text(
-                      'Your AI-powered freelance workspace for finding better work, creating with confidence, and keeping momentum.',
-                      style: textTheme.bodyLarge?.copyWith(
-                        color: AppColors.secondaryText,
-                        height: 1.45,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.space24),
-                    const _ValueRow(
-                      icon: Icons.explore_outlined,
-                      title: 'Find the right work',
-                      description:
-                          'Discover opportunities that fit your strengths.',
-                    ),
-                    const SizedBox(height: AppSpacing.space16),
-                    const _ValueRow(
-                      icon: Icons.auto_awesome_outlined,
-                      title: 'Create with AI',
-                      description:
-                          'Shape proposals, documents, and follow-ups faster.',
-                    ),
-                    const SizedBox(height: AppSpacing.space16),
-                    const _ValueRow(
-                      icon: Icons.track_changes_rounded,
-                      title: 'Keep momentum',
-                      description:
-                          'Know what to do next across every client detail.',
-                    ),
-                    const SizedBox(height: AppSpacing.space24),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: ScaleTransition(
-                        scale: _buttonScaleAnimation,
-                        child: Semantics(
-                          button: true,
-                          label: 'Continue to sign in to AI Hustle Co-Pilot',
-                          child: InkWell(
-                            onTap: _navigateToLogin,
-                            borderRadius: BorderRadius.circular(32),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    'Continue',
-                                    style: textTheme.titleMedium?.copyWith(
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(width: AppSpacing.space12),
-                                  Container(
-                                    width: 52,
-                                    height: 52,
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.primary,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: AppColors.onPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const SizedBox(width: AppSpacing.space16),
                   ],
                 ),
-              ),
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: _pages.length,
+                    onPageChanged: (index) {
+                      setState(() => _currentPage = index);
+                    },
+                    itemBuilder: (context, index) =>
+                        _StoryPage(story: _pages[index], pageIndex: index),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.space24,
+                    AppSpacing.space8,
+                    AppSpacing.space24,
+                    AppSpacing.space24,
+                  ),
+                  child: Column(
+                    children: [
+                      _PageIndicator(
+                        count: _pages.length,
+                        current: _currentPage,
+                      ),
+                      const SizedBox(height: AppSpacing.space24),
+                      AppButton(
+                        text: _currentPage == _pages.length - 1
+                            ? 'Sign in'
+                            : 'Continue',
+                        height: 56,
+                        variant: AppButtonVariant.secondary,
+                        trailingIcon: Icons.arrow_forward_rounded,
+                        onPressed: _continue,
+                      ),
+                      if (_currentPage == _pages.length - 1) ...[
+                        const SizedBox(height: AppSpacing.space8),
+                        AppButton(
+                          text: 'Create account',
+                          variant: AppButtonVariant.ghost,
+                          onPressed: () =>
+                              context.pushNamed(RouteNames.register),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -190,57 +148,138 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   }
 }
 
-class _ValueRow extends StatelessWidget {
-  const _ValueRow({
-    required this.icon,
-    required this.title,
-    required this.description,
-  });
+class _StoryPage extends StatelessWidget {
+  const _StoryPage({required this.story, required this.pageIndex});
 
-  final IconData icon;
-  final String title;
-  final String description;
+  final _OnboardingStory story;
+  final int pageIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth >= 760;
+        final visual = ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: isWide ? 430 : 300,
+            maxHeight: isWide ? 430 : 300,
+          ),
+          child: OnboardingVisual(
+            key: ValueKey('onboarding-visual-$pageIndex'),
+            icon: story.icon,
+          ),
+        );
+        final copy = _StoryCopy(story: story);
+
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: isWide ? AppSpacing.space64 : AppSpacing.space24,
+            vertical: AppSpacing.space16,
+          ),
+          child: isWide
+              ? Row(
+                  children: [
+                    Expanded(child: Center(child: visual)),
+                    const SizedBox(width: AppSpacing.space48),
+                    Expanded(child: copy),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Expanded(child: Center(child: visual)),
+                    copy,
+                  ],
+                ),
+        );
+      },
+    );
+  }
+}
+
+class _StoryCopy extends StatelessWidget {
+  const _StoryCopy({required this.story});
+
+  final _OnboardingStory story;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(14),
+        Text(
+          story.eyebrow,
+          style: textTheme.labelLarge?.copyWith(
+            color: AppColors.accentCoral,
+            letterSpacing: 1.6,
+            fontWeight: FontWeight.w700,
           ),
-          child: Icon(icon, color: AppColors.primary, size: 22),
         ),
-        const SizedBox(width: AppSpacing.space12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: textTheme.titleMedium?.copyWith(
-                  color: AppColors.primaryText,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.space4),
-              Text(
-                description,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.secondaryText,
-                  height: 1.35,
-                ),
-              ),
-            ],
+        const SizedBox(height: AppSpacing.space12),
+        Text(
+          story.title,
+          style: textTheme.displaySmall?.copyWith(
+            color: AppColors.onPrimary,
+            fontWeight: FontWeight.w800,
+            height: 1.05,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.space16),
+        Text(
+          story.description,
+          style: textTheme.bodyLarge?.copyWith(
+            color: AppColors.onPrimary.withValues(alpha: 0.72),
+            height: 1.5,
           ),
         ),
       ],
     );
   }
+}
+
+class _PageIndicator extends StatelessWidget {
+  const _PageIndicator({required this.count, required this.current});
+
+  final int count;
+  final int current;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Page ${current + 1} of $count',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+          count,
+          (index) => AnimatedContainer(
+            duration: AppMotion.fast,
+            width: index == current ? 28 : 8,
+            height: 8,
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            decoration: BoxDecoration(
+              color: index == current
+                  ? AppColors.accentCoral
+                  : AppColors.onPrimary.withValues(alpha: 0.24),
+              borderRadius: AppRadius.borderPill,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _OnboardingStory {
+  const _OnboardingStory({
+    required this.eyebrow,
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
+
+  final String eyebrow;
+  final String title;
+  final String description;
+  final IconData icon;
 }
